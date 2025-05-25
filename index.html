@@ -8,7 +8,9 @@
   <script src="https://unpkg.com/tabletop@1.6.0/tabletop.js"></script>
 </head>
 <body>
-  <header>
+  <div id="bg-wallpaper"></div>
+
+  <div class="header-center">
     <h1>Ranking Cuba FGC</h1>
     <nav>
       <button onclick="loadGame('tekken')">Tekken 8</button>
@@ -16,16 +18,22 @@
       <button onclick="loadGame('smash')">Smash</button>
       <button onclick="loadGame('ggst')">Guilty Gear Strive</button>
     </nav>
-  </header>
+  </div>
 
   <main>
     <h2 id="game-title">Tekken 8</h2>
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Buscar por nombre..."
+      style="display:block;margin:0 auto 1.5rem auto;max-width:300px;padding:0.5rem 1rem;border-radius:6px;border:1.5px solid #ff2255;background:#181218;color:#fff0f3;font-size:1rem;box-shadow:0 0 8px #ff225522;"
+    />
     <table>
       <thead>
         <tr>
-          <th>RANKING</th>
-          <th>NOMBRE</th>
-          <th>PUNTOS</th>
+          <th>Ranking</th>
+          <th>Player</th>
+          <th>Points</th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +52,13 @@
       sf6:    { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['SF6'] },
       smash:  { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['Smash'] },
       ggst:   { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['GGST'] },
+    };
+
+    const wallpapers = {
+      tekken: 'img/tekken.jpg',
+      sf6: 'img/sf6.jpg',
+      smash: 'img/smash.jpg',
+      ggst: 'img/ggst.jpg'
     };
 
     function showInfo(data) {
@@ -65,6 +80,7 @@
     }
 
     function loadGame(gameKey) {
+      document.getElementById("search-input").value = "";
       const config = spreadsheets[gameKey];
       document.getElementById("game-title").innerText =
         gameKey === 'tekken' ? 'Tekken 8'
@@ -72,6 +88,8 @@
         : gameKey === 'smash' ? 'Smash'
         : gameKey === 'ggst' ? 'Guilty Gear Strive'
         : '';
+      // Cambia el fondo
+      document.getElementById("bg-wallpaper").style.backgroundImage = `url('${wallpapers[gameKey]}')`;
       Tabletop.init({
         key: config.key,
         wanted: config.wanted,
