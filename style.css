@@ -52,9 +52,9 @@ main {
   width: 100%;
   max-width: 900px;
   margin: 2rem auto;
-  background: rgba(35, 16, 26, 0.7);
+  background: rgba(35, 16, 26, 0.5); /* Más transparencia */
   padding: 2rem 2rem 1rem 2rem;
-  border-radius: 12px;
+  border-radius: 24px; /* Bordes más redondeados */
   box-shadow: 0 4px 24px #ff225522;
   display: flex;
   flex-direction: column;
@@ -74,8 +74,8 @@ table {
   margin: 0 auto;
   width: 100%;
   border-collapse: collapse;
-  background: #23101a;
-  border-radius: 10px;
+  background: rgba(35, 16, 26, 0.6); /* Más transparencia */
+  border-radius: 18px; /* Bordes más redondeados */
   overflow: hidden;
   box-shadow: 0 2px 16px #ff225522;
 }
@@ -83,6 +83,7 @@ table {
 th, td {
   padding: 1rem 0.5rem;
   text-align: center;
+  border-radius: 12px; /* Bordes redondeados para celdas */
 }
 
 th {
@@ -106,16 +107,45 @@ tbody tr:hover {
   background: #ff225522;
 }
 
+input#search-input {
+  background: rgba(24, 18, 24, 0.5) !important; /* Más transparencia */
+  border-radius: 12px !important;
+}
+
 footer {
   text-align: center;
   padding: 1rem 0;
-  background: #181218;
+  background: rgba(24, 18, 24, 0.5); /* Más transparencia */
   color: #ff2255;
   margin-top: 2rem;
   font-size: 1rem;
   border-top: 1px solid #2d0a18;
   letter-spacing: 1px;
   text-shadow: 0 0 8px #ff2255aa;
+  border-radius: 18px 18px 0 0; /* Bordes superiores redondeados */
+}
+
+footer .social-links {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+footer .social-links a {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s, filter 0.2s;
+  filter: drop-shadow(0 0 6px #ff225588);
+}
+
+footer .social-links a:hover svg {
+  filter: brightness(1.5) drop-shadow(0 0 8px #ff2255cc);
+  transform: scale(1.15);
+}
+
+footer .social-links svg {
+  vertical-align: middle;
 }
 
 #bg-wallpaper {
@@ -140,4 +170,7 @@ body > *:not(#bg-wallpaper) {
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 1rem;
+  background: rgba(24, 18, 24, 0.5); /* Más transparencia */
+  border-radius: 18px 18px 0 0;
+  padding-bottom: 1rem;
 }
