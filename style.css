@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #121212;
+  color: #f0f0f0;
+}
+
+header {
+  text-align: center;
+  padding: 2rem;
+  background-color: #000;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/35/Tekken_8_logo.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+main {
+  padding: 1rem 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  background-color: #1e1e1e;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #333;
+}
+
+th {
+  background-color: #222;
+  color: #ffcc00;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #888;
+}

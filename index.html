@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ranking Cuba FGC</title>
+  <link href="style.css" rel="stylesheet" />
+  <script src="https://unpkg.com/tabletop@1.6.0/tabletop.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Ranking Cuba FGC</h1>
+    <nav>
+      <button onclick="loadGame('tekken')">Tekken 8</button>
+      <button onclick="loadGame('sf6')">Street Fighter 6</button>
+      <button onclick="loadGame('smash')">Smash</button>
+      <button onclick="loadGame('ggst')">Guilty Gear Strive</button>
+    </nav>
+  </header>
+
+  <main>
+    <h2 id="game-title">Tekken 8</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>RANKING</th>
+          <th>NOMBRE</th>
+          <th>PUNTOS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Datos dinámicos -->
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <p>Powered by CubaFGC</p>
+  </footer>
+
+  <script>
+    const spreadsheets = {
+      tekken: { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['Tekken'] },
+      sf6:    { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['SF6'] },
+      smash:  { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['Smash'] },
+      ggst:   { key: '1CXju4qoL806yXBmxTZ995bJRrg72tgiol4dH7JiXDSc', wanted: ['GGST'] },
+    };
+
+    function showInfo(data) {
+      const tbody = document.querySelector("tbody");
+      tbody.innerHTML = "";
+      // Si Tabletop devuelve un objeto con hojas, toma la primera
+      if (typeof data === 'object' && !Array.isArray(data)) {
+        data = Object.values(data)[0];
+      }
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.Ranking}</td>
+          <td>${row.Player}</td>
+          <td>${row.Points}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function loadGame(gameKey) {
+      const config = spreadsheets[gameKey];
+      document.getElementById("game-title").innerText = 
+        gameKey.toUpperCase().replace("GGST", "Guilty Gear Strive").replace("SF6", "Street Fighter 6");
+      Tabletop.init({
+        key: config.key,
+        wanted: config.wanted,
+        callback: showInfo,
+        simpleSheet: true
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadGame('tekken');
+    });
+  </script>
+</body>
+</html>
