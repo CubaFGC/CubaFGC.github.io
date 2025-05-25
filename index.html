@@ -56,9 +56,9 @@
       data.forEach(row => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${row.Ranking}</td>
-          <td>${row.Player}</td>
-          <td>${row.Points}</td>
+          <td>${row.Ranking || ''}</td>
+          <td>${row.Player || ''}</td>
+          <td>${row.Points || ''}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -66,8 +66,12 @@
 
     function loadGame(gameKey) {
       const config = spreadsheets[gameKey];
-      document.getElementById("game-title").innerText = 
-        gameKey.toUpperCase().replace("GGST", "Guilty Gear Strive").replace("SF6", "Street Fighter 6");
+      document.getElementById("game-title").innerText =
+        gameKey === 'tekken' ? 'Tekken 8'
+        : gameKey === 'sf6' ? 'Street Fighter 6'
+        : gameKey === 'smash' ? 'Smash'
+        : gameKey === 'ggst' ? 'Guilty Gear Strive'
+        : '';
       Tabletop.init({
         key: config.key,
         wanted: config.wanted,

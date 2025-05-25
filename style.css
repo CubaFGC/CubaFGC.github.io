@@ -1,45 +1,110 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #121212;
-  color: #f0f0f0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #181218;
+  color: #fff0f3;
 }
 
 header {
   text-align: center;
-  padding: 2rem;
-  background-color: #000;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/35/Tekken_8_logo.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  padding: 2rem 0 1rem 0;
+  background: #181218;
+  border-bottom: 2px solid #2d0a18;
+}
+
+h1 {
+  margin: 0 0 1rem 0;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  color: #ff2255;
+  text-shadow: 0 0 12px #ff2255cc, 1px 1px 8px #000a;
+}
+
+nav {
+  margin-bottom: 1rem;
+}
+
+nav button {
+  background: #2d0a18;
+  color: #ff2255;
+  border: 1.5px solid #ff2255;
+  border-radius: 6px;
+  margin: 0 0.5rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #ff225522;
+}
+
+nav button:hover, nav button:focus {
+  background: #ff2255;
+  color: #fff0f3;
+  box-shadow: 0 0 16px #ff2255aa;
 }
 
 main {
-  padding: 1rem 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #23101a;
+  padding: 2rem 2rem 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #ff225522;
+}
+
+#game-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #ff2255;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px #ff2255cc;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 2rem;
-  background-color: #1e1e1e;
+  background: #23101a;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px #ff225522;
 }
 
 th, td {
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   text-align: center;
-  border: 1px solid #333;
 }
 
 th {
-  background-color: #222;
-  color: #ffcc00;
+  background: #181218;
+  color: #ff2255;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #ff2255;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px #ff2255aa;
+}
+
+th i {
+  margin-right: 0.5rem;
+}
+
+tbody tr:nth-child(even) {
+  background: #1a0d14;
+}
+
+tbody tr:hover {
+  background: #ff225522;
 }
 
 footer {
   text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #888;
+  padding: 1rem 0;
+  background: #181218;
+  color: #ff2255;
+  margin-top: 2rem;
+  font-size: 1rem;
+  border-top: 1px solid #2d0a18;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px #ff2255aa;
 }
