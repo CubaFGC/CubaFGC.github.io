@@ -79,12 +79,21 @@ function loadGame(gameKey) {
     : gameKey === 'ggst' ? 'Guilty Gear Strive'
     : '';
   document.getElementById("search-input").value = ""; // Limpia el buscador al cambiar de juego
+
+  // Cambia el fondo según el juego
+  const bg = document.getElementById("bg-wallpaper");
+  bg.className = ""; // Limpia clases anteriores
+  if (gameKey === 'tekken') bg.classList.add("bg-tekken");
+  if (gameKey === 'sf6') bg.classList.add("bg-sf6");
+  if (gameKey === 'smash') bg.classList.add("bg-smash");
+  if (gameKey === 'ggst') bg.classList.add("bg-ggst");
+
   const url = baseUrl + hoja.gid;
   Papa.parse(url, {
     download: true,
     header: true,
     complete: function(results) {
-      lastData = results.data; // <--- SOLO AQUÍ
+      lastData = results.data;
       showInfo(lastData);
     }
   });
