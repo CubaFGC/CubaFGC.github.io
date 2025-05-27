@@ -68,6 +68,8 @@ const hojas = {
 
 const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8n9pG8YwSjWh7h9ilIuL-B08z5v-kYzk7R5GF19kgLSsebebE0g5rpx3VJcotdNecvm22HaOGoZHN/pub?single=true&output=csv&gid=";
 
+let lastData = [];
+
 function loadGame(gameKey) {
   const hoja = hojas[gameKey];
   document.getElementById("game-title").innerText =
@@ -76,12 +78,14 @@ function loadGame(gameKey) {
     : gameKey === 'smash' ? 'Smash'
     : gameKey === 'ggst' ? 'Guilty Gear Strive'
     : '';
+  document.getElementById("search-input").value = ""; // Limpia el buscador al cambiar de juego
   const url = baseUrl + hoja.gid;
   Papa.parse(url, {
     download: true,
     header: true,
     complete: function(results) {
-      showInfo(results.data);
+      lastData = results.data; // <--- SOLO AQUÍ
+      showInfo(lastData);
     }
   });
 }
@@ -90,6 +94,7 @@ function showInfo(data) {
   const tbody = document.querySelector("tbody");
   tbody.innerHTML = "";
   data.forEach(row => {
+    if (!(row.Player || row.Ranking || row.Points)) return;
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${row.Ranking || ''}</td>
@@ -99,6 +104,19 @@ function showInfo(data) {
     tbody.appendChild(tr);
   });
 }
+
+document.getElementById("search-input").addEventListener("input", function() {
+  const value = this.value.trim().toLowerCase();
+  let filtered;
+  if (!value) {
+    filtered = lastData.filter(row => row.Player || row.Ranking || row.Points);
+  } else {
+    filtered = lastData.filter(row =>
+      (row.Player || '').toLowerCase().includes(value)
+    );
+  }
+  showInfo(filtered);
+});
 
 window.loadGame = loadGame;
 window.addEventListener('DOMContentLoaded', () => loadGame('tekken'));
