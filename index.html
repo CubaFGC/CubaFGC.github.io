@@ -29,6 +29,10 @@
       placeholder="Buscar por nombre..."
       style="display:block;margin:0 auto 1.5rem auto;max-width:300px;padding:0.5rem 1rem;border-radius:6px;border:1.5px solid #ffd600;background:#181218;color:#fff0f3;font-size:1rem;box-shadow:0 0 8px #ff225522;"
     />
+    <div id="table-loader" class="loader" style="display:none;">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
     <table>
       <thead>
         <tr>
@@ -77,23 +81,37 @@ let lastData = [];
 
 function loadGame(gameKey) {
   const hoja = hojas[gameKey];
-  document.getElementById("search-input").value = ""; // Limpia el buscador al cambiar de juego
+  document.getElementById("search-input").value = "";
 
   // Cambia el fondo según el juego
   const bg = document.getElementById("bg-wallpaper");
-  bg.className = ""; // Limpia clases anteriores
+  bg.className = "";
   if (gameKey === 'tekken') bg.classList.add("bg-tekken");
   if (gameKey === 'sf6') bg.classList.add("bg-sf6");
   if (gameKey === 'smash') bg.classList.add("bg-smash");
   if (gameKey === 'ggst') bg.classList.add("bg-ggst");
 
+  // Mostrar loader y ocultar tabla
+  document.getElementById("table-loader").style.display = "flex";
+  document.querySelector("table").style.visibility = "hidden";
+
   const url = baseUrl + hoja.gid;
+  const startTime = Date.now();
+
   Papa.parse(url, {
     download: true,
     header: true,
     complete: function(results) {
       lastData = results.data;
-      showInfo(lastData);
+      // Calcula cuánto tiempo ha pasado
+      const elapsed = Date.now() - startTime;
+      const minTime = 1400; // 1.4 segundos
+      const wait = elapsed < minTime ? minTime - elapsed : 0;
+      setTimeout(() => {
+        showInfo(lastData);
+        document.getElementById("table-loader").style.display = "none";
+        document.querySelector("table").style.visibility = "visible";
+      }, wait);
     }
   });
 }
