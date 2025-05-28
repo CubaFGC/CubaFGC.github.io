@@ -48,7 +48,7 @@ nav button:focus {
 main {
   max-width: 600px;
   margin: 2rem auto 0 auto;
-  background: #221a28;
+  background: rgba(34, 26, 40, 0.85); /* Fondo semitransparente */
   border-radius: 14px;
   box-shadow: 0 0 24px #ffd60033;
   padding: 2rem 1.5rem 2.5rem 1.5rem;
@@ -79,7 +79,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-  background: #181218;
+  background: rgba(24, 18, 24, 0.7); /* Fondo semitransparente para la tabla */
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 8px #ffd60044;
@@ -135,7 +135,7 @@ footer {
   background: #181218;
   background-size: cover;
   background-position: center;
-  opacity: 0.12;
+  opacity: 0.3; /* <-- Más transparencia */
 }
 
 body > *:not(#bg-wallpaper) {
