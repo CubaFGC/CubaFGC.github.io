@@ -17,12 +17,18 @@
     <div class="header-center">
     <h1>Ranking Cuba FGC</h1>  
    </div>
+    <div class="dropdowns-center">
+    <select id="event-dropdown" aria-label="Selecciona un evento" style="padding:0.6rem 1rem;border-radius:8px;font-size:1.1rem;margin-bottom:1rem;">
+      <option value="vol1">Mixup Cash Fest VoL.1</option>
+      <option value="vol2">Mixup Cash Fest VoL.2</option>
+    </select>
     <select id="game-dropdown" aria-label="Selecciona un juego" style="padding:0.6rem 1rem;border-radius:8px;font-size:1.1rem;">
       <option value="tekken">Tekken 8</option>
       <option value="sf6">Street Fighter 6</option>
       <option value="smash">Smash</option>
       <option value="ggst">Guilty Gear Strive</option>
     </select>
+    </div>
     <input
       type="text"
       id="search-input"
@@ -75,11 +81,24 @@ const hojas = {
   ggst:   { nombre: "GGST",   gid: "179455813" }  // Cambia el gid por el de tu hoja GGST
 };
 
+const eventos = {
+  vol1: {
+    nombre: "Mixup Cash Fest VoL.1",
+    baseUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8n9pG8YwSjWh7h9ilIuL-B08z5v-kYzk7R5GF19kgLSsebebE0g5rpx3VJcotdNecvm22HaOGoZHN/pub?single=true&output=csv&gid="
+  },
+  vol2: {
+    nombre: "Mixup Cash Fest VoL.2",
+    baseUrl: "" // No hay datos aún
+  }
+};
+
 const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8n9pG8YwSjWh7h9ilIuL-B08z5v-kYzk7R5GF19kgLSsebebE0g5rpx3VJcotdNecvm22HaOGoZHN/pub?single=true&output=csv&gid=";
 
 let lastData = [];
 
 function loadGame(gameKey) {
+  const eventKey = document.getElementById("event-dropdown").value;
+  const evento = eventos[eventKey];
   const hoja = hojas[gameKey];
   document.getElementById("search-input").value = "";
 
@@ -95,7 +114,17 @@ function loadGame(gameKey) {
   document.getElementById("table-loader").style.display = "flex";
   document.querySelector("table").style.visibility = "hidden";
 
-  const url = baseUrl + hoja.gid;
+  // Si el evento no tiene baseUrl, muestra mensaje y no carga datos
+  if (!evento.baseUrl) {
+    setTimeout(() => {
+      document.getElementById("table-loader").style.display = "none";
+      document.querySelector("table").style.visibility = "visible";
+      showInfo([]); // Limpia la tabla
+    }, 1000);
+    return;
+  }
+
+  const url = evento.baseUrl + hoja.gid;
   const startTime = Date.now();
 
   Papa.parse(url, {
@@ -103,7 +132,6 @@ function loadGame(gameKey) {
     header: true,
     complete: function(results) {
       lastData = results.data;
-      // Calcula cuánto tiempo ha pasado
       const elapsed = Date.now() - startTime;
       const minTime = 1400; // 1.4 segundos
       const wait = elapsed < minTime ? minTime - elapsed : 0;
@@ -119,6 +147,19 @@ function loadGame(gameKey) {
 function showInfo(data) {
   const tbody = document.querySelector("tbody");
   tbody.innerHTML = "";
+  if (!data.length) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 3;
+    td.style.textAlign = "center";
+    td.style.padding = "2rem 0";
+    td.style.color = "#ffd600";
+    td.style.fontWeight = "bold";
+    td.textContent = "Próximamente disponible";
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
   data.forEach(row => {
     if (!(row.Player || row.Ranking || row.Points)) return;
     const tr = document.createElement("tr");
@@ -146,6 +187,11 @@ document.getElementById("search-input").addEventListener("input", function() {
 
 document.getElementById("game-dropdown").addEventListener("change", function() {
   const gameKey = this.value;
+  loadGame(gameKey);
+});
+
+document.getElementById("event-dropdown").addEventListener("change", function() {
+  const gameKey = document.getElementById("game-dropdown").value;
   loadGame(gameKey);
 });
 
