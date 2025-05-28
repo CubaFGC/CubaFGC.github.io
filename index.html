@@ -12,17 +12,16 @@
   <div id="bg-wallpaper"></div>
 
   <div class="header-center">
-    <h1>Ranking Cuba FGC</h1>
-    <nav>
-      <button onclick="loadGame('tekken')">Tekken 8</button>
-      <button onclick="loadGame('sf6')">Street Fighter 6</button>
-      <button onclick="loadGame('smash')">Smash</button>
-      <button onclick="loadGame('ggst')">Guilty Gear Strive</button>
-    </nav>
+    <h1>Ranking Cuba FGC</h1>  
   </div>
 
   <main>
-    <h2 id="game-title">Tekken 8</h2>
+    <select id="game-dropdown" aria-label="Selecciona un juego" style="padding:0.6rem 1rem;border-radius:8px;font-size:1.1rem;">
+      <option value="tekken">Tekken 8</option>
+      <option value="sf6">Street Fighter 6</option>
+      <option value="smash">Smash</option>
+      <option value="ggst">Guilty Gear Strive</option>
+    </select>
     <input
       type="text"
       id="search-input"
@@ -77,12 +76,6 @@ let lastData = [];
 
 function loadGame(gameKey) {
   const hoja = hojas[gameKey];
-  document.getElementById("game-title").innerText =
-    gameKey === 'tekken' ? 'Tekken 8'
-    : gameKey === 'sf6' ? 'Street Fighter 6'
-    : gameKey === 'smash' ? 'Smash'
-    : gameKey === 'ggst' ? 'Guilty Gear Strive'
-    : '';
   document.getElementById("search-input").value = ""; // Limpia el buscador al cambiar de juego
 
   // Cambia el fondo según el juego
@@ -130,6 +123,11 @@ document.getElementById("search-input").addEventListener("input", function() {
     );
   }
   showInfo(filtered);
+});
+
+document.getElementById("game-dropdown").addEventListener("change", function() {
+  const gameKey = this.value;
+  loadGame(gameKey);
 });
 
 window.loadGame = loadGame;

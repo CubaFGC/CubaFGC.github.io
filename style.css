@@ -48,7 +48,7 @@ nav button:focus {
 main {
   max-width: 600px;
   margin: 2rem auto 0 auto;
-  background: rgba(34, 26, 40, 0.85); /* Fondo semitransparente */
+  background: rgba(34, 26, 40, 0.70); /* Fondo semitransparente */
   border-radius: 14px;
   box-shadow: 0 0 24px #ffd60033;
   padding: 2rem 1.5rem 2.5rem 1.5rem;
@@ -74,12 +74,14 @@ input#search-input {
   font-size: 1rem;
   box-shadow: 0 0 8px #ffd60044;
 }
-
+input#search-input::placeholder {
+  color: #ffd60088; /* Color del placeholder */
+} 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-  background: rgba(24, 18, 24, 0.7); /* Fondo semitransparente para la tabla */
+  background: rgba(24, 18, 24, 0.2); /* Fondo semitransparente para la tabla */
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 8px #ffd60044;
@@ -159,6 +161,29 @@ body > *:not(#bg-wallpaper) {
 }
 .bg-ggst {
   background: url('img/ggst-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
+}
+
+#game-dropdown {
+  width: 100%;
+  max-width: 320px;
+  margin: 1rem auto 2rem auto;
+  display: block;
+  background: #181218;
+  color: #ffd600;
+  border: 2px solid #ffd600;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 0 8px #ffd60044;
+  text-align: center;
+  text-align-last: center;
+}
+#game-dropdown:focus {
+  outline: none;
+  border-color: #fffbe6;
+}
+#game-dropdown option {
+  text-align: center;
 }
 
 @media (max-width: 700px) {
