@@ -160,3 +160,58 @@ body > *:not(#bg-wallpaper) {
 .bg-ggst {
   background: url('img/ggst-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
 }
+
+@media (max-width: 700px) {
+  main {
+    max-width: 98vw;
+    padding: 1rem 0.5rem 1.5rem 0.5rem;
+    border-radius: 8px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  #game-title {
+    font-size: 1.2rem;
+  }
+
+  nav button {
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    margin: 0.2rem 0.2rem;
+  }
+
+  input#search-input {
+    max-width: 95vw;
+    font-size: 1rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 1rem;
+    background: rgba(24, 18, 24, 0.7);
+    border-radius: 8px;
+    box-shadow: 0 0 8px #ffd60044;
+    padding: 0.5rem 0;
+  }
+
+  td {
+    text-align: left;
+    padding: 0.5rem 1rem;
+    position: relative;
+  }
+
+  td:nth-child(1)::before { content: "Ranking: "; color: #ffd600; font-weight: bold; }
+  td:nth-child(2)::before { content: "Player: "; color: #ffd600; font-weight: bold; }
+  td:nth-child(3)::before { content: "Points: "; color: #ffd600; font-weight: bold; }
+}
