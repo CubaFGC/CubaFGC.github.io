@@ -267,84 +267,53 @@ body > *:not(#bg-wallpaper) {
 
   main {
     max-width: 98vw;
-    padding: 1rem 0.5rem 1.5rem 0.5rem;
-    border-radius: 8px;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    margin: 1.2rem auto 1.2rem auto;
+    padding: 0 0.5rem 1.5rem 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px #000a, 0 0 0 1.5px #ffd60022;
   }
 
-  h1 {
-    font-size: 1.5rem;
+  .header-center {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
-  #game-title {
-    font-size: 1.2rem;
-  }
-
-  nav button {
-    padding: 0.5rem 0.7rem;
-    font-size: 1rem;
-    margin: 0.2rem 0.2rem;
-  }
-
-  input#search-input {
-    max-width: 95vw;
-    font-size: 1rem;
-    padding: 0.4rem 0.7rem;
-  }
-
-  table, thead, tbody, th, td, tr {
-    display: block;
-    width: 100%;
-  }
-
-  thead tr {
-    display: none;
-  }
-
-  tbody tr {
-    margin-bottom: 1rem;
-    background: rgba(24, 18, 24, 0.7);
-    border-radius: 8px;
-    box-shadow: 0 0 8px #ffd60044;
-    padding: 0.5rem 0;
-  }
-
-  td {
-    text-align: left;
-    padding: 0.5rem 1rem;
-    position: relative;
-    padding: 0.7rem 1rem;
-    font-size: 1rem;
-    word-break: break-word;
-  }
-
-  td:nth-child(1)::before { content: "Ranking: "; color: #ffd600; font-weight: bold; }
-  td:nth-child(2)::before { content: "Player: "; color: #ffd600; font-weight: bold; }
-  td:nth-child(3)::before { content: "Points: "; color: #ffd600; font-weight: bold; }
-
-  .dropdowns-center {
+  .event-access-cards {
     flex-direction: column;
-    gap: 0.7rem;
-    margin-bottom: 1.2rem;
+    gap: 1rem;
     margin-top: 1rem;
+    margin-bottom: 1rem;
     align-items: center;
-    width: 100%;
-  }
-  #event-dropdown,
-  #game-dropdown {
-    width: 100%;
-    min-width: 0;
-    max-width: 100vw;
-    font-size: 1rem;
-    padding: 0.5rem 0.7rem;
-    margin: 0;
   }
 
+  .event-access-card {
+    min-width: 0;
+    width: 98vw;
+    max-width: 99vw;
+    padding: 1.1rem 0.5rem 1.3rem 0.5rem;
+    border-radius: 12px;
+  }
+
+  .menu-trigger {
+    right: 1rem;
+    top: 1rem;
+  }
+  .menu-dropdown {
+    min-width: 120px;
+    top: 2.2rem;
+  }
+  table {
+    font-size: 0.95rem;
+  }
+  input, select {
+    font-size: 1rem !important;
+  }
+  footer {
+    margin-top: 1.2rem;
+    margin-bottom: 0.7rem;
+  }
   .social-links {
-    justify-content: center;
-    gap: 1.2rem;
-    flex-wrap: wrap;
+    gap: 0.7rem;
   }
 }
 
