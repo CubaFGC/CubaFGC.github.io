@@ -14,6 +14,21 @@
     <div class="header-center">
     <h1>Ranking Cuba FGC</h1>  
    </div>
+    <!-- Menu trigger en el header -->
+    <div class="menu-trigger">
+      <button id="menu-trigger-btn" aria-label="Abrir menú">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffd600">
+          <rect y="4" width="24" height="3" rx="1.5"/>
+          <rect y="10.5" width="24" height="3" rx="1.5"/>
+          <rect y="17" width="24" height="3" rx="1.5"/>
+        </svg>
+      </button>
+      <nav id="menu-dropdown" class="menu-dropdown">
+        <a href="index.html">Inicio</a>
+        <a href="index.html">Ranking</a>
+        <a href="Events.html">Eventos</a>
+      </nav>
+    </div>
     <div class="dropdowns-center">
     <select id="event-dropdown" aria-label="Selecciona un evento" style="padding:0.6rem 1rem;border-radius:8px;font-size:1.1rem;margin-bottom:1rem;">
       <option value="vol1">Ranking General 2025/2026</option>
@@ -190,6 +205,17 @@ document.getElementById("game-dropdown").addEventListener("change", function() {
 document.getElementById("event-dropdown").addEventListener("change", function() {
   const gameKey = document.getElementById("game-dropdown").value;
   loadGame(gameKey);
+});
+
+// Menu trigger
+const menuTriggerBtn = document.getElementById('menu-trigger-btn');
+const menuTrigger = document.querySelector('.menu-trigger');
+menuTriggerBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  menuTrigger.classList.toggle('open');
+});
+document.addEventListener('click', function() {
+  menuTrigger.classList.remove('open');
 });
 
 window.loadGame = loadGame;

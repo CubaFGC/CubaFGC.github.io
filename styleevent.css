@@ -1,0 +1,188 @@
+/* Fondo y fuente base */
+body {
+  background: #181218;
+  color: #fffbe6;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Header centrado */
+.header-center {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Menu trigger */
+.menu-trigger {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 20;
+}
+.menu-trigger button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+.menu-trigger svg {
+  display: block;
+}
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 2.5rem;
+  background: rgba(24, 18, 24, 0.98);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px #0008;
+  min-width: 140px;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+.menu-dropdown a {
+  display: block;
+  color: #ffd600;
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  font-weight: bold;
+  font-size: 1.05rem;
+  transition: background 0.15s;
+}
+.menu-dropdown a:hover {
+  background: #ffd60022;
+}
+.menu-trigger.open .menu-dropdown {
+  display: flex;
+}
+@media (max-width: 700px) {
+  .menu-trigger {
+    right: 1rem;
+    top: 1rem;
+  }
+  .menu-dropdown {
+    min-width: 120px;
+    top: 2.2rem;
+  }
+}
+
+/* Centrar y espaciar el main como en el index */
+main {
+  max-width: 900px;
+  margin: 3.5rem auto 2.5rem auto;
+  padding: 0 1.5rem 2.5rem 1.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  background: rgba(24, 18, 24, 0.98); /* Fondo del box */
+  border-radius: 22px;
+  box-shadow: 0 8px 40px #000a, 0 0 0 2px #ffd60022;
+  border: 1.5px solid #ffd60022;
+}
+
+/* Cards de eventos: ahora usan el ancho del main */
+.event-access-cards {
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+.event-access-card {
+  background: rgba(24, 18, 24, 0.97); /* Fondo más visible */
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0008, 0 0 0 2px #ffd60033;
+  border: 1.5px solid #ffd60033;
+  padding: 1.5rem 2.2rem 1.7rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 220px;
+  max-width: 320px;
+  position: relative;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.event-access-card:hover {
+  box-shadow: 0 8px 32px #ffd60055, 0 0 0 2.5px #ffd60088;
+  transform: translateY(-4px) scale(1.025);
+}
+.event-access-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+  opacity: 0.18;
+  z-index: 0;
+}
+.event-access-title {
+  color: #ffd600;
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 0.7rem;
+  text-align: center;
+  z-index: 1;
+  position: relative;
+}
+.event-access-status {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.3rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 1;
+  position: relative;
+  background: #00e676;
+  color: #181218;
+}
+.event-access-status.cerrado {
+  background: #ff5252;
+  color: #fffbe6;
+}
+.event-access-status.cargando {
+  background: #ffd600;
+  color: #181218;
+}
+.event-access-btn {
+  background: #ffd600;
+  color: #181218;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.3rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+  z-index: 1;
+  position: relative;
+}
+.event-access-btn:hover {
+  background: #fffbe6;
+}
+
+/* Footer y redes */
+footer {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.social-links {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+.social-links a {
+  display: inline-block;
+  transition: transform 0.15s;
+}
+.social-links a:hover {
+  transform: scale(1.15);
+}
