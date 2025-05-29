@@ -183,29 +183,34 @@ footer {
 /* Responsive: móviles */
 @media (max-width: 700px) {
   main {
-    max-width: 98vw;
-    margin: 1.2rem auto 1.2rem auto;
-    padding: 0 0.5rem 1.5rem 0.5rem;
-    border-radius: 12px;
+    max-width: 100vw;
+    margin: 1rem 0;
+    padding: 0.5rem 0.5rem 1.2rem 0.5rem;
+    border-radius: 10px;
     box-shadow: 0 4px 16px #000a, 0 0 0 1.5px #ffd60022;
+    background: rgba(24, 18, 24, 0.98);
+    overflow: hidden;
   }
   .header-center {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
   }
   .event-access-cards {
     flex-direction: column;
     gap: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     align-items: center;
+    width: 100%;
+    max-width: 100%;
   }
   .event-access-card {
     min-width: 0;
-    width: 98vw;
-    max-width: 99vw;
-    padding: 1.1rem 0.5rem 1.3rem 0.5rem;
-    border-radius: 12px;
+    width: 94vw;
+    max-width: 97vw;
+    padding: 1rem 0.5rem 1.1rem 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
   }
   .menu-trigger {
     right: 1rem;
@@ -216,7 +221,7 @@ footer {
     top: 2.2rem;
   }
   footer {
-    margin-top: 1.2rem;
+    margin-top: 1rem;
     margin-bottom: 0.7rem;
   }
   .social-links {
