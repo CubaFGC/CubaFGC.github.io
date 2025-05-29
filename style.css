@@ -256,6 +256,9 @@ body > *:not(#bg-wallpaper) {
 
 /* Responsive: ajusta el menú en móvil */
 @media (max-width: 700px) {
+  main {
+    padding-top: 3.5rem; /* Espacio arriba para el menú hamburguesa */
+  }
   .menu-trigger {
     position: static;
     margin: 0 auto 1.2rem auto;
@@ -266,7 +269,7 @@ body > *:not(#bg-wallpaper) {
     right: unset;
   }
   .header-center {
-    margin-top: 1.2rem;
+    margin-top: 0.5rem;
   }
   .dropdowns-center {
     margin-top: 0.5rem;
