@@ -206,9 +206,9 @@ footer {
   }
   .event-access-card {
     min-width: 0;
-    width: 94vw;
-    max-width: 97vw;
-    padding: 1rem 0.5rem 1.1rem 0.5rem;
+    width: 86vw;
+    max-width: 90vw;
+    padding: 0.9rem 0.3rem 1rem 0.3rem;
     border-radius: 10px;
     margin-bottom: 1rem;
   }
