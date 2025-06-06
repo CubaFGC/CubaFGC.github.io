@@ -153,16 +153,16 @@ body > *:not(#bg-wallpaper) {
 }
 
 .bg-tekken {
-  background: url('img/tekken-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
+  background: url('../img/tekken-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
 }
 .bg-sf6 {
-  background: url('img/sf6-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
+  background: url('../img/sf6-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
 }
 .bg-smash {
-  background: url('img/smash-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
+  background: url('../img/smash-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
 }
 .bg-ggst {
-  background: url('img/ggst-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
+  background: url('../img/ggst-bg.jpg') center center/100% 100% no-repeat, #181218 !important;
 }
 
 #event-dropdown,
