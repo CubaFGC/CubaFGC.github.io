@@ -4,26 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cuba FGC</title>
-  <link href="/css/styleevent.css" rel="stylesheet" />
+  <meta name="description" content="Comunidad Cuba FGC: torneos, rankings y eventos de juegos de pelea en Cuba.">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <meta property="og:title" content="Cuba FGC" />
+  <meta property="og:description" content="Comunidad Cuba FGC: torneos, rankings y eventos de juegos de pelea en Cuba." />
+  <meta property="og:image" content="img/og-banner.jpg" />
+  <meta property="og:type" content="website" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <link href="/css/styleevent.css" rel="stylesheet" /> 
 </head>
 <body>
   <main>
-    <!-- Menu trigger en el header (dentro del main) -->
-    <div class="menu-trigger">
-      <button id="menu-trigger-btn" aria-label="Abrir menú">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffd600">
-          <rect y="4" width="24" height="3" rx="1.5"/>
-          <rect y="10.5" width="24" height="3" rx="1.5"/>
-          <rect y="17" width="24" height="3" rx="1.5"/>
-        </svg>
-      </button>
-      <nav id="menu-dropdown" class="menu-dropdown">
-        <a href="index.html">Inicio</a>
-        <a href="ranking.html">Ranking</a>             
-      </nav>
+    <div class="ranking-btn-container">
+      <a href="ranking.html" class="ranking-btn">Ranking</a>
     </div>
     <div class="header-center">
+      <img src="img/logo-cubafgc.png" alt="Cuba FGC Logo" class="main-logo" style="max-width:120px;margin-bottom:1rem;">
       <h1>Eventos destacados Cuba FGC</h1>
+      <p class="slogan">¡Donde la comunidad cubana de fighting games compite y crece!</p>
     </div>
     <div class="event-access-cards">
       <div class="event-access-card" id="mixup-card">
@@ -43,6 +41,12 @@
         </button>
       </div>
     </div>
+    <div style="text-align:center;margin:1.5rem 0;">
+      <a href="https://discord.gg/fgC7GGv8DK" target="_blank" class="discord-btn">
+        <svg width="22" height="22" fill="#fff" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.885 3.1a.074.074 0 0 0-.079.037c-.34.607-.719 1.395-.984 2.01a18.524 18.524 0 0 0-5.447 0 12.51 12.51 0 0 0-.995-2.01.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.369a.069.069 0 0 0-.032.027C.533 9.09-.32 13.579.099 18.021a.082.082 0 0 0 .031.056c2.052 1.507 4.041 2.422 5.992 3.029a.077.077 0 0 0 .084-.027c.461-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.041-.104c-.652-.247-1.27-.549-1.872-.892a.077.077 0 0 1-.008-.127c.126-.094.252-.192.371-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.245.198.372.292a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.891.076.076 0 0 0-.04.105c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028c1.961-.607 3.95-1.522 6.002-3.029a.077.077 0 0 0 .031-.055c.5-5.177-.838-9.637-3.548-13.625a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z"/></svg>
+        Únete a nuestro Discord
+      </a>
+    </div>
   </main>
   <footer>
     <p>Powered by CubaFGC</p>
@@ -61,19 +65,24 @@
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.151-.174.2-.298.3-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.099 3.2 5.077 4.363.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.617h-.001a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.455 4.436-9.89 9.893-9.89 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.896 6.994c-.003 5.455-4.438 9.89-9.893 9.89zm8.413-18.304A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.304-1.681a11.86 11.86 0 0 0 5.741 1.463h.005c6.554 0 11.889-5.335 11.892-11.893a11.82 11.82 0 0 0-3.477-8.386z"/>
         </svg>
       </a>
+      <a href="https://discord.gg/fgC7GGv8DK" target="_blank" aria-label="Discord">
+        <svg width="26" height="26" fill="#ffd600" viewBox="0 0 24 24"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.885 3.1a.074.074 0 0 0-.079.037c-.34.607-.719 1.395-.984 2.01a18.524 18.524 0 0 0-5.447 0 12.51 12.51 0 0 0-.995-2.01.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.369a.069.069 0 0 0-.032.027C.533 9.09-.32 13.579.099 18.021a.082.082 0 0 0 .031.056c2.052 1.507 4.041 2.422 5.992 3.029a.077.077 0 0 0 .084-.027c.461-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.041-.104c-.652-.247-1.27-.549-1.872-.892a.077.077 0 0 1-.008-.127c.126-.094.252-.192.371-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.245.198.372.292a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.891.076.076 0 0 0-.04.105c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028c1.961-.607 3.95-1.522 6.002-3.029a.077.077 0 0 0 .031-.055c.5-5.177-.838-9.637-3.548-13.625a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.175 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z"/></svg>
+      </a>
     </div>
   </footer>
   <script>
     // Menu trigger
     const menuTriggerBtn = document.getElementById('menu-trigger-btn');
     const menuTrigger = document.querySelector('.menu-trigger');
-    menuTriggerBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      menuTrigger.classList.toggle('open');
-    });
-    document.addEventListener('click', function() {
-      menuTrigger.classList.remove('open');
-    });
+    if (menuTriggerBtn && menuTrigger) {
+      menuTriggerBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menuTrigger.classList.toggle('open');
+      });
+      document.addEventListener('click', function() {
+        menuTrigger.classList.remove('open');
+      });
+    }
 
     // Status dinámico para las cards
     const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
@@ -103,7 +112,7 @@
           if (btn) btn.style.display = "none";
           return;
         }
-        if (data.data.tournament.state === "ACTIVE" || data.data.tournament.state === "CREATED") {
+        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
           status.textContent = "Activo";
           status.className = "event-access-status disponible";
           if (btn) btn.style.display = "";
@@ -132,25 +141,30 @@
       })
       .then(res => res.json())
       .then(data => {
+        console.log("Respuesta API:", data);
         const status = document.getElementById('mixup-status-vol2');
-        console.log("Respuesta completa:", data);
+        const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
         if (data.errors) {
           status.textContent = "Error API";
           status.className = "event-access-status cerrado";
+          if (btn) btn.style.display = "none";
           return;
         }
         if (!data.data || !data.data.tournament) {
           status.textContent = "No encontrado";
           status.className = "event-access-status cerrado";
+          if (btn) btn.style.display = "none";
           return;
         }
-        // Cambia aquí la comparación:
+        // CORREGIDO: compara con strings
         if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
           status.textContent = "Activo";
           status.className = "event-access-status disponible";
+          if (btn) btn.style.display = "";
         } else {
           status.textContent = "Cerrado";
           status.className = "event-access-status cerrado";
+          if (btn) btn.style.display = "none";
         }
       })
       .catch(error => {
@@ -158,6 +172,8 @@
         const status = document.getElementById('mixup-status-vol2');
         status.textContent = "Error de red/API";
         status.className = "event-access-status cerrado";
+        const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
+        if (btn) btn.style.display = "none";
       });
     }
     document.addEventListener('DOMContentLoaded', function() {
