@@ -106,9 +106,7 @@
               <thead>
                 <tr>
                   <th>Jugador 1</th>
-                  <th>Score</th>
                   <th>Jugador 2</th>
-                  <th>Score</th>
                   <th>Ronda</th>
                 </tr>
               </thead>
@@ -121,9 +119,7 @@
             const s = set.slots;
             html += `<tr${idx % 2 === 0 ? ' class="par"' : ''}>
               <td>${s[0]?.entrant?.name || '-'}</td>
-              <td>${s[0]?.standing?.stats?.score?.value ?? '-'}</td>
               <td>${s[1]?.entrant?.name || '-'}</td>
-              <td>${s[1]?.standing?.stats?.score?.value ?? '-'}</td>
               <td>${set.fullRoundText || '-'}</td>
             </tr>`;
           });

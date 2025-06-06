@@ -582,3 +582,24 @@ footer {
   }
 }
 
+.main-logo-header {
+  width: 70px; /* Aumenta el tamaño */
+  height: 70px; /* Aumenta el tamaño */
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(255, 214, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5); /* Sombra más destacada con color de acento */
+  background: #fff;
+  transition: transform 0.2s ease-in-out; /* Añade transición para el efecto hover */
+}
+
+.main-logo-header:hover {
+  transform: scale(1.1); /* Ligeramente más grande al pasar el ratón */
+}
+
+@media (max-width: 600px) {
+  /* ... otros estilos ... */
+  .main-logo-header {
+    width: 55px; /* Ajusta el tamaño para pantallas pequeñas */
+    height: 55px; /* Ajusta el tamaño para pantallas pequeñas */
+  }
+  /* ... otros estilos ... */
+}
