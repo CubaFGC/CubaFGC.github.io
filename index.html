@@ -3,17 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ranking Cuba FGC</title>
-  <link href="style.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <title>Experimentos API start.gg</title>
+  <link href="/css/styleevent.css" rel="stylesheet" />
 </head>
 <body>
-  <div id="bg-wallpaper"></div>
   <main>
-    <div class="header-center">
-   </div>
-    <!-- Menu trigger en el header -->
+    <!-- Menu trigger en el header (dentro del main) -->
     <div class="menu-trigger">
       <button id="menu-trigger-btn" aria-label="Abrir menú">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffd600">
@@ -24,46 +19,31 @@
       </button>
       <nav id="menu-dropdown" class="menu-dropdown">
         <a href="index.html">Inicio</a>
-        <a href="index.html">Ranking</a>
-        <a href="Events.html">Eventos</a>
+        <a href="ranking.html">Ranking</a>             
       </nav>
     </div>
-    <div class="dropdowns-center">
-    <select id="event-dropdown" aria-label="Selecciona un evento" style="padding:0.6rem 1rem;border-radius:8px;font-size:1.1rem;margin-bottom:1rem;">
-      <option value="vol1">Ranking General 2025/2026</option>
-      <option value="vol2">Proximamente 2026</option>
-    </select>
-    <select id="game-dropdown" aria-label="Selecciona un juego" style="padding:0.6rem 1rem;border-radius:8px;font-size:1.1rem;">
-      <option value="tekken">Tekken 8</option>
-      <option value="sf6">Street Fighter 6</option>
-      <option value="smash">Smash</option>
-      <option value="ggst">Guilty Gear Strive</option>
-    </select>
+    <div class="header-center">
+      <h1>Eventos destacados Cuba FGC</h1>
     </div>
-    <input
-      type="text"
-      id="search-input"
-      placeholder="Buscar por nombre..."
-      style="display:block;margin:0 auto 1.5rem auto;max-width:300px;padding:0.5rem 1rem;border-radius:6px;border:1.5px solid #ffd600;background:#181218;color:#fff0f3;font-size:1rem;box-shadow:0 0 8px #ff225522;"
-    />
-    <div id="table-loader" class="loader" style="display:none;">
-      <div class="spinner"></div>
-      <span>Cargando datos...</span>
+    <div class="event-access-cards">
+      <div class="event-access-card" id="mixup-card">
+        <div class="event-access-bg"></div>
+        <div class="event-access-title">Mixup Clash Fest</div>
+        <span id="mixup-status" class="event-access-status cargando">Cargando...</span>
+        <button class="event-access-btn" onclick="window.location.href='mixup-clash-fest.html'">
+          Ver Evento
+        </button>
+      </div>
+      <div class="event-access-card" id="mixup-card-vol2">
+        <div class="event-access-bg"></div>
+        <div class="event-access-title">Mixup Clash Fest Vol.2</div>
+        <span id="mixup-status-vol2" class="event-access-status cargando">Cargando...</span>
+        <button class="event-access-btn" onclick="window.location.href='mixup-clash-fest-vol2.html'">
+          Ver eventos
+        </button>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Ranking</th>
-          <th>Player</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Datos dinámicos -->
-      </tbody>
-    </table>
   </main>
-
   <footer>
     <p>Powered by CubaFGC</p>
     <div class="social-links">
@@ -83,142 +63,99 @@
       </a>
     </div>
   </footer>
-
   <script>
-const hojas = {
-  tekken: { nombre: "Tekken", gid: "995349228" },
-  sf6:    { nombre: "SF6",    gid: "1164729105" }, // Cambia el gid por el de tu hoja SF6
-  smash:  { nombre: "Smash",  gid: "1529661662" }, // Cambia el gid por el de tu hoja Smash
-  ggst:   { nombre: "GGST",   gid: "179455813" }  // Cambia el gid por el de tu hoja GGST
-};
+    // Menu trigger
+    const menuTriggerBtn = document.getElementById('menu-trigger-btn');
+    const menuTrigger = document.querySelector('.menu-trigger');
+    menuTriggerBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      menuTrigger.classList.toggle('open');
+    });
+    document.addEventListener('click', function() {
+      menuTrigger.classList.remove('open');
+    });
 
-const eventos = {
-  vol1: {
-    nombre: "Mixup Cash Fest VoL.1",
-    baseUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8n9pG8YwSjWh7h9ilIuL-B08z5v-kYzk7R5GF19kgLSsebebE0g5rpx3VJcotdNecvm22HaOGoZHN/pub?single=true&output=csv&gid="
-  },
-  vol2: {
-    nombre: "Mixup Cash Fest VoL.2",
-    baseUrl: "" // No hay datos aún
-  }
-};
-
-const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8n9pG8YwSjWh7h9ilIuL-B08z5v-kYzk7R5GF19kgLSsebebE0g5rpx3VJcotdNecvm22HaOGoZHN/pub?single=true&output=csv&gid=";
-
-let lastData = [];
-
-function loadGame(gameKey) {
-  const eventKey = document.getElementById("event-dropdown").value;
-  const evento = eventos[eventKey];
-  const hoja = hojas[gameKey];
-  document.getElementById("search-input").value = "";
-
-  // Cambia el fondo según el juego
-  const bg = document.getElementById("bg-wallpaper");
-  bg.className = "";
-  if (gameKey === 'tekken') bg.classList.add("bg-tekken");
-  if (gameKey === 'sf6') bg.classList.add("bg-sf6");
-  if (gameKey === 'smash') bg.classList.add("bg-smash");
-  if (gameKey === 'ggst') bg.classList.add("bg-ggst");
-
-  // Mostrar loader y ocultar tabla
-  document.getElementById("table-loader").style.display = "flex";
-  document.querySelector("table").style.visibility = "hidden";
-
-  // Si el evento no tiene baseUrl, muestra mensaje y no carga datos
-  if (!evento.baseUrl) {
-    setTimeout(() => {
-      document.getElementById("table-loader").style.display = "none";
-      document.querySelector("table").style.visibility = "visible";
-      showInfo([]); // Limpia la tabla
-    }, 1000);
-    return;
-  }
-
-  const url = evento.baseUrl + hoja.gid;
-  const startTime = Date.now();
-
-  Papa.parse(url, {
-    download: true,
-    header: true,
-    complete: function(results) {
-      lastData = results.data;
-      const elapsed = Date.now() - startTime;
-      const minTime = 1400; // 1.4 segundos
-      const wait = elapsed < minTime ? minTime - elapsed : 0;
-      setTimeout(() => {
-        showInfo(lastData);
-        document.getElementById("table-loader").style.display = "none";
-        document.querySelector("table").style.visibility = "visible";
-      }, wait);
+    // Status dinámico para las cards
+    const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
+    function actualizarStatusMixup() {
+      const query = `
+        query {
+          tournament(slug: "mixup-clash-fest") {
+            state
+          }
+        }
+      `;
+      fetch('https://api.start.gg/gql/alpha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + STARTGG_TOKEN
+        },
+        body: JSON.stringify({ query })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const status = document.getElementById('mixup-status');
+        if (!data.data || !data.data.tournament) return;
+        if (data.data.tournament.state === "ACTIVE" || data.data.tournament.state === "CREATED") {
+          status.textContent = "Activo";
+          status.className = "event-access-status disponible";
+        } else {
+          status.textContent = "Cerrado";
+          status.className = "event-access-status cerrado";
+        }
+      });
     }
-  });
-}
-
-function showInfo(data) {
-  const tbody = document.querySelector("tbody");
-  tbody.innerHTML = "";
-  if (!data.length) {
-    const tr = document.createElement("tr");
-    const td = document.createElement("td");
-    td.colSpan = 3;
-    td.style.textAlign = "center";
-    td.style.padding = "2rem 0";
-    td.style.color = "#ffd600";
-    td.style.fontWeight = "bold";
-    td.textContent = "Próximamente disponible";
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-    return;
-  }
-  data.forEach(row => {
-    if (!(row.Player || row.Ranking || row.Points)) return;
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${row.Ranking || ''}</td>
-      <td>${row.Player || ''}</td>
-      <td>${row.Points || ''}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-document.getElementById("search-input").addEventListener("input", function() {
-  const value = this.value.trim().toLowerCase();
-  let filtered;
-  if (!value) {
-    filtered = lastData.filter(row => row.Player || row.Ranking || row.Points);
-  } else {
-    filtered = lastData.filter(row =>
-      (row.Player || '').toLowerCase().includes(value)
-    );
-  }
-  showInfo(filtered);
-});
-
-document.getElementById("game-dropdown").addEventListener("change", function() {
-  const gameKey = this.value;
-  loadGame(gameKey);
-});
-
-document.getElementById("event-dropdown").addEventListener("change", function() {
-  const gameKey = document.getElementById("game-dropdown").value;
-  loadGame(gameKey);
-});
-
-// Menu trigger
-const menuTriggerBtn = document.getElementById('menu-trigger-btn');
-const menuTrigger = document.querySelector('.menu-trigger');
-menuTriggerBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  menuTrigger.classList.toggle('open');
-});
-document.addEventListener('click', function() {
-  menuTrigger.classList.remove('open');
-});
-
-window.loadGame = loadGame;
-window.addEventListener('DOMContentLoaded', () => loadGame('tekken'));
+    function actualizarStatusMixupVol2() {
+      const query = `
+        query {
+          tournament(slug: "mixup-clash-fest-vol-2") {
+            state
+          }
+        }
+      `;
+      fetch('https://api.start.gg/gql/alpha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + STARTGG_TOKEN
+        },
+        body: JSON.stringify({ query })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const status = document.getElementById('mixup-status-vol2');
+        console.log("Respuesta completa:", data);
+        if (data.errors) {
+          status.textContent = "Error API";
+          status.className = "event-access-status cerrado";
+          return;
+        }
+        if (!data.data || !data.data.tournament) {
+          status.textContent = "No encontrado";
+          status.className = "event-access-status cerrado";
+          return;
+        }
+        // Cambia aquí la comparación:
+        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
+          status.textContent = "Activo";
+          status.className = "event-access-status disponible";
+        } else {
+          status.textContent = "Cerrado";
+          status.className = "event-access-status cerrado";
+        }
+      })
+      .catch(error => {
+        console.error("Fetch error:", error);
+        const status = document.getElementById('mixup-status-vol2');
+        status.textContent = "Error de red/API";
+        status.className = "event-access-status cerrado";
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      actualizarStatusMixup();
+      actualizarStatusMixupVol2();
+    });
   </script>
 </body>
 </html>
