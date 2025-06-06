@@ -1,7 +1,10 @@
 /* Fondo y fuente base */
 body {
+  background-image: url('../img/background_pc.jpg'); /* reemplaza 'img/fondo.jpg' con la ruta de tu imagen de fondo */
+  background-size: 100% 80%;
+  background-repeat: no-repeat;
+  background-position: center;
   font-family: 'Montserrat', Arial, sans-serif;
-  background: #181218;
   color: #fffbe6;
   margin: 0;
   padding: 0;
@@ -37,7 +40,7 @@ main {
   box-sizing: border-box;
   width: 100%;
   position: relative;
-  background: rgba(24, 18, 24, 0.98);
+  background: rgba(24, 18, 24, 0.9);
   border-radius: 22px;
   box-shadow: 0 8px 40px #000a, 0 0 0 2px #ffd60022;
   border: 1.5px solid #ffd60022;
