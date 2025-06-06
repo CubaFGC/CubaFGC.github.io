@@ -96,13 +96,21 @@
       .then(res => res.json())
       .then(data => {
         const status = document.getElementById('mixup-status');
-        if (!data.data || !data.data.tournament) return;
+        const btn = document.querySelector('#mixup-card .event-access-btn');
+        if (!data.data || !data.data.tournament) {
+          status.textContent = "No encontrado";
+          status.className = "event-access-status cerrado";
+          if (btn) btn.style.display = "none";
+          return;
+        }
         if (data.data.tournament.state === "ACTIVE" || data.data.tournament.state === "CREATED") {
           status.textContent = "Activo";
           status.className = "event-access-status disponible";
+          if (btn) btn.style.display = "";
         } else {
           status.textContent = "Cerrado";
           status.className = "event-access-status cerrado";
+          if (btn) btn.style.display = "none";
         }
       });
     }
