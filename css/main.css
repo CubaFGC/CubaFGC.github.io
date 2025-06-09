@@ -1,0 +1,131 @@
+/* HEADER Y FOOTER UNIFICADOS PARA TODA LA WEB */
+
+/* Fondo y sombra para header y footer */
+.main-header-bar {
+  width: 100%;
+  background: #1a1622;
+  border-bottom: 1.5px solid #ffd60022;
+  box-shadow: 0 2px 12px #0005;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+}
+
+
+footer {
+  width: 100%;
+  background: #1a1622;
+  border-top: 1.5px solid #ffd60022;
+  box-shadow: 0 -2px 12px #0005;
+  padding: 0;
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* Contenido centrado y limitado igual que main */
+.header-content {
+  max-width: 1150px; /* Más ancho que main y footer */
+  margin: 0 auto;
+  width: 100%;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-content {
+  max-width: 1000px; /* Igual que main */
+  margin: 0 auto;
+  width: 100%;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+/* Logo header */
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.main-logo-header {
+  max-width: 100px;      /* Más grande */
+  width: 40vw;           /* Más grande en responsive */
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 18px #0008;
+  background: transparent; 
+}
+
+
+/* Botón ranking header */
+.header-ranking-btn {
+  padding: 0.7em 1.5em;
+  font-weight: bold;
+  font-size: 1.08em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0003;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+  outline: none;
+  text-decoration: none;
+  display: inline-block;
+  background: #ffd600;
+  color: #181218;
+  border-radius: 8px;
+  border: none;
+}
+.header-ranking-btn:hover,
+.header-ranking-btn:focus {
+  background: #fffbe6;
+  color: #181218;
+  box-shadow: 0 4px 16px #ffd60055, 0 2px 8px #0003;
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Social links en footer */
+footer .social-links {
+  display: flex;
+  gap: 1.1rem;
+  justify-content: center;
+  width: 100%;
+}
+footer .social-links a svg {
+  vertical-align: middle;
+  transition: filter 0.2s;
+}
+footer .social-links a:hover svg {
+  filter: brightness(1.3) drop-shadow(0 0 4px #ffd600cc);
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+  .header-content,
+  .footer-content {
+    max-width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .main-logo-header {
+      max-width: 70px;      /* Más grande */
+  width: 40vw;           /* Más grande en responsive */
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 18px #0008;
+  background: transparent; 
+  }
+  .header-ranking-btn {
+    padding: 0.5em 1em;
+    font-size: 1em;
+  }
+}
