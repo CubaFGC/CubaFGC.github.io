@@ -15,6 +15,7 @@ const registerError = document.getElementById('register-error');
 const toggleAuthForm = document.getElementById('toggle-auth-form');
 const resendVerificationBtn = document.getElementById('resend-verification-btn');
 const userMenuContainer = document.getElementById('user-menu-container');
+if (userMenuContainer) userMenuContainer.style.display = 'block';
 const userMenuBtn = document.getElementById('user-menu-btn');
 const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
@@ -125,7 +126,7 @@ if (loginForm) {
         loginError.textContent = '';
         loginDropdown.style.display = 'none';
         limpiarCamposAuth();
-        mostrarUsuarioSupabase();
+        await mostrarUsuarioSupabase(); // <-- Esto es importante
         loginBtn.disabled = false;
         loginBtn.innerHTML = originalText;
       }
@@ -273,18 +274,19 @@ if (logoutHeaderBtn) {
 // Mostrar usuario logueado con Supabase
 async function mostrarUsuarioSupabase() {
   const { data: { user } } = await supabase.auth.getUser();
-  if (user) {
-    if (userHeaderInfo) {
-      userHeaderInfo.textContent = user.email;
-      userHeaderInfo.style.display = 'inline';
-    }
+  const userHeaderInfo = document.getElementById('user-header-info');
+  if (user && userHeaderInfo) {
+    userHeaderInfo.textContent = user.email;
+    userHeaderInfo.style.display = 'inline';
+    if (userMenuContainer) userMenuContainer.style.display = 'block'; // <-- AGREGA ESTA LÍNEA
+    if (userMenuBtn) userMenuBtn.style.display = 'inline-block';     // <-- Y ESTA
     if (emailVerifiedIcon) {
       emailVerifiedIcon.style.display = 'inline-block';
       if (user.email_confirmed_at) {
-        emailVerifiedIcon.innerHTML = ICON_VERIFIED; // Verde
+        emailVerifiedIcon.innerHTML = ICON_VERIFIED;
         emailVerifiedIcon.title = "Correo verificado";
       } else {
-        emailVerifiedIcon.innerHTML = ICON_NOT_VERIFIED; // Rojo
+        emailVerifiedIcon.innerHTML = ICON_NOT_VERIFIED;
         emailVerifiedIcon.title = "Correo no verificado";
       }
     }
