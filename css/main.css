@@ -60,7 +60,7 @@ footer {
   text-decoration: none;
 }
 .main-logo-header {
-  max-width: 100px;      /* Más grande */
+  max-width: 70px;      /* Más grande */
   width: 40vw;           /* Más grande en responsive */
   margin-bottom: 1rem;
   border-radius: 50%;
@@ -129,3 +129,5 @@ footer .social-links a:hover svg {
     font-size: 1em;
   }
 }
+
+

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cuba FGC</title>
   <meta name="description" content="Comunidad Cuba FGC: torneos, rankings y eventos de juegos de pelea en Cuba.">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+  <link rel="icon" href="img/favicon.ico" type="image/ico">
   <meta property="og:title" content="Cuba FGC" />
   <meta property="og:description" content="Comunidad Cuba FGC: torneos, rankings y eventos de juegos de pelea en Cuba." />
   <meta property="og:image" content="img/og-banner.jpg" />
@@ -13,16 +13,10 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
   <link href="/css/index.css" rel="stylesheet" /> 
   <link href="/css/main.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
-  <header class="main-header-bar">
-    <div class="header-content">
-      <a href="/index.html" class="header-logo-link">
-        <img src="/img/logo-cubafgc.png" alt="Cuba FGC Logo" class="main-logo-header">
-      </a>
-      <a href="/view/mcf/Rankings/rankingGeneral.html" class="ranking-btn header-ranking-btn">Ranking</a>
-    </div>
-  </header>
+  <div id="header-include"></div>
   <main>  
     <div class="header-center">
       <h1>Eventos destacados Cuba FGC</h1>
@@ -32,16 +26,13 @@
       <div class="event-access-card" id="mixup-card">
         <div class="event-access-bg"></div>
         <div class="event-access-title">Mixup Clash Fest</div>
-        <span id="mixup-status" class="event-access-status cargando">Cargando...</span>
-        <button class="event-access-btn" onclick="window.location.href='mixup-clash-fest.html'">
-          Ver Evento
-        </button>
+        <span id="mixup-status" class="event-access-status cargando">Cargando...</span>        
       </div>
       <div class="event-access-card" id="mixup-card-vol2">
         <div class="event-access-bg"></div>
         <div class="event-access-title">Mixup Clash Fest Vol.2</div>
         <span id="mixup-status-vol2" class="event-access-status cargando">Cargando...</span>
-        <button class="event-access-btn" onclick="window.location.href='/view/mcf/mcf-v2.html'">	
+        <button class="event-access-btn solo-logueado" style="display:none;" onclick="window.location.href='/view/mcf/mcf-v2.html'">	
           Ver Evento
         </button>
       </div>
@@ -186,5 +177,24 @@
       actualizarStatusMixupVol2();
     });
   </script>
+  <script>
+  fetch('/view/partials/header.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('header-include').innerHTML = html;
+    })
+    .then(() => {
+      // Primero carga Supabase UMD
+      const supa = document.createElement('script');
+      supa.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js';
+      document.body.appendChild(supa);
+      supa.onload = () => {
+        // Luego carga tu JS
+        const script = document.createElement('script');
+        script.src = '/scripts/auth.js';
+        document.body.appendChild(script);
+      };
+    });
+</script>
 </body>
 </html>

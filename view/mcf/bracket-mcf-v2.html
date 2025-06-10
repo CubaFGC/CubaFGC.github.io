@@ -4,11 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brackets - Mixup Clash Fest Vol.2</title>
+  <link href="/css/header.css" rel="stylesheet" />
   <link href="/css/bracket-mcf-v2.css" rel="stylesheet" />
   <link href="/css/mcf-v2.css" rel="stylesheet" />
   <link href="/css/main.css" rel="stylesheet" />
+  <!-- Firebase SDKs y configuración -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCn2GYorRBlQigIqNv3WmjsIzFSadb265U",
+      authDomain: "cubafgc-5b74b.firebaseapp.com",
+      projectId: "cubafgc-5b74b",
+      storageBucket: "cubafgc-5b74b.appspot.com",
+      messagingSenderId: "778962087282",
+      appId: "1:778962087282:web:606aea05df7b93603b81eb"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
+  <div id="bg-wallpaper"></div>
+  <div id="header-include"></div>
   <main>
     <div class="header-center">
       <h1>Brackets - Mixup Clash Fest Vol.2</h1>
@@ -24,6 +41,19 @@
   <footer>
     <p>Powered by CubaFGC</p>
   </footer>
+  <!-- Header include script -->
+  <script>
+    fetch('/view/partials/header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-include').innerHTML = html;
+      })
+      .then(() => {
+        const script = document.createElement('script');
+        script.src = '/scripts/auth.js';
+        document.body.appendChild(script);
+      });
+  </script>
   <script>
     const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
     function cargarBrackets() {
