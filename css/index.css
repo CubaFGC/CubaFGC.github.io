@@ -12,7 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: url('/img/background_pc.png') no-repeat center center fixed;
+  background: url('/img/background_pc.jpg') no-repeat center center fixed;
   background-size: 100vw 110vh;
   background-position: center center;
   background-repeat: no-repeat;

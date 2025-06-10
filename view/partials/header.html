@@ -5,7 +5,6 @@
       <img src="/img/logo-cubafgc.png" alt="Cuba FGC Logo" class="main-logo-header">
     </a>
     <div class="header-btns-row">
-      <a href="/view/mcf/Rankings/rankingGeneral.html" class="ranking-btn solo-logueado" style="display:none;">Ranking</a>
       <button id="login-toggle-btn" class="login-toggle-btn" type="button">Iniciar sesión</button>
     </div>
     <div id="auth-header" class="auth-header">
@@ -47,6 +46,11 @@
         </div>
       </div>
     </div>
+  </div>
+  <!-- Mensaje de email no verificado -->
+  <div id="email-warning" class="email-warning" style="display:none;">
+    ⚠️ Debes verificar tu correo electrónico para acceder a todas las funciones.
+    <button id="resend-verification-btn" type="button">Reenviar correo de verificación</button>
   </div>
 </header>
 
@@ -266,7 +270,7 @@
   margin-top: 0.4rem;
   padding: 0.4rem 0.7rem;
   border-radius: 6px;
-  background: #fffbe6;
+  background: #1a1622;
   color: #ff4d4f;
   border: 1px solid #ffd600;
   text-align: center;
@@ -577,10 +581,57 @@ body {
   gap: 0.5em;
   transition: background 0.18s;
 }
+.login-social-btn img {
+  width: 24px;
+  height: 24px;
+}	
+.login-social-btn:hover {
+  background: #f5f5f5;
+}
+.login-social-btn:active {
+  background: #e0e0e0;
+}   
+.email-warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1em;
+}
 .login-social-btn:hover {
   background: #ffd600;
 }
+
+/* Agrega esto a tu CSS principal o en el <style> del header */
+.resend-verification-btn,
+#resend-login-verification-btn {
+  background: #ffd600;
+  color: #181218;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.7em;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: 0 2px 8px #0002;
+  font-size: 1em;
+  display: inline-block;
+}
+.resend-verification-btn:hover,
+#resend-login-verification-btn:hover {
+  background: #ffe066;
+  color: #181218;
+}
+.resend-verification-btn:disabled,
+#resend-login-verification-btn:disabled {
+  background: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+}
 </style>
-<button id="resend-verification-btn" style="display:none;margin-top:0.5rem;width:100%;">Reenviar verificación</button>
 
 
