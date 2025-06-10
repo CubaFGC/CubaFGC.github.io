@@ -26,7 +26,7 @@ footer {
 
 /* Contenido centrado y limitado igual que main */
 .header-content {
-  max-width: 1150px; /* Más ancho que main y footer */
+  max-width: 1793px; /* Más ancho que main y footer */
   margin: 0 auto;
   width: 100%;
   padding-left: 1.2rem;
@@ -60,11 +60,8 @@ footer {
   text-decoration: none;
 }
 .main-logo-header {
-  max-width: 70px;      /* Más grande */
+  max-width: 100px;      /* Más grande */
   width: 40vw;           /* Más grande en responsive */
-  margin-bottom: 1rem;
-  border-radius: 50%;
-  box-shadow: 0 2px 18px #0008;
   background: transparent; 
 }
 
@@ -117,11 +114,9 @@ footer .social-links a:hover svg {
     padding-right: 0.5rem;
   }
   .main-logo-header {
-      max-width: 70px;      /* Más grande */
+  max-width: 70px;      /* Más grande */
   width: 40vw;           /* Más grande en responsive */
   margin-bottom: 1rem;
-  border-radius: 50%;
-  box-shadow: 0 2px 18px #0008;
   background: transparent; 
   }
   .header-ranking-btn {
