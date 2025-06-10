@@ -6,11 +6,10 @@
   <title>Ranking Cuba FGC</title>
   <link href="/css/bracket-mcf-v2.css" rel="stylesheet" />
   <link href="/css/main.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/header.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
   <div id="bg-wallpaper"></div>
@@ -22,9 +21,16 @@
         document.getElementById('header-include').innerHTML = html;
       })
       .then(() => {
-        const script = document.createElement('script');
-        script.src = '/scripts/auth.js';
-        document.body.appendChild(script);
+        // Primero carga Supabase
+        const supa = document.createElement('script');
+        supa.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js';
+        document.body.appendChild(supa);
+        supa.onload = () => {
+          // Luego carga tu JS de auth
+          const script = document.createElement('script');
+          script.src = '/scripts/auth.js';
+          document.body.appendChild(script);
+        };
       });
   </script>
   <main>
