@@ -15,7 +15,6 @@ const registerError = document.getElementById('register-error');
 const toggleAuthForm = document.getElementById('toggle-auth-form');
 const resendVerificationBtn = document.getElementById('resend-verification-btn');
 const userMenuContainer = document.getElementById('user-menu-container');
-if (userMenuContainer) userMenuContainer.style.display = 'block';
 const userMenuBtn = document.getElementById('user-menu-btn');
 const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
@@ -88,48 +87,21 @@ if (loginForm) {
       loginBtn.innerHTML = '<span class="btn-spinner"></span>Entrando...';
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        // Detectar error de correo no confirmado
-        if (error.message && error.message.toLowerCase().includes('email not confirmed')) {
-          loginError.innerHTML = `
-            Debes verificar tu correo antes de iniciar sesión.
-            <button id="resend-login-verification-btn" type="button" style="margin-top:0.7em;">Reenviar correo de verificación</button>
-          `;
-          loginError.style.display = 'block';
-          // Botón para reenviar correo
-          setTimeout(() => {
-            const resendBtn = document.getElementById('resend-login-verification-btn');
-            if (resendBtn) {
-              resendBtn.onclick = async function() {
-                const { error } = await supabase.auth.resend({
-                  type: 'signup',
-                  email: email
-                });
-                if (!error) {
-                  resendBtn.textContent = 'Correo reenviado ✔️';
-                  resendBtn.disabled = true;
-                } else {
-                  resendBtn.textContent = 'Error al reenviar';
-                }
-              };
-            }
-          }, 100);
-        } else {
-          loginError.textContent = "Correo o contraseña incorrectos.";
-          loginError.style.display = 'block';
-        }
+        loginError.textContent = "Correo o contraseña incorrectos.";
+        loginError.style.display = 'block';
         setTimeout(() => {
-          loginBtn.disabled = false;
-          loginBtn.innerHTML = originalText;
-        }, 2000);
+          loginError.style.display = 'none';
+          loginError.textContent = '';
+        }, 2500);
       } else {
         loginError.style.display = 'none';
         loginError.textContent = '';
         loginDropdown.style.display = 'none';
         limpiarCamposAuth();
-        await mostrarUsuarioSupabase(); // <-- Esto es importante
-        loginBtn.disabled = false;
-        loginBtn.innerHTML = originalText;
+        mostrarUsuarioSupabase();
       }
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = originalText;
     }
   };
 }
@@ -217,14 +189,14 @@ if (registerForm) {
       } else {
         registerError.style.display = 'block';
         registerError.style.color = '#28a745';
-        registerError.textContent = '¡Cuenta creada con éxito! Revisa tu correo para verificar tu cuenta antes de iniciar sesión.';
+        registerError.textContent = '¡Cuenta creada con éxito! Revisa tu correo para verificar tu cuenta.';
         setTimeout(() => {
           registerError.style.display = 'none';
           registerError.textContent = '';
           registerError.style.color = '';
           loginDropdown.style.display = 'none';
           limpiarCamposAuth();
-        }, 4000);
+        }, 3000);
       }
       registerBtn.disabled = false;
       registerBtn.innerHTML = originalText;
@@ -274,12 +246,13 @@ if (logoutHeaderBtn) {
 // Mostrar usuario logueado con Supabase
 async function mostrarUsuarioSupabase() {
   const { data: { user } } = await supabase.auth.getUser();
-  const userHeaderInfo = document.getElementById('user-header-info');
-  if (user && userHeaderInfo) {
-    userHeaderInfo.textContent = user.email;
-    userHeaderInfo.style.display = 'inline';
-    if (userMenuContainer) userMenuContainer.style.display = 'block'; // <-- AGREGA ESTA LÍNEA
-    if (userMenuBtn) userMenuBtn.style.display = 'inline-block';     // <-- Y ESTA
+  if (user) {
+    if (userMenuContainer) userMenuContainer.style.display = 'inline-block';
+    if (userMenuBtn) userMenuBtn.style.display = 'inline-flex';
+    if (userHeaderInfo) {
+      userHeaderInfo.textContent = user.email;
+      userHeaderInfo.style.display = 'inline';
+    }
     if (emailVerifiedIcon) {
       emailVerifiedIcon.style.display = 'inline-block';
       if (user.email_confirmed_at) {
@@ -289,12 +262,6 @@ async function mostrarUsuarioSupabase() {
         emailVerifiedIcon.innerHTML = ICON_NOT_VERIFIED;
         emailVerifiedIcon.title = "Correo no verificado";
       }
-    }
-    // Mostrar advertencia si NO está verificado
-    if (!user.email_confirmed_at) {
-      document.getElementById('email-warning').style.display = 'block';
-    } else {
-      document.getElementById('email-warning').style.display = 'none';
     }
     if (logoutHeaderBtn) logoutHeaderBtn.style.display = 'block';
     if (loginToggleBtn) loginToggleBtn.style.display = 'none';
@@ -353,18 +320,3 @@ if (userMenuBtn && userDropdownMenu) {
 }
 
 mostrarUsuarioSupabase();
-
-const resendBtn = document.getElementById('resend-verification-btn');
-if (resendBtn) {
-  resendBtn.onclick = async function() {
-    const { error } = await supabase.auth.resend({
-      type: 'signup',
-      email: user.email
-    });
-    if (!error) {
-      alert('Correo de verificación reenviado.');
-    } else {
-      alert('Error al reenviar el correo.');
-    }
-  };
-}
