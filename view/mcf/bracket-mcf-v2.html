@@ -46,9 +46,14 @@
       </button>
     </section>
   </main>
-  <footer>
-    <p>Powered by CubaFGC</p>
-  </footer>
+  <footer id="footer-include"></footer>
+  <script>
+    fetch('/view/partials/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-include').innerHTML = html;
+      });
+  </script>
   <script>
     const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
     function cargarBrackets() {

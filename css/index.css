@@ -9,17 +9,6 @@ body, html {
   text-align: center;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: url('/img/background_pc.jpg') no-repeat center center fixed;
-  background-size: 100vw 110vh;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
 main {
   flex: 1 0 auto;
   max-width: 1000px;
@@ -377,30 +366,6 @@ footer {
   background: #1a1622;
   border-top: 1px solid #ffd60022;
 }
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin-bottom: 1.2rem;
-}
-.social-links a {
-  margin: 0 0.5em;
-  display: inline-block;
-  transition: transform 0.15s;
-}
-.social-links a:hover {
-  transform: scale(1.15);
-}
-
-.social-links img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  transition: filter 0.15s;
-}
-.social-links img:hover {
-  filter: brightness(1.2);
-}  
  
 /* Botón de Discord */
 .discord-btn {
