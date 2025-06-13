@@ -9,14 +9,28 @@ body, html {
   text-align: center;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 main {
   flex: 1 0 auto;
-  max-width: 1000px;
-  margin: 2.5rem auto 2rem auto;
-  padding: 1.5rem 1.2rem 2.5rem 1.2rem;
-  background: rgba(24, 18, 24, 0.98);
-  position: relative;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* Centra verticalmente */
+  align-items: center;       /* Centra horizontalmente */
+  min-height: 70vh;          /* Ajusta según tu diseño */
+  width: 100%;
 }
 
 .slogan {
