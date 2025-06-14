@@ -11,6 +11,7 @@
 <body>
   <div id="header-include"></div>
   <main>
+    <div id="tekken8-historial-content">
       <div class="modern-accordion-menu">
         <button class="modern-accordion-btn" onclick="toggleAccordion('top')">Top 3</button>
         <div class="modern-accordion-panel" id="panel-top-accordion" style="display:block;">
@@ -37,19 +38,16 @@
         </div>
         <button class="modern-accordion-btn" onclick="toggleAccordion('matches')">Matches</button>
         <div class="modern-accordion-panel" id="panel-matches-accordion" style="display:none;">
-          <div style="margin-bottom:1em;">
-            <input type="text" id="search-matches" class="modern-search" placeholder="Buscar jugador..." oninput="filterMatchesTable()" />
-          </div>
           <div id="matches-tekken8-placeholder"></div>
         </div>
       </div>
       <div style="text-align:center;margin-top:2rem;">
         <a href="/view/mcf/historial-mcf.html" class="event-access-btn">Volver al historial</a>
       </div>
+    </div>
   </main>
   <footer id="footer-include"></footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-  <script src="/scripts/historial-mcf.js"></script>
   <script>
     fetch('/view/partials/header.html').then(res => res.text()).then(html => {
       document.getElementById('header-include').innerHTML = html;
@@ -57,6 +55,21 @@
       const authScript = document.createElement('script');
       authScript.src = '/scripts/auth.js';
       document.body.appendChild(authScript);
+      // Cargar historial-mcf.js y usar la función moderna para cada sección
+      const mcfScript = document.createElement('script');
+      mcfScript.src = '/scripts/historial-mcf.js';
+      mcfScript.onload = () => {
+        if (document.getElementById('top-tekken8-placeholder')) {
+          mostrarSeccionHistorialJuego('Tekken', 'top', 'top-tekken8-placeholder');
+        }
+        if (document.getElementById('tabla-stats-tekken8')) {
+          mostrarSeccionHistorialJuego('Tekken', 'stats', 'tabla-stats-tekken8');
+        }
+        if (document.getElementById('matches-tekken8-placeholder')) {
+          mostrarSeccionHistorialJuego('Tekken', 'matches', 'matches-tekken8-placeholder');
+        }
+      };
+      document.body.appendChild(mcfScript);
     });
     fetch('/view/partials/footer.html').then(res => res.text()).then(html => {
       document.getElementById('footer-include').innerHTML = html;
@@ -128,111 +141,6 @@
         }
       }
     }
-    // Carga dinámica de datos para Tekken 8 en acordeón moderno
-window.addEventListener('DOMContentLoaded', async function() {
-  // Loader para cada panel
-  document.getElementById('top-tekken8-placeholder').innerHTML = `<div class='loader-modern'><span class='loader-dot'></span><span class='loader-dot'></span><span class='loader-dot'></span></div>`;
-  document.getElementById('tabla-stats-tekken8').getElementsByTagName('tbody')[0].innerHTML = `<tr><td colspan='4'><div class='loader-modern'><span class='loader-dot'></span><span class='loader-dot'></span><span class='loader-dot'></span></div></td></tr>`;
-  document.getElementById('matches-tekken8-placeholder').innerHTML = `<div class='loader-modern'><span class='loader-dot'></span><span class='loader-dot'></span><span class='loader-dot'></span></div>`;
-
-  // 1. Obtener slug real de Tekken 8
-  let tekkenSlug = null;
-  try {
-    const queryEventos = `query { tournament(slug: \"mixup-clash-fest\") { events { name slug } } }`;
-    const resEv = await fetch('https://api.start.gg/gql/alpha', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer a7fafdd3139b23f9eef417bbe26fd91b'
-      },
-      body: JSON.stringify({ query: queryEventos })
-    });
-    const dataEv = await resEv.json();
-    const eventos = dataEv.data?.tournament?.events || [];
-    const tekkenEvent = eventos.find(ev => ev.name.toLowerCase().includes('tekken'));
-    if (!tekkenEvent) throw new Error('No se encontró el evento Tekken 8');
-    tekkenSlug = tekkenEvent.slug;
-  } catch (e) {
-    document.getElementById('top-tekken8-placeholder').innerHTML = '<span style="color:red;">No se encontró el evento Tekken 8.</span>';
-    document.getElementById('tabla-stats-tekken8').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="4" style="color:red;">No se encontró el evento Tekken 8.</td></tr>';
-    document.getElementById('matches-tekken8-placeholder').innerHTML = '<span style="color:red;">No se encontró el evento Tekken 8.</span>';
-    return;
-  }
-  // 2. Consultar standings y sets
-  const query = `query { event(slug: \"${tekkenSlug}\") { standings(query: { perPage: 16 }) { nodes { placement entrant { name } } } sets(page: 1, perPage: 64, sortType: RECENT) { nodes { id fullRoundText slots { entrant { name } standing { stats { score { value } } } } } } } }`;
-  try {
-    const res = await fetch('https://api.start.gg/gql/alpha', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer a7fafdd3139b23f9eef417bbe26fd91b'
-      },
-      body: JSON.stringify({ query })
-    });
-    const data = await res.json();
-    const event = data.data?.event;
-    const standings = event?.standings?.nodes || [];
-    const sets = event?.sets?.nodes || [];
-    // Top 3 visual
-    let podio = `<div class='fade-in' style='display:flex;justify-content:center;gap:2.5rem;margin:1.2rem 0 1.7rem 0;'>`;
-    const medallas = ['🥇','🥈','🥉'];
-    standings.slice(0,3).forEach((s,idx) => {
-      podio += `<div style='text-align:center;'>
-        <span style='font-size:2.2rem;vertical-align:middle;'>${medallas[idx]||''}</span><br>
-        <span style='font-weight:bold;color:#ffd600;font-size:1.1rem;'>${s.entrant?.name||'-'}</span><br>
-        <span style='color:#ffd60099;font-size:0.98rem;'>#${s.placement}</span>
-      </div>`;
-    });
-    podio += `</div>`;
-    document.getElementById('top-tekken8-placeholder').innerHTML = podio;
-    // Estadísticas
-    const stats = {};
-    sets.forEach(set => {
-      const s = set.slots;
-      if (!s[0]?.entrant?.name || !s[1]?.entrant?.name) return;
-      const p1 = s[0].entrant.name;
-      const p2 = s[1].entrant.name;
-      const score1 = s[0]?.standing?.stats?.score?.value;
-      const score2 = s[1]?.standing?.stats?.score?.value;
-      if (typeof score1 !== 'number' || typeof score2 !== 'number') return;
-      if (!stats[p1]) stats[p1] = { victorias: 0, derrotas: 0, sets: 0 };
-      if (!stats[p2]) stats[p2] = { victorias: 0, derrotas: 0, sets: 0 };
-      stats[p1].sets++;
-      stats[p2].sets++;
-      if (score1 > score2) {
-        stats[p1].victorias++;
-        stats[p2].derrotas++;
-      } else if (score2 > score1) {
-        stats[p2].victorias++;
-        stats[p1].derrotas++;
-      }
-    });
-    let statsHtml = '';
-    Object.entries(stats).forEach(([jugador, st]) => {
-      const winrate = st.sets > 0 ? ((st.victorias / st.sets) * 100).toFixed(1) : '0.0';
-      statsHtml += `<tr><td>${jugador}</td><td>${st.victorias}</td><td>${st.derrotas}</td><td>${winrate}</td></tr>`;
-    });
-    document.getElementById('tabla-stats-tekken8').getElementsByTagName('tbody')[0].innerHTML = statsHtml || '<tr><td colspan="4">Sin datos</td></tr>';
-    // Matches
-    let matchesHtml = `<div class='matches-table-scroll'><table class='tabla-vs tabla-vs-matches' id='tabla-matches-tekken8' style='margin:0 auto;max-width:500px;width:100%;text-align:center;'>`;
-    matchesHtml += `<thead><tr><th style='text-align:center;'>Jugador 1</th><th style='text-align:center;'></th><th style='text-align:center;'>Jugador 2</th><th style='text-align:center;'>Ronda</th></tr></thead><tbody>`;
-    sets.forEach((set, idx) => {
-      const s = set.slots;
-      matchesHtml += `<tr${idx % 2 === 0 ? ' class="par"' : ''} style='text-align:center;'>
-        <td style='text-align:center;vertical-align:middle;'>${s[0]?.entrant?.name || '-'}</td>
-        <td style='text-align:center;vertical-align:middle;'><span class='vs-icon'>VS</span></td>
-        <td style='text-align:center;vertical-align:middle;'>${s[1]?.entrant?.name || '-'}</td>
-        <td style='text-align:center;vertical-align:middle;'>${set.fullRoundText || '-'}</td>
-      </tr>`;
-    });
-    matchesHtml += `</tbody></table></div>`;
-    document.getElementById('matches-tekken8-placeholder').innerHTML = matchesHtml;
-  } catch (e) {
-    document.getElementById('top-tekken8-placeholder').innerHTML = '<span style="color:red;">Error al cargar datos.</span>';
-    document.getElementById('tabla-stats-tekken8').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="4" style="color:red;">Error al cargar datos.</td></tr>';
-    document.getElementById('matches-tekken8-placeholder').innerHTML = '<span style="color:red;">Error al cargar datos.</span>';
-  }
-});
   </script>
 </body>
 </html>

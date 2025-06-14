@@ -12,41 +12,40 @@
 <body>
   <div id="header-include"></div>
   <main>
-    <h1 style="text-align:center;margin-bottom:2rem;">Historial Street Fighter 6</h1>
-    <div class="modern-accordion-menu">
-      <button class="modern-accordion-btn" onclick="toggleAccordion('top')">Top 3</button>
-      <div class="modern-accordion-panel" id="panel-top-accordion" style="display:block;">
-        <div id="top-sf6-placeholder"></div>
-      </div>
-      <button class="modern-accordion-btn" onclick="toggleAccordion('stats')">Estadísticas</button>
-      <div class="modern-accordion-panel" id="panel-stats-accordion" style="display:none;">
-        <div style="margin-bottom:1em;">
-          <input type="text" id="search-stats" class="modern-search" placeholder="Buscar jugador..." oninput="filterStatsTable()" />
+    <div id="sf6-historial-content">
+      <h1 style="text-align:center;margin-bottom:2rem;">Historial Street Fighter 6</h1>
+      <div class="modern-accordion-menu">
+        <button class="modern-accordion-btn" onclick="toggleAccordion('top')">Top 3</button>
+        <div class="modern-accordion-panel" id="panel-top-accordion" style="display:block;">
+          <div id="top-sf6-placeholder"></div>
         </div>
-        <table class="tabla-vs" id="tabla-stats-sf6" style="margin:0 auto;max-width:500px;">
-          <thead>
-            <tr>
-              <th>Jugador</th>
-              <th>Victorias</th>
-              <th>Derrotas</th>
-              <th>Winrate (%)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>---</td><td>---</td><td>---</td><td>---</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <button class="modern-accordion-btn" onclick="toggleAccordion('matches')">Matches</button>
-      <div class="modern-accordion-panel" id="panel-matches-accordion" style="display:none;">
-        <div style="margin-bottom:1em;">
-          <input type="text" id="search-matches" class="modern-search" placeholder="Buscar jugador..." oninput="filterMatchesTable()" />
+        <button class="modern-accordion-btn" onclick="toggleAccordion('stats')">Estadísticas</button>
+        <div class="modern-accordion-panel" id="panel-stats-accordion" style="display:none;">
+          <div style="margin-bottom:1em;">
+            <input type="text" id="search-stats" class="modern-search" placeholder="Buscar jugador..." oninput="filterStatsTable()" />
+          </div>
+          <table class="tabla-vs" id="tabla-stats-sf6" style="margin:0 auto;max-width:500px;">
+            <thead>
+              <tr>
+                <th>Jugador</th>
+                <th>Victorias</th>
+                <th>Derrotas</th>
+                <th>Winrate (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div id="matches-sf6-placeholder"></div>
+        <button class="modern-accordion-btn" onclick="toggleAccordion('matches')">Matches</button>
+        <div class="modern-accordion-panel" id="panel-matches-accordion" style="display:none;">
+          <div id="matches-sf6-placeholder"></div>
+        </div>
       </div>
-    </div>
-    <div style="text-align:center;margin-top:2rem;">
-      <a href="/view/mcf/historial-mcf.html" class="event-access-btn">Volver al historial</a>
+      <div style="text-align:center;margin-top:2rem;">
+        <a href="/view/mcf/historial-mcf.html" class="event-access-btn">Volver al historial</a>
+      </div>
     </div>
   </main>
   <footer id="footer-include"></footer>

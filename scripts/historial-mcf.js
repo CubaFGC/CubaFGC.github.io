@@ -572,7 +572,7 @@ async function mostrarSeccionHistorialJuego(nombreJuego, seccion, contentId) {
     const standings = event?.standings?.nodes || [];
     const sets = event?.sets?.nodes || [];
     if (seccion === 'top') {
-      // Top 3 visual
+      // Podio y tabla de standings completa
       let podio = `<div class='fade-in' style='display:flex;justify-content:center;gap:2.5rem;margin:1.2rem 0 1.7rem 0;'>`;
       const medallas = ['🥇','🥈','🥉'];
       standings.slice(0,3).forEach((s,idx) => {
@@ -583,9 +583,15 @@ async function mostrarSeccionHistorialJuego(nombreJuego, seccion, contentId) {
         </div>`;
       });
       podio += `</div>`;
-      if (cont) cont.innerHTML = podio;
+      let tabla = `<table class='tabla-vs sortable-table' id='standings-table-${contentId}' style='margin:0 auto 2rem;max-width:500px;'>`;
+      tabla += `<thead><tr><th data-sort="number">Posición</th><th data-sort="string">Jugador</th></tr></thead><tbody>`;
+      standings.forEach(s => {
+        tabla += `<tr><td data-label='Posición'>#${s.placement}</td><td data-label='Jugador'>${s.entrant?.name || '-'}</td></tr>`;
+      });
+      tabla += `</tbody></table>`;
+      cont.innerHTML = podio + tabla;
     } else if (seccion === 'stats') {
-      // Estadísticas
+      // Tabla de estadísticas completa y ordenable
       const stats = {};
       sets.forEach(set => {
         const s = set.slots;
@@ -607,26 +613,57 @@ async function mostrarSeccionHistorialJuego(nombreJuego, seccion, contentId) {
           stats[p1].derrotas++;
         }
       });
-      let statsHtml = '';
+      let tabla = `<table class='tabla-vs sortable-table' id='stats-table-${contentId}' style='margin:0 auto 2rem;max-width:500px;'>`;
+      tabla += `<thead><tr><th data-sort="string">Jugador</th><th data-sort="number">Victorias</th><th data-sort="number">Derrotas</th><th data-sort="number">Winrate (%)</th></tr></thead><tbody>`;
       Object.entries(stats).forEach(([jugador, st]) => {
         const winrate = st.sets > 0 ? ((st.victorias / st.sets) * 100).toFixed(1) : '0.0';
-        statsHtml += `<tr><td>${jugador}</td><td>${st.victorias}</td><td>${st.derrotas}</td><td>${winrate}</td></tr>`;
+        tabla += `<tr><td data-label='Jugador'>${jugador}</td><td data-label='Victorias'>${st.victorias}</td><td data-label='Derrotas'>${st.derrotas}</td><td data-label='Winrate (%)'>${winrate}</td></tr>`;
       });
-      cont.innerHTML = `<table class='tabla-vs' style='margin:0 auto;max-width:500px;'><thead><tr><th>Jugador</th><th>Victorias</th><th>Derrotas</th><th>Winrate (%)</th></tr></thead><tbody>${statsHtml || '<tr><td colspan="4">Sin datos</td></tr>'}</tbody></table>`;
+      tabla += `</tbody></table>`;
+      cont.innerHTML = tabla;
     } else if (seccion === 'matches') {
-      // Matches
-      let matchesHtml = `<table class='tabla-vs' id='tabla-matches-${contentId}' style='margin:0 auto;max-width:500px;'>`;
-      matchesHtml += `<thead><tr><th>Jugador 1</th><th>Jugador 2</th><th>Ronda</th></tr></thead><tbody>`;
+      // Buscador, filtro de ronda y tabla de matches premium (sin icono VS)
+      const rondasUnicas = Array.from(new Set(sets.map(set => set.fullRoundText || '-'))).sort();
+      let filtros = `<div style='text-align:center;margin-bottom:1rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;'>`;
+      filtros += `<input type='text' id='search-matches-${contentId}' class='search-matches-input' placeholder='Buscar jugador...' style='padding:0.4rem 1rem;border-radius:6px;border:1px solid #ffd600;max-width:220px;width:90%;font-size:1rem;'>`;
+      filtros += `<select id='filter-round-${contentId}' style='padding:0.4rem 1rem;border-radius:6px;border:1px solid #ffd600;font-size:1rem;max-width:180px;'>`;
+      filtros += `<option value=''>Todas las rondas</option>`;
+      filtros += rondasUnicas.map(r => `<option value='${r}'>${r}</option>`).join('');
+      filtros += `</select></div>`;
+      let tabla = `<div class='matches-table-scroll'><table class='tabla-vs tabla-vs-matches' id='tabla-matches-${contentId}' style='margin:0 auto;max-width:500px;width:100%;text-align:center;'>`;
+      tabla += `<thead><tr><th style='text-align:center;'>Jugador 1</th><th style='text-align:center;'>Jugador 2</th><th style='text-align:center;'>Ronda</th></tr></thead><tbody id='tbody-matches-${contentId}'>`;
       sets.forEach((set, idx) => {
         const s = set.slots;
-        matchesHtml += `<tr${idx % 2 === 0 ? ' class="par"' : ''}>
-          <td>${s[0]?.entrant?.name || '-'}</td>
-          <td>${s[1]?.entrant?.name || '-'}</td>
-          <td>${set.fullRoundText || '-'}</td>
+        tabla += `<tr${idx % 2 === 0 ? ' class="par"' : ''} style='text-align:center;'>
+          <td style='text-align:center;vertical-align:middle;'>${s[0]?.entrant?.name || '-'}</td>
+          <td style='text-align:center;vertical-align:middle;'>${s[1]?.entrant?.name || '-'}</td>
+          <td style='text-align:center;vertical-align:middle;'>${set.fullRoundText || '-'}</td>
         </tr>`;
       });
-      matchesHtml += `</tbody></table>`;
-      cont.innerHTML = matchesHtml;
+      tabla += `</tbody></table></div>`;
+      // Script de filtrado
+      tabla += `<script>(function(){
+        const input = document.getElementById('search-matches-${contentId}');
+        const select = document.getElementById('filter-round-${contentId}');
+        const tbody = document.getElementById('tbody-matches-${contentId}');
+        function filtrar() {
+          const val = input.value.toLowerCase();
+          const ronda = select.value;
+          Array.from(tbody.rows).forEach(row => {
+            const jugador1 = row.cells[0].textContent.toLowerCase();
+            const jugador2 = row.cells[1].textContent.toLowerCase();
+            const rondaCell = row.cells[2].textContent;
+            const matchJugador = (jugador1.includes(val) || jugador2.includes(val));
+            const matchRonda = (!ronda || rondaCell === ronda);
+            row.style.display = (matchJugador && matchRonda) ? '' : 'none';
+          });
+        }
+        if (input && select && tbody) {
+          input.addEventListener('input', filtrar);
+          select.addEventListener('change', filtrar);
+        }
+      })();<\/script>`;
+      cont.innerHTML = filtros + tabla;
     }
   } catch (e) {
     if (cont) cont.innerHTML = `<span style='color:red;'>Error al cargar datos de ${nombreJuego}.</span>`;

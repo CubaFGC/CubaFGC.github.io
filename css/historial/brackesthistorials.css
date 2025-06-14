@@ -235,10 +235,14 @@
 
 /* Ajuste visual para la tabla de matches */
 .tabla-vs-matches th, .tabla-vs-matches td {
-  text-align: center;
-  vertical-align: middle;
+  text-align: center !important;
+  vertical-align: middle !important;
+  justify-content: center !important;
+  align-items: center !important;
   font-size: 1.08em;
   padding: 0.7em 0.4em;
+  word-break: break-word;
+  white-space: normal;
 }
 
 @media (max-width: 700px) {
@@ -249,21 +253,39 @@
     margin: 0 0.3em;
   }
   .tabla-vs-matches th, .tabla-vs-matches td {
-    font-size: 0.98em;
-    padding: 0.6em 0.2em;
-    text-align: center;
-    vertical-align: middle;
-  }
-  .tabla-vs-matches td {
-    justify-content: center;
-    align-items: center;
-  }
-  .tabla-vs-matches td .vs-icon {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
     margin-left: auto;
     margin-right: auto;
+    padding: 0.7em 0.2em 0.5em 0.2em !important;
+    min-height: 44px;
+    font-size: 1em;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #ffd60022, 0 1px 4px #0001;
+    background: linear-gradient(90deg, #241c2a 85%, #ffd6000a 100%);
+    border: 1px solid #ffd60022;
+    margin-bottom: 0.4em;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .tabla-vs-matches th {
+    font-size: 1.05em;
+    padding: 0.6em 0.2em 0.4em 0.2em !important;
+    border-radius: 10px;
+    margin-bottom: 0.4em;
+  }
+  .tabla-vs-matches tr {
+    margin-bottom: 0.7em;
+    border-radius: 14px;
+    width: 100%;
+    box-shadow: 0 1px 4px #ffd60011;
+  }
+  .tabla-vs-matches td[data-label]:before {
+    font-size: 0.98em;
+    margin-bottom: 0.15em;
   }
 }
 
@@ -411,11 +433,6 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
-  .tabla-vs-matches th:nth-child(2), .tabla-vs-matches td:nth-child(2) {
-    width: 38px;
-    min-width: 32px;
-    max-width: 48px;
-  }
 }
 
 /* Mejora visual de tablas en móvil: bordes, sombreado, separación y legibilidad */
@@ -465,5 +482,193 @@ body {
     height: 1.7em;
     margin: 0 0.2em;
     border: 2px solid #ffd60099;
+  }
+}
+
+/* Ajuste responsivo para tabla de matches en móvil: centrado de contenido y labels */
+@media (max-width: 700px) {
+  .tabla-vs-matches th, .tabla-vs-matches td {
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 0 auto 0.7em auto;
+    padding: 1em 0.3em 0.6em 0.3em !important;
+    min-height: 56px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.22s, color 0.18s, box-shadow 0.18s, transform 0.15s;
+  }
+  .tabla-vs-matches tr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.3em;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px #ffd60033;
+    background: none;
+    width: 100%;
+  }
+  .tabla-vs-matches td[data-label]:before {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto 0.2em auto;
+    color: #ffd600;
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 2px #0005;
+  }
+  .tabla-vs-matches tr.par td {
+    background: linear-gradient(90deg, #ffd60022 0%, #2a2233 100%);
+  }
+  .tabla-vs-matches td {
+    border-bottom: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  /* Mejora visual premium, sin romper la estructura ni la lógica */
+  .tabla-vs-matches {
+    width: 100%;
+    max-width: 99vw;
+    margin: 0 auto 1em auto;
+    border-radius: 12px;
+    background: #181218;
+    box-shadow: 0 2px 8px #0003;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+  .tabla-vs-matches th, .tabla-vs-matches td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 0.65em 0.2em !important;
+    font-size: 1em;
+    color: #ffd600;
+    background: #241c2a;
+    border-bottom: 1px solid #ffd60022;
+    border-radius: 6px;
+    word-break: break-word;
+    box-sizing: border-box;
+  }
+  .tabla-vs-matches th {
+    background: linear-gradient(90deg, #ffd600 80%, #fffbe6 100%);
+    color: #181218;
+    font-weight: bold;
+    font-size: 1.08em;
+    border-bottom: 2px solid #ffd60077;
+    text-shadow: 0 1px 0 #fffbe6cc;
+  }
+  .tabla-vs-matches tr {
+    background: none;
+    border-radius: 8px;
+    margin-bottom: 0.1em;
+    box-shadow: none;
+  }
+  .tabla-vs-matches tr.par td {
+    background: #181218;
+  }
+  .tabla-vs-matches td[data-label]:before {
+    display: none;
+  }
+  .matches-table-scroll {
+    max-height: 340px;
+    overflow-y: auto;
+    width: 100%;
+    margin: 0 auto 1em auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0002;
+    background: transparent;
+  }
+}
+
+@media (max-width: 700px) {
+  /* Estilos específicos para la tabla de matches en móvil */
+  .tabla-vs-matches tbody tr {
+    background: #241c2a;
+    border-radius: 14px;
+    margin-bottom: 1em;
+    box-shadow: 0 2px 8px #ffd60022;
+    border: 1.5px solid #ffd60033;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.18s, background 0.18s;
+  }
+  .tabla-vs-matches tbody tr.par {
+    background: linear-gradient(90deg, #181218 60%, #241c2a 100%);
+  }
+  .tabla-vs-matches td {
+    background: transparent;
+    border: none;
+    color: #ffd600;
+    font-size: 1.08em;
+    font-weight: 500;
+    padding: 0.7em 0.2em !important;
+    text-align: center;
+    letter-spacing: 0.01em;
+    box-shadow: none;
+  }
+  .tabla-vs-matches td[data-label='Jugador 1'],
+  .tabla-vs-matches td[data-label='Jugador 2'] {
+    font-size: 1.13em;
+    font-weight: bold;
+    color: #fffbe6;
+    text-shadow: 0 1px 4px #000a;
+    padding-top: 1em !important;
+    padding-bottom: 0.2em !important;
+  }
+  .tabla-vs-matches td[data-label='Ronda'] {
+    font-size: 0.98em;
+    color: #ffd600cc;
+    padding-bottom: 1em !important;
+    padding-top: 0.2em !important;
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+  .tabla-vs-matches tbody tr::before {
+    content: '⚔️';
+    display: block;
+    font-size: 1.5em;
+    color: #ffd600cc;
+    margin: 0.5em auto 0.2em auto;
+    text-align: center;
+    filter: drop-shadow(0 2px 4px #0008);
+  }
+}
+
+@media (max-width: 700px) {
+  /* Reducción de espacio y compactación de información en móvil */
+  .tabla-vs-matches tbody tr {
+    margin-bottom: 0.4em;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px #ffd60022;
+    border: 1px solid #ffd60022;
+    padding: 0.2em 0.1em;
+  }
+  .tabla-vs-matches td {
+    font-size: 0.98em;
+    font-weight: 500;
+    padding: 0.35em 0.1em !important;
+    line-height: 1.2;
+  }
+  .tabla-vs-matches td[data-label='Jugador 1'],
+  .tabla-vs-matches td[data-label='Jugador 2'] {
+    font-size: 1em;
+    font-weight: bold;
+    padding-top: 0.5em !important;
+    padding-bottom: 0.1em !important;
+  }
+  .tabla-vs-matches td[data-label='Ronda'] {
+    font-size: 0.93em;
+    padding-bottom: 0.5em !important;
+    padding-top: 0.1em !important;
+  }
+  .tabla-vs-matches tbody tr::before {
+    font-size: 1.1em;
+    margin: 0.2em auto 0.1em auto;
   }
 }
