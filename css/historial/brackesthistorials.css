@@ -214,6 +214,59 @@
   }
 }
 
+/* --- VS Icon Moderno para Matches --- */
+.vs-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffd600 60%, #fffbe6 100%);
+  color: #181218;
+  font-weight: bold;
+  font-size: 1.18em;
+  border-radius: 50%;
+  width: 2.1em;
+  height: 2.1em;
+  box-shadow: 0 2px 8px #0002;
+  margin: 0 0.5em;
+  border: 2px solid #ffd60099;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Ajuste visual para la tabla de matches */
+.tabla-vs-matches th, .tabla-vs-matches td {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1.08em;
+  padding: 0.7em 0.4em;
+}
+
+@media (max-width: 700px) {
+  .vs-icon {
+    font-size: 1em;
+    width: 1.6em;
+    height: 1.6em;
+    margin: 0 0.3em;
+  }
+  .tabla-vs-matches th, .tabla-vs-matches td {
+    font-size: 0.98em;
+    padding: 0.6em 0.2em;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tabla-vs-matches td {
+    justify-content: center;
+    align-items: center;
+  }
+  .tabla-vs-matches td .vs-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* Loader animado */
 .loader-modern {
   display: flex;
@@ -264,6 +317,8 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Evita el desplazamiento horizontal y el overscroll en toda la web */
@@ -278,4 +333,137 @@ html, body {
 body {
   width: 100vw;
   box-sizing: border-box;
+}
+
+/* --- Scroll vertical para tabla de matches desplegada --- */
+.matches-table-scroll {
+  max-height: 380px;
+  overflow-y: auto;
+  width: 100%;
+  margin: 0 auto 1em auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0002;
+  background: transparent;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 700px) {
+  .matches-table-scroll {
+    max-height: 260px;
+    border-radius: 8px;
+  }
+}
+
+/* Ajuste responsivo y visual para tabla de matches con VS en móvil */
+.matches-table-scroll {
+  max-width: 100vw;
+  min-width: 0;
+  background: transparent;
+  padding-bottom: 0.5em;
+}
+.tabla-vs-matches {
+  width: 100%;
+  min-width: 340px;
+  max-width: 700px;
+  margin: 0 auto;
+  table-layout: fixed;
+  font-size: 1.08em;
+}
+.tabla-vs-matches th, .tabla-vs-matches td {
+  word-break: break-word;
+  white-space: normal;
+  padding: 0.7em 0.3em;
+}
+.tabla-vs-matches th:nth-child(2), .tabla-vs-matches td:nth-child(2) {
+  width: 48px;
+  min-width: 38px;
+  max-width: 60px;
+}
+@media (max-width: 700px) {
+  .matches-table-scroll {
+    max-width: 99vw;
+    min-width: 0;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+  }
+  .tabla-vs-matches {
+    min-width: 320px;
+    max-width: 99vw;
+    font-size: 0.97em;
+    border-radius: 8px;
+  }
+  .tabla-vs-matches th, .tabla-vs-matches td {
+    padding: 0.6em 0.2em;
+    font-size: 0.97em;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tabla-vs-matches td {
+    justify-content: center;
+    align-items: center;
+  }
+  .tabla-vs-matches td .vs-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .tabla-vs-matches th:nth-child(2), .tabla-vs-matches td:nth-child(2) {
+    width: 38px;
+    min-width: 32px;
+    max-width: 48px;
+  }
+}
+
+/* Mejora visual de tablas en móvil: bordes, sombreado, separación y legibilidad */
+@media (max-width: 700px) {
+  .tabla-vs-matches {
+    background: #1a1622;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0003;
+    border: 1.5px solid #ffd60044;
+    overflow: hidden;
+  }
+  .tabla-vs-matches th, .tabla-vs-matches td {
+    border-bottom: 1px solid #ffd60022;
+    background: #241c2a;
+    color: #ffd600;
+    padding: 0.7em 0.2em;
+    font-size: 1em;
+  }
+  .tabla-vs-matches th {
+    background: linear-gradient(90deg, #ffd600 80%, #fffbe6 100%);
+    color: #181218;
+    font-weight: bold;
+    border-bottom: 2px solid #ffd60077;
+    text-shadow: 0 1px 0 #fffbe6cc;
+  }
+  .tabla-vs-matches tr {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px #0001;
+    margin-bottom: 0.2em;
+    background: #241c2a;
+    transition: background 0.18s, color 0.18s;
+  }
+  .tabla-vs-matches tr.par {
+    background: #181218;
+  }
+  .tabla-vs-matches td {
+    border-radius: 6px;
+    font-size: 0.98em;
+    background: #241c2a;
+    color: #ffd600;
+  }
+  .tabla-vs-matches td .vs-icon {
+    background: linear-gradient(135deg, #ffd600 60%, #fffbe6 100%);
+    color: #181218;
+    font-size: 1.1em;
+    width: 1.7em;
+    height: 1.7em;
+    margin: 0 0.2em;
+    border: 2px solid #ffd60099;
+  }
 }

@@ -236,17 +236,18 @@ window.addEventListener('DOMContentLoaded', async function() {
     });
     document.getElementById('tabla-stats-sf6').getElementsByTagName('tbody')[0].innerHTML = statsHtml || '<tr><td colspan="4">Sin datos</td></tr>';
     // Matches
-    let matchesHtml = `<table class='tabla-vs' id='tabla-matches-sf6' style='margin:0 auto;max-width:500px;'>`;
-    matchesHtml += `<thead><tr><th>Jugador 1</th><th>Jugador 2</th><th>Ronda</th></tr></thead><tbody>`;
+    let matchesHtml = `<div class='matches-table-scroll'><table class='tabla-vs tabla-vs-matches' id='tabla-matches-sf6' style='margin:0 auto;max-width:500px;width:100%;text-align:center;'>`;
+    matchesHtml += `<thead><tr><th style='text-align:center;'>Jugador 1</th><th style='text-align:center;'></th><th style='text-align:center;'>Jugador 2</th><th style='text-align:center;'>Ronda</th></tr></thead><tbody>`;
     sets.forEach((set, idx) => {
       const s = set.slots;
-      matchesHtml += `<tr${idx % 2 === 0 ? ' class="par"' : ''}>
-        <td>${s[0]?.entrant?.name || '-'}</td>
-        <td>${s[1]?.entrant?.name || '-'}</td>
-        <td>${set.fullRoundText || '-'}</td>
+      matchesHtml += `<tr${idx % 2 === 0 ? ' class="par"' : ''} style='text-align:center;'>
+        <td style='text-align:center;vertical-align:middle;'>${s[0]?.entrant?.name || '-'}</td>
+        <td style='text-align:center;vertical-align:middle;'><span class='vs-icon'>VS</span></td>
+        <td style='text-align:center;vertical-align:middle;'>${s[1]?.entrant?.name || '-'}</td>
+        <td style='text-align:center;vertical-align:middle;'>${set.fullRoundText || '-'}</td>
       </tr>`;
     });
-    matchesHtml += `</tbody></table>`;
+    matchesHtml += `</tbody></table></div>`;
     document.getElementById('matches-sf6-placeholder').innerHTML = matchesHtml;
   } catch (e) {
     document.getElementById('top-sf6-placeholder').innerHTML = '<span style="color:red;">Error al cargar datos.</span>';
