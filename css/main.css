@@ -123,25 +123,7 @@ footer .social-links a:hover svg {
   filter: drop-shadow(0 0 6px #ffd60088);
 }
 
-/* Responsive */
-@media (max-width: 1050px) {
-  .header-content,
-  .footer-content {
-    max-width: 100%;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-  .main-logo-header {
-  max-width: 70px;      /* Más grande */
-  width: 40vw;           /* Más grande en responsive */
-  margin-bottom: 1rem;
-  background: transparent; 
-  }
-  .header-ranking-btn {
-    padding: 0.5em 1em;
-    font-size: 1em;
-  }
-}
+
 
 h1, h2, h3 {
   color: #ffd600;
@@ -208,3 +190,57 @@ body {
   background-attachment: fixed;
 }
 
+/* Fondo especial para móviles */
+@media (max-width: 600px) {
+  body {
+    font-size: 1em;
+    padding: 0;
+    background: #181818 url('/img/background_movil.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  main {
+    padding: 1em 0.2em;
+    min-height: 60vh;
+    width: 100vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-content,
+  .footer-content {
+    max-width: 100%;
+    padding: 0.7em 0.5em;
+  }
+
+  .main-btn, .discord-btn, .ranking-btn, button, input, textarea {
+    font-size: 1em;
+    padding: 0.9em 1em;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.7em 0;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.2em;
+    text-align: center;
+  }
+
+  .social-links {
+    gap: 0.7em;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .social-links a svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  footer {
+    padding: 0.7em 0 0.5em 0;
+  }
+}
