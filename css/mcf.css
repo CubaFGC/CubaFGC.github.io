@@ -1,3 +1,12 @@
+/* Evita el desplazamiento horizontal y el overscroll en toda la web */
+html, body {
+  overflow-x: hidden !important;
+  overscroll-behavior-x: contain;
+  max-width: 100vw;
+  position: relative;
+  touch-action: pan-y;
+}
+
 /* Fondo general */
 html, body {
   height: 100%;
@@ -21,6 +30,8 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 /* Main centrado y con padding */

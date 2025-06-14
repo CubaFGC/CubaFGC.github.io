@@ -74,6 +74,24 @@ if (forgotPasswordLink) {
   };
 }
 
+// Toasts de notificación
+function showToast(msg, type = '') {
+  let container = document.querySelector('.toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (type ? ' toast--' + type : '');
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.animation = 'toast-out 0.4s forwards';
+    toast.addEventListener('animationend', () => toast.remove());
+  }, 3200);
+}
+
 // Login con Supabase
 if (loginForm) {
   loginForm.onsubmit = async function(e) {
@@ -89,6 +107,7 @@ if (loginForm) {
       if (error) {
         loginError.textContent = "Correo o contraseña incorrectos.";
         loginError.style.display = 'block';
+        showToast('Error de inicio de sesión', 'error');
         setTimeout(() => {
           loginError.style.display = 'none';
           loginError.textContent = '';
@@ -99,6 +118,7 @@ if (loginForm) {
         loginDropdown.style.display = 'none';
         limpiarCamposAuth();
         mostrarUsuarioSupabase();
+        showToast('¡Bienvenido! Sesión iniciada.');
       }
       loginBtn.disabled = false;
       loginBtn.innerHTML = originalText;
@@ -240,6 +260,7 @@ if (logoutHeaderBtn) {
   logoutHeaderBtn.onclick = async () => {
     await supabase.auth.signOut();
     mostrarUsuarioSupabase();
+    showToast('Sesión cerrada.');
   };
 }
 
@@ -250,8 +271,12 @@ async function mostrarUsuarioSupabase() {
     if (userMenuContainer) userMenuContainer.style.display = 'inline-block';
     if (userMenuBtn) userMenuBtn.style.display = 'inline-flex';
     if (userHeaderInfo) {
-      userHeaderInfo.textContent = user.email;
-      userHeaderInfo.style.display = 'inline';
+      // Mostrar avatar con inicial y email o nombre
+      const displayName = user.user_metadata?.name || user.email;
+      const inicial = displayName ? displayName[0].toUpperCase() : '?';
+      userHeaderInfo.innerHTML = `<span class="user-avatar-initial">${inicial}</span> ${displayName}`;
+      userHeaderInfo.style.display = 'inline-flex';
+      userHeaderInfo.style.alignItems = 'center';
     }
     if (emailVerifiedIcon) {
       emailVerifiedIcon.style.display = 'inline-block';
@@ -310,6 +335,27 @@ if (userMenuBtn && userDropdownMenu) {
     const expanded = userDropdownMenu.style.display === 'block';
     userDropdownMenu.style.display = expanded ? 'none' : 'block';
     userMenuBtn.setAttribute('aria-expanded', !expanded);
+    if (!expanded) {
+      userDropdownMenu.setAttribute('tabindex', '0');
+      userDropdownMenu.focus();
+    }
+  };
+  userMenuBtn.onkeydown = function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      userMenuBtn.click();
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      userDropdownMenu.focus();
+    }
+  };
+  userDropdownMenu.onkeydown = function(e) {
+    if (e.key === 'Escape') {
+      userDropdownMenu.style.display = 'none';
+      userMenuBtn.setAttribute('aria-expanded', 'false');
+      userMenuBtn.focus();
+    }
   };
   document.addEventListener('click', function(e) {
     if (!userMenuContainer.contains(e.target)) {
