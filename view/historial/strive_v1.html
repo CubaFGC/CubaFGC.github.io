@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historial Guilty Gear Strive - Cuba FGC</title>
+  <link href="/css/mcf.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
+  <link href="/css/historial.css" rel="stylesheet" />
+  <link href="/css/historial/brackesthistorials.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="header-include"></div>
+  <main>
+    <h1 style="text-align:center;margin-bottom:2rem;">Historial Guilty Gear Strive</h1>
+    <div id="strive-historial-content">
+      <!-- Aquí se mostrarán las stats y el historial de brackets de Strive -->
+      <p style="text-align:center;color:#ffd600;">Próximamente: stats y resultados de Guilty Gear Strive.</p>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <a href="/view/mcf/historial-mcf.html" class="event-access-btn">Volver al historial</a>
+    </div>
+  </main>
+  <footer id="footer-include"></footer>
+  <script>
+    fetch('/view/partials/header.html').then(res => res.text()).then(html => {
+      document.getElementById('header-include').innerHTML = html;
+      // Cargar Supabase y auth.js después de insertar el header
+      const supaScript = document.createElement('script');
+      supaScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js';
+      supaScript.onload = () => {
+        const authScript = document.createElement('script');
+        authScript.src = '/scripts/auth.js';
+        document.body.appendChild(authScript);
+      };
+      document.body.appendChild(supaScript);
+      const mcfScript = document.createElement('script');
+      mcfScript.src = '/scripts/historial-mcf.js';
+      document.body.appendChild(mcfScript);
+    });
+    fetch('/view/partials/footer.html').then(res => res.text()).then(html => {
+      document.getElementById('footer-include').innerHTML = html;
+    });
+  </script>
+</body>
+</html>

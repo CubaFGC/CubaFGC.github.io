@@ -41,6 +41,9 @@
     </div>
     <section>
       <div id="vs-tables"></div>
+      <button id="historial-btn" class="event-access-btn" style="display:none;" onclick="window.open('https://www.start.gg/tournament/mixup-clash-fest','_blank')">
+        Ver historial
+      </button>
       <button class="event-access-btn" onclick="window.location.href='/index.html'">
         Volver al Inicio
       </button>
@@ -162,13 +165,51 @@
           </div>
         `;
         document.getElementById('vs-tables').innerHTML += html;
+        document.getElementById('historial-btn').style.display = 'block'; // Mostrar botón de historial
       })
       .catch(error => {
         document.getElementById('vs-tables').innerHTML += `<div>Error al cargar matches de ${eventName}.</div>`;
         console.error("Fetch error:", error);
       });
     }
-    document.addEventListener('DOMContentLoaded', cargarBrackets);
+    function mostrarBotonHistorialSiCerrado() {
+      const query = `
+        query {
+          tournament(slug: "mixup-clash-fest-vol-2") {
+            state
+          }
+        }
+      `;
+      fetch('https://api.start.gg/gql/alpha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + STARTGG_TOKEN
+        },
+        body: JSON.stringify({ query })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const btn = document.getElementById('historial-btn');
+        if (!data.data || !data.data.tournament) {
+          if (btn) btn.style.display = "none";
+          return;
+        }
+        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
+          if (btn) btn.style.display = "none";
+        } else {
+          if (btn) btn.style.display = "";
+        }
+      })
+      .catch(() => {
+        const btn = document.getElementById('historial-btn');
+        if (btn) btn.style.display = "none";
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarBrackets();
+      mostrarBotonHistorialSiCerrado();
+    });
   </script>
 </body>
 </html>

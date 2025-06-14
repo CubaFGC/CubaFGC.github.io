@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historial Tekken 8 - Cuba FGC</title>
+  <link href="/css/mcf.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
+  <link href="/css/historial/brackesthistorials.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="header-include"></div>
+  <main>
+    <h1 style="text-align:center;margin-bottom:2rem;">Historial Tekken 8</h1>
+    <div id="tekken8-historial-content">
+      <h2 style="text-align:center;color:#ffd600;">Stats de Jugadores Tekken 8</h2>
+      <table class="tabla-vs" style="margin:0 auto;max-width:500px;">
+        <thead>
+          <tr>
+            <th>Jugador</th>
+            <th>Victorias</th>
+            <th>Derrotas</th>
+            <th>Winrate (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <a href="/view/mcf/historial-mcf.html" class="event-access-btn">Volver al historial</a>
+    </div>
+  </main>
+  <footer id="footer-include"></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script src="/scripts/historial-mcf.js"></script>
+  <script>
+    fetch('/view/partials/header.html').then(res => res.text()).then(html => {
+      document.getElementById('header-include').innerHTML = html;
+      // Cargar auth.js después de insertar el header
+      const authScript = document.createElement('script');
+      authScript.src = '/scripts/auth.js';
+      document.body.appendChild(authScript);
+    });
+    fetch('/view/partials/footer.html').then(res => res.text()).then(html => {
+      document.getElementById('footer-include').innerHTML = html;
+    });
+  </script>
+  <script>
+const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
+const EVENT_SLUG = "mixup-clash-fest";
+
+async function cargarTablaTekken8() {
+  // Consulta directa al evento Tekken del Mixup Clash Fest original
+  const querySets = `
+    query {
+      event(slug: \"${EVENT_SLUG}\") {
+        sets(page: 1, perPage: 32, sortType: RECENT) {
+          nodes {
+            fullRoundText
+            slots {
+              entrant { name }
+              standing { stats { score { value } } }
+            }
+          }
+        }
+      }
+    }
+  `;
+  try {
+    const res = await fetch('https://api.start.gg/gql/alpha', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + STARTGG_TOKEN
+      },
+      body: JSON.stringify({ query: querySets })
+    });
+    const data = await res.json();
+    const sets = data.data?.event?.sets?.nodes || [];
+    let html = `<h2 style='text-align:center;color:#ffd600;'>Matches Tekken 8</h2>`;
+    html += `<table class='tabla-vs' style='margin:0 auto;max-width:500px;'>`;
+    html += `<thead><tr><th>Jugador 1</th><th>Jugador 2</th><th>Ronda</th></tr></thead><tbody>`;
+    if (sets.length === 0) {
+      html += `<tr><td colspan='3' style='text-align:center;'>No hay matches disponibles.</td></tr>`;
+    } else {
+      sets.forEach((set, idx) => {
+        const s = set.slots;
+        html += `<tr${idx % 2 === 0 ? ' class="par"' : ''}>
+          <td>${s[0]?.entrant?.name || '-'}</td>
+          <td>${s[1]?.entrant?.name || '-'}</td>
+          <td>${set.fullRoundText || '-'}</td>
+        </tr>`;
+      });
+    }
+    html += `</tbody></table>`;
+    document.getElementById('tekken8-historial-content').innerHTML = html;
+  } catch (e) {
+    document.getElementById('tekken8-historial-content').innerHTML = '<p style="color:red;">Error al cargar matches de Tekken 8.</p>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', cargarTablaTekken8);
+</script>
+</body>
+</html>

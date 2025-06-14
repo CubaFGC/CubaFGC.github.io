@@ -25,7 +25,10 @@
       <div class="event-access-card" id="mixup-card">
         <div class="event-access-bg"></div>
         <div class="event-access-title">Mixup Clash Fest</div>
-        <span id="mixup-status" class="event-access-status cargando">Cargando...</span>        
+        <span id="mixup-status" class="event-access-status cargando">Cargando...</span>
+        <button id="mixup-historial-btn" class="event-access-btn" style="display:none;" onclick="window.location.href='/view/mcf/mcf.html'">
+          Ver historial
+        </button>
       </div>
       <div class="event-access-card" id="mixup-card-vol2">
         <div class="event-access-bg"></div>
@@ -91,7 +94,7 @@
       .then(res => res.json())
       .then(data => {
         const status = document.getElementById('mixup-status');
-        const btn = document.querySelector('#mixup-card .event-access-btn');
+        const btn = document.getElementById('mixup-historial-btn');
         if (!data.data || !data.data.tournament) {
           status.textContent = "No encontrado";
           status.className = "event-access-status cerrado";
@@ -101,11 +104,11 @@
         if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
           status.textContent = "Activo";
           status.className = "event-access-status disponible";
-          if (btn) btn.style.display = "";
+          if (btn) btn.style.display = "none";
         } else {
           status.textContent = "Cerrado";
           status.className = "event-access-status cerrado";
-          if (btn) btn.style.display = "none";
+          if (btn) btn.style.display = "";
         }
       });
     }

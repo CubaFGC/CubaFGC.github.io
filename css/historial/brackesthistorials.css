@@ -1,0 +1,31 @@
+/* Tabla de stats para los brackets de historial */
+.tabla-vs {
+  width: 100%;
+  max-width: 500px;
+  margin: 1.5rem auto 1rem auto;
+  border-collapse: collapse;
+  background: #241c2a;
+  color: #fff0f3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px #0005;
+}
+.tabla-vs th, .tabla-vs td {
+  padding: 0.7em 0.5em;
+  text-align: center;
+  border-bottom: 1px solid #ffd60033;
+}
+.tabla-vs th {
+  background: #ffd600;
+  color: #181218;
+  font-weight: bold;
+  font-size: 1.08em;
+}
+.tabla-vs tr:last-child td {
+  border-bottom: none;
+}
+.tabla-vs tbody tr:hover {
+  background: #ffd60022;
+  color: #ffd600;
+  transition: background 0.15s, color 0.15s;
+}
