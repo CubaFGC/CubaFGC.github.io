@@ -196,6 +196,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: left 0.2s, right 0.2s, width 0.2s, min-width 0.2s, max-width 0.2s, padding 0.2s, top 0.2s;
 }
 .login-dropdown form {
   width: 100%;
@@ -315,6 +316,8 @@
     box-sizing: border-box;
     border-radius: 0 0 16px 16px;
     top: 55px !important;
+    margin-top: 0;
+    /* Asegura que no se salga por arriba ni por los lados */
   }
   .login-dropdown form {
     width: 100%;
@@ -333,7 +336,6 @@
     font-size: 1.15rem;
     padding: 1.1rem 0.5rem;
     border-radius: 10px;
-    margin-bottom: 0.7rem;
     min-height: 48px;
     font-weight: bold;
     letter-spacing: 0.5px;

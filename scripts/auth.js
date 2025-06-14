@@ -271,8 +271,11 @@ async function mostrarUsuarioSupabase() {
     if (userMenuContainer) userMenuContainer.style.display = 'inline-block';
     if (userMenuBtn) userMenuBtn.style.display = 'inline-flex';
     if (userHeaderInfo) {
-      // Mostrar avatar con inicial y email o nombre
-      const displayName = user.user_metadata?.name || user.email;
+      // Mostrar avatar con inicial y solo el nombre de usuario (antes del @)
+      let displayName = user.user_metadata?.name || user.email;
+      if (user.email && (!user.user_metadata?.name || user.user_metadata?.name === user.email)) {
+        displayName = user.email.split('@')[0];
+      }
       const inicial = displayName ? displayName[0].toUpperCase() : '?';
       userHeaderInfo.innerHTML = `<span class="user-avatar-initial">${inicial}</span> ${displayName}`;
       userHeaderInfo.style.display = 'inline-flex';
