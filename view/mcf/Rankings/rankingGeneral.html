@@ -111,6 +111,18 @@ let lastData = [];
 // Cache para winrates globales por juego
 const winrateCache = {};
 
+function setGameBackground(gameKey) {
+  const bg = document.getElementById("bg-wallpaper");
+  bg.className = "";
+  const bgMap = {
+    tekken: "bg-tekken",
+    sf6: "bg-sf6",
+    smash: "bg-smash",
+    ggst: "bg-ggst"
+  };
+  if (bgMap[gameKey]) bg.classList.add(bgMap[gameKey]);
+}
+
 function loadGame(gameKey) {
   const eventKey = document.getElementById("event-dropdown").value;
   const evento = eventos[eventKey];
@@ -118,12 +130,7 @@ function loadGame(gameKey) {
   document.getElementById("search-input").value = "";
 
   // Cambia el fondo según el juego
-  const bg = document.getElementById("bg-wallpaper");
-  bg.className = "";
-  if (gameKey === 'tekken') bg.classList.add("bg-tekken");
-  if (gameKey === 'sf6') bg.classList.add("bg-sf6");
-  if (gameKey === 'smash') bg.classList.add("bg-smash");
-  if (gameKey === 'ggst') bg.classList.add("bg-ggst");
+  setGameBackground(gameKey);
 
   // Mostrar loader y ocultar tabla
   document.getElementById("table-loader").style.display = "flex";
@@ -309,7 +316,23 @@ document.getElementById("search-input").addEventListener("input", function() {
 
 document.getElementById("game-dropdown").addEventListener("change", function() {
   const gameKey = this.value;
+  localStorage.setItem('cubafgc-last-game', gameKey);
+  setGameBackground(gameKey);
   loadGame(gameKey);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const lastGame = localStorage.getItem('cubafgc-last-game');
+  const gameDropdown = document.getElementById('game-dropdown');
+  if (lastGame && gameDropdown.querySelector(`option[value="${lastGame}"]`)) {
+    gameDropdown.value = lastGame;
+    setGameBackground(lastGame);
+    loadGame(lastGame);
+  } else {
+    const gameKey = gameDropdown.value;
+    setGameBackground(gameKey);
+    loadGame(gameKey);
+  }
 });
 
 document.getElementById("event-dropdown").addEventListener("change", function() {
