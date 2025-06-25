@@ -65,7 +65,7 @@
           <th>ToP?</th>
           <th>Player</th>
           <th>Points</th>
-          <th title="El winrate global se calcula sumando todos los sets ganados y jugados por cada jugador en ambos torneos (Vol.1 + Vol.2) para el juego seleccionado. Si un jugador no participó en ambos, solo se suman sus sets disponibles.">Winrate Global (%) <span style="cursor:help;color:#ffd600;" aria-label="¿Cómo se calcula?">&#9432;</span></th>
+          <th class="col-winrate" title="El winrate global se calcula sumando todos los sets ganados y jugados por cada jugador en ambos torneos (Vol.1 + Vol.2) para el juego seleccionado. Si un jugador no participó en ambos, solo se suman sus sets disponibles.">Winrate Global (%) <span style="cursor:help;color:#ffd600;" aria-label="¿Cómo se calcula?">&#9432;</span></th>
         </tr>
       </thead>
       <tbody>
@@ -217,7 +217,7 @@ function showInfo(data, errorMsg) {
       <td>${row.Ranking || ''}</td>
       <td>${row.Player || ''}</td>
       <td>${row.Points || ''}</td>
-      <td><span class="winrate-loader" style="color:#ffd600;">...</span></td>
+      <td class="col-winrate"><span class="winrate-loader" style="color:#ffd600;">...</span></td>
     `;
     tbody.appendChild(tr);
   });
@@ -228,6 +228,7 @@ function showInfo(data, errorMsg) {
       const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
       const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
       tr.cells[3].textContent = winrate;
+      tr.cells[3].classList.add('col-winrate');
     });
   });
 }
@@ -270,5 +271,23 @@ document.addEventListener('click', function() {
 window.loadGame = loadGame;
 window.addEventListener('DOMContentLoaded', () => loadGame('tekken'));
 </script>
+<style>
+/* Ajusta el ancho de la columna winrate en móviles */
+@media (max-width: 600px) {
+  .col-winrate {
+    max-width: 70px;
+    min-width: 50px;
+    width: 18vw;
+    font-size: 0.95em;
+    padding-left: 2px;
+    padding-right: 2px;
+    word-break: break-all;
+  }
+  table th.col-winrate {
+    white-space: normal;
+    font-size: 0.95em;
+  }
+}
+</style>
 </body>
 </html>
