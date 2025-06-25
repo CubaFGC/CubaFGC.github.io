@@ -202,6 +202,9 @@ function showInfo(data, errorMsg) {
     td.style.color = errorMsg ? "#ff5252" : "#ffd600";
     td.style.fontWeight = "bold";
     td.textContent = errorMsg || "Próximamente disponible";
+    if (errorMsg && errorMsg.includes('hoja')) {
+      td.textContent += "\n(Revisa que la hoja de Google Sheets sea pública y el enlace sea correcto)";
+    }
     tr.appendChild(td);
     tbody.appendChild(tr);
     return;
@@ -227,7 +230,21 @@ function showInfo(data, errorMsg) {
     tbody.appendChild(tr);
   });
   // Luego, cuando lleguen los winrates, actualiza solo la columna
+  let winrateTimeout;
+  let winrateResolved = false;
+  const setWinrateError = () => {
+    if (winrateResolved) return;
+    winrateResolved = true;
+    Array.from(tbody.rows).forEach(tr => {
+      tr.cells[3].textContent = 'Error';
+      tr.cells[3].classList.add('col-winrate');
+    });
+  };
+  winrateTimeout = setTimeout(setWinrateError, 8000); // 8 segundos
   obtenerStatsGlobal(juego).then(statsGlobalRaw => {
+    if (winrateResolved) return;
+    winrateResolved = true;
+    clearTimeout(winrateTimeout);
     // Normaliza las keys de statsGlobal
     const statsGlobal = {};
     Object.keys(statsGlobalRaw).forEach(name => {
@@ -240,6 +257,8 @@ function showInfo(data, errorMsg) {
       tr.cells[3].textContent = winrate;
       tr.cells[3].classList.add('col-winrate');
     });
+  }).catch(() => {
+    setWinrateError();
   });
 }
 
