@@ -59,19 +59,21 @@
       <div class="spinner"></div>
       <span>Cargando datos...</span>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>ToP</th>
-          <th>Player</th>
-          <th>Points</th>
-          <th class="col-winrate" title="El winrate global se calcula sumando todos los sets ganados y jugados por cada jugador en ambos torneos (Vol.1 + Vol.2) para el juego seleccionado. Si un jugador no participó en ambos, solo se suman sus sets disponibles.">Winrate Global (%) <span style="cursor:help;color:#ffd600;" aria-label="¿Cómo se calcula?">&#9432;</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Datos dinámicos -->
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>ToP</th>
+            <th class="col-player">Player</th>
+            <th>Points</th>
+            <th class="col-winrate" title="El winrate global se calcula sumando todos los sets ganados y jugados por cada jugador en ambos torneos (Vol.1 + Vol.2) para el juego seleccionado. Si un jugador no participó en ambos, solo se suman sus sets disponibles.">Winrate Global (%) <span style="cursor:help;color:#ffd600;" aria-label="¿Cómo se calcula?">&#9432;</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Datos dinámicos -->
+        </tbody>
+      </table>
+    </div>
   </main>
   <footer id="footer-include"></footer>
   <script>
@@ -309,6 +311,10 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <style>
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
 /* Ajusta el ancho de la columna winrate en móviles */
 @media (max-width: 600px) {
   .col-winrate {
@@ -323,6 +329,18 @@ window.addEventListener('DOMContentLoaded', () => {
   table th.col-winrate {
     white-space: normal;
     font-size: 0.95em;
+  }
+  .col-player {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  table td.col-player {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>
