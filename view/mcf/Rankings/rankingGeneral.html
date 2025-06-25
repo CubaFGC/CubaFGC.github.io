@@ -250,6 +250,7 @@ function showInfo(data, errorMsg) {
     Array.from(tbody.rows).forEach(tr => {
       tr.cells[3].textContent = 'Error';
       tr.cells[3].classList.add('col-winrate');
+      tr.cells[3].title = 'No se pudo calcular el winrate global por un error de red o de la API. Intenta recargar la página.';
     });
   };
   winrateTimeout = setTimeout(setWinrateError, 8000); // 8 segundos
