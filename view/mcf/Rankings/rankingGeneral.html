@@ -62,7 +62,7 @@
     <table>
       <thead>
         <tr>
-          <th>ToP?</th>
+          <th>ToP</th>
           <th>Player</th>
           <th>Points</th>
           <th class="col-winrate" title="El winrate global se calcula sumando todos los sets ganados y jugados por cada jugador en ambos torneos (Vol.1 + Vol.2) para el juego seleccionado. Si un jugador no participó en ambos, solo se suman sus sets disponibles.">Winrate Global (%) <span style="cursor:help;color:#ffd600;" aria-label="¿Cómo se calcula?">&#9432;</span></th>
@@ -269,7 +269,10 @@ document.addEventListener('click', function() {
 });
 
 window.loadGame = loadGame;
-window.addEventListener('DOMContentLoaded', () => loadGame('tekken'));
+window.addEventListener('DOMContentLoaded', () => {
+  const gameKey = document.getElementById('game-dropdown').value;
+  loadGame(gameKey);
+});
 </script>
 <style>
 /* Ajusta el ancho de la columna winrate en móviles */
