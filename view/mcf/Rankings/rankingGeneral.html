@@ -108,6 +108,9 @@ const baseUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR8n9pG8YwSjWh7
 
 let lastData = [];
 
+// Cache para winrates globales por juego
+const winrateCache = {};
+
 function loadGame(gameKey) {
   const eventKey = document.getElementById("event-dropdown").value;
   const evento = eventos[eventKey];
@@ -243,10 +246,33 @@ function showInfo(data, errorMsg) {
     });
   };
   winrateTimeout = setTimeout(setWinrateError, 8000); // 8 segundos
+
+  // --- CACHE DE WINRATE GLOBAL ---
+  if (winrateCache[juego]) {
+    // Usar cache
+    clearTimeout(winrateTimeout);
+    const statsGlobalRaw = winrateCache[juego];
+    // Normaliza las keys de statsGlobal
+    const statsGlobal = {};
+    Object.keys(statsGlobalRaw).forEach(name => {
+      statsGlobal[normalizeName(name)] = statsGlobalRaw[name];
+    });
+    Array.from(tbody.rows).forEach(tr => {
+      const player = normalizeName(tr.cells[1].textContent.trim());
+      const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
+      const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
+      tr.cells[3].textContent = winrate;
+      tr.cells[3].classList.add('col-winrate');
+    });
+    winrateResolved = true;
+    return;
+  }
+  // Si no hay cache, consulta la API
   obtenerStatsGlobal(juego).then(statsGlobalRaw => {
     if (winrateResolved) return;
     winrateResolved = true;
     clearTimeout(winrateTimeout);
+    winrateCache[juego] = statsGlobalRaw; // Guarda en cache
     // Normaliza las keys de statsGlobal
     const statsGlobal = {};
     Object.keys(statsGlobalRaw).forEach(name => {
