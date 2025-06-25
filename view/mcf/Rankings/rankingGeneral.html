@@ -186,6 +186,10 @@ function loadGame(gameKey) {
   });
 }
 
+function normalizeName(str) {
+  return (str || '').toLowerCase().replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function showInfo(data, errorMsg) {
   const tbody = document.querySelector("tbody");
   tbody.innerHTML = "";
@@ -211,10 +215,11 @@ function showInfo(data, errorMsg) {
   else juego = gameKey;
   // Mostrar la tabla vacía primero para feedback inmediato
   data.forEach(row => {
-    if (!(row.Player || row.Ranking || row.Points)) return;
+    if (!(row.Player || row.Ranking || row.ToP || row.Points)) return;
+    const ranking = row.Ranking || row.ToP || '';
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${row.Ranking || ''}</td>
+      <td>${ranking}</td>
       <td>${row.Player || ''}</td>
       <td>${row.Points || ''}</td>
       <td class="col-winrate"><span class="winrate-loader" style="color:#ffd600;">...</span></td>
@@ -222,9 +227,14 @@ function showInfo(data, errorMsg) {
     tbody.appendChild(tr);
   });
   // Luego, cuando lleguen los winrates, actualiza solo la columna
-  obtenerStatsGlobal(juego).then(statsGlobal => {
+  obtenerStatsGlobal(juego).then(statsGlobalRaw => {
+    // Normaliza las keys de statsGlobal
+    const statsGlobal = {};
+    Object.keys(statsGlobalRaw).forEach(name => {
+      statsGlobal[normalizeName(name)] = statsGlobalRaw[name];
+    });
     Array.from(tbody.rows).forEach(tr => {
-      const player = tr.cells[1].textContent.trim();
+      const player = normalizeName(tr.cells[1].textContent.trim());
       const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
       const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
       tr.cells[3].textContent = winrate;
