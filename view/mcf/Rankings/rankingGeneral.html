@@ -247,11 +247,15 @@ document.getElementById("search-input").addEventListener("input", function() {
   const value = this.value.trim().toLowerCase();
   let filtered;
   if (!value) {
-    filtered = lastData.filter(row => row.Player || row.Ranking || row.Points);
+    filtered = lastData.filter(row => row.Player || row.Ranking || row.ToP || row.Points);
   } else {
-    filtered = lastData.filter(row =>
-      (row.Player || '').toLowerCase().includes(value)
-    );
+    filtered = lastData.filter(row => {
+      return (
+        (row.Player || '').toLowerCase().includes(value) ||
+        (row.Ranking || row.ToP || '').toString().toLowerCase().includes(value) ||
+        (row.Points || '').toString().toLowerCase().includes(value)
+      );
+    });
   }
   showInfo(filtered);
 });
@@ -268,6 +272,7 @@ document.getElementById("event-dropdown").addEventListener("change", function() 
 
 // Menu trigger
 const menuTriggerBtn = document.querySelector('.menu-trigger');
+const menuTrigger = document.querySelector('.menu-trigger');
 if (menuTriggerBtn) {
   menuTriggerBtn.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -275,7 +280,7 @@ if (menuTriggerBtn) {
   });
 }
 document.addEventListener('click', function() {
-  menuTrigger.classList.remove('open');
+  if (menuTrigger) menuTrigger.classList.remove('open');
 });
 
 window.loadGame = loadGame;
