@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historial Tekken 8 - Cuba FGC</title>
+  <link href="/css/mcf.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
+  <link href="/css/historial/brackesthistorials.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="header-include"></div>
+  <main>
+    <div id="tekken8-historial-content">
+      <div class="modern-accordion-menu">
+        <button class="modern-accordion-btn" onclick="toggleAccordion('top')">Top 3</button>
+        <div class="modern-accordion-panel" id="panel-top-accordion" style="display:block;">
+          <div id="top-tekken8-placeholder"></div>
+        </div>
+        <button class="modern-accordion-btn" onclick="toggleAccordion('stats')">Estadísticas</button>
+        <div class="modern-accordion-panel" id="panel-stats-accordion" style="display:none;">
+          <div style="margin-bottom:1em;">
+            <input type="text" id="search-stats" class="modern-search" placeholder="Buscar jugador..." oninput="filterStatsTable()" />
+          </div>
+          <table class="tabla-vs" id="tabla-stats-tekken8" style="margin:0 auto;max-width:500px;">
+            <thead>
+              <tr>
+                <th>Jugador</th>
+                <th>Victorias</th>
+                <th>Derrotas</th>
+                <th>Winrate (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="modern-accordion-btn" onclick="toggleAccordion('matches')">Matches</button>
+        <div class="modern-accordion-panel" id="panel-matches-accordion" style="display:none;">
+          <div id="matches-tekken8-placeholder"></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <a href="/view/mcf/historial-mcf.html" class="event-access-btn">Volver al historial</a>
+      </div>
+    </div>
+  </main>
+  <footer id="footer-include"></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script>
+    fetch('/view/partials/header.html').then(res => res.text()).then(html => {
+      document.getElementById('header-include').innerHTML = html;
+      // Cargar auth.js después de insertar el header
+      const authScript = document.createElement('script');
+      authScript.src = '/scripts/auth.js';
+      document.body.appendChild(authScript);
+      // Cargar historial-mcf.js y usar la función moderna para cada sección
+      const mcfScript = document.createElement('script');
+      mcfScript.src = '/scripts/historial-mcf-v2.js';
+      mcfScript.onload = () => {
+        if (document.getElementById('top-tekken8-placeholder')) {
+          mostrarSeccionHistorialJuego('Tekken', 'top', 'top-tekken8-placeholder');
+        }
+        if (document.getElementById('tabla-stats-tekken8')) {
+          mostrarSeccionHistorialJuego('Tekken', 'stats', 'tabla-stats-tekken8');
+        }
+        if (document.getElementById('matches-tekken8-placeholder')) {
+          mostrarSeccionHistorialJuego('Tekken', 'matches', 'matches-tekken8-placeholder');
+        }
+      };
+      document.body.appendChild(mcfScript);
+    });
+    fetch('/view/partials/footer.html').then(res => res.text()).then(html => {
+      document.getElementById('footer-include').innerHTML = html;
+    });
+    function toggleAccordion(panel) {
+      const panels = ['top', 'stats', 'matches'];
+      panels.forEach(p => {
+        const panelDiv = document.getElementById(`panel-${p}-accordion`);
+        const btns = document.getElementsByClassName('modern-accordion-btn');
+        if (p === panel) {
+          // Toggle despliegue animado tipo dropdown
+          const isActive = panelDiv.classList.contains('active');
+          if (isActive) {
+            panelDiv.classList.remove('active');
+            setTimeout(() => {
+              panelDiv.style.display = 'none';
+            }, 400); // Espera la animación
+            Array.from(btns).forEach(btn => {
+              if (btn.textContent.toLowerCase().includes(p)) btn.classList.remove('active');
+            });
+          } else {
+            // Cierra todos los paneles primero
+            panels.forEach(other => {
+              const otherPanel = document.getElementById(`panel-${other}-accordion`);
+              if (otherPanel !== panelDiv) {
+                otherPanel.classList.remove('active');
+                otherPanel.style.display = 'none';
+                Array.from(btns).forEach(btn => {
+                  if (btn.textContent.toLowerCase().includes(other)) btn.classList.remove('active');
+                });
+              }
+            });
+            // Abre el seleccionado
+            panelDiv.style.display = 'block';
+            setTimeout(() => {
+              panelDiv.classList.add('active');
+            }, 10);
+            Array.from(btns).forEach(btn => {
+              if (btn.textContent.toLowerCase().includes(p)) btn.classList.add('active');
+            });
+          }
+        }
+      });
+    }
+    function filterStatsTable() {
+      const input = document.getElementById('search-stats');
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById('tabla-stats-tekken8');
+      const trs = table.getElementsByTagName('tr');
+      for (let i = 1; i < trs.length; i++) {
+        const td = trs[i].getElementsByTagName('td')[0];
+        if (td) {
+          trs[i].style.display = td.textContent.toLowerCase().includes(filter) ? '' : 'none';
+        }
+      }
+    }
+    function filterMatchesTable() {
+      const input = document.getElementById('search-matches');
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById('tabla-matches-tekken8');
+      if (!table) return;
+      const trs = table.getElementsByTagName('tr');
+      for (let i = 1; i < trs.length; i++) {
+        const tds = trs[i].getElementsByTagName('td');
+        if (tds.length > 0) {
+          const jugador1 = tds[0].textContent.toLowerCase();
+          const jugador2 = tds[1].textContent.toLowerCase();
+          trs[i].style.display = (jugador1.includes(filter) || jugador2.includes(filter)) ? '' : 'none';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

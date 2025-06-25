@@ -1,0 +1,17 @@
+🟢 *Changelog Cuba FGC - 14 de junio 2025*
+
+✅ Mejoras visuales y funcionales en historial de torneos:
+- Nueva implementación: historial del Torneo Número 1 ahora disponible y accesible desde la sección de historial general, permitiendo ver resultados y matches de la primera edición.
+- Tablas de matches unificadas y premium para Tekken 8, Strive y SF6: diseño compacto, centrado, responsivo y con scroll vertical.
+- Buscador único y funcional en matches, eliminando duplicados y errores de integración.
+- Estructura HTML optimizada: cada historial envuelto en un div con id específico para mejor detección y carga dinámica.
+- Corrección de visualización y filtrado en matches para móvil y escritorio.
+- Login mejorado: ahora el formulario se muestra siempre centrado y visible en móvil.
+- El nombre de usuario en el header solo muestra lo anterior al @ del correo (ej: "juanito" en vez de "juanito@gmail.com").
+
+⚠️ *Nota importante:*
+Aún pueden existir pequeños errores visuales o de integración. Si detectas algún bug, por favor repórtalo para seguir mejorando la experiencia de la web para todos.
+
+¡Gracias por ayudar a crecer la comunidad Cuba FGC!
+
+🌐 Web: https://cubafgc.github.io/

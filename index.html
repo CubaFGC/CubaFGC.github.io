@@ -33,9 +33,9 @@
       <div class="event-access-card" id="mixup-card-vol2">
         <div class="event-access-bg"></div>
         <div class="event-access-title">Mixup Clash Fest Vol.2</div>
-        <span id="mixup-status-vol2" class="event-access-status cargando">Cargando...</span>
-        <button class="event-access-btn solo-logueado" style="display:none;" onclick="window.location.href='/view/mcf/mcf-v2.html'">	
-          Ver Evento
+        <span id="mixup-status-vol2" class="event-access-status cargando" style="display:none;">Cargando...</span>
+        <button class="event-access-btn" style="display:none;" onclick="window.location.href='/view/mcf/mcf-v2.html'">	
+          Ver historial
         </button>
       </div>
     </div>
@@ -106,7 +106,7 @@
           status.className = "event-access-status disponible";
           if (btn) btn.style.display = "none";
         } else {
-          status.textContent = "Cerrado";
+          status.textContent = "Finalizado";
           status.className = "event-access-status cerrado";
           if (btn) btn.style.display = "";
         }
@@ -130,37 +130,39 @@
       })
       .then(res => res.json())
       .then(data => {
-        console.log("Respuesta API:", data);
         const status = document.getElementById('mixup-status-vol2');
         const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
         if (data.errors) {
           status.textContent = "Error API";
           status.className = "event-access-status cerrado";
+          status.style.display = "";
           if (btn) btn.style.display = "none";
           return;
         }
         if (!data.data || !data.data.tournament) {
           status.textContent = "No encontrado";
           status.className = "event-access-status cerrado";
+          status.style.display = "";
           if (btn) btn.style.display = "none";
           return;
         }
-        // CORREGIDO: compara con strings
         if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
           status.textContent = "Activo";
           status.className = "event-access-status disponible";
-          if (btn) btn.style.display = "";
-        } else {
-          status.textContent = "Cerrado";
-          status.className = "event-access-status cerrado";
+          status.style.display = "";
           if (btn) btn.style.display = "none";
+        } else {
+          status.textContent = "Finalizado";
+          status.className = "event-access-status cerrado";
+          status.style.display = "";
+          if (btn) btn.style.display = "";
         }
       })
       .catch(error => {
-        console.error("Fetch error:", error);
         const status = document.getElementById('mixup-status-vol2');
         status.textContent = "Error de red/API";
         status.className = "event-access-status cerrado";
+        status.style.display = "";
         const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
         if (btn) btn.style.display = "none";
       });

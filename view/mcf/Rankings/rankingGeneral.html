@@ -62,9 +62,10 @@
     <table>
       <thead>
         <tr>
-          <th>Ranking</th>
+          <th>ToP?</th>
           <th>Player</th>
           <th>Points</th>
+          <th title="El winrate global se calcula sumando todos los sets ganados y jugados por cada jugador en ambos torneos (Vol.1 + Vol.2) para el juego seleccionado. Si un jugador no participó en ambos, solo se suman sus sets disponibles.">Winrate Global (%) <span style="cursor:help;color:#ffd600;" aria-label="¿Cómo se calcula?">&#9432;</span></th>
         </tr>
       </thead>
       <tbody>
@@ -80,6 +81,7 @@
         document.getElementById('footer-include').innerHTML = html;
       });
   </script>
+  <script src="/scripts/winrate-global.js"></script>
   <!-- Tu script de ranking y lógica -->
   <script>
 const hojas = {
@@ -134,40 +136,80 @@ function loadGame(gameKey) {
 
   const url = evento.baseUrl + hoja.gid;
   const startTime = Date.now();
+  let finished = false;
+
+  // Log para depuración
+  console.log('[Ranking] Intentando descargar:', url);
+
+  // Timeout de seguridad: si en 5s no termina, muestra mensaje
+  const fallbackTimeout = setTimeout(() => {
+    if (!finished) {
+      finished = true;
+      showInfo([], 'No se pudo cargar la información. Verifica la conexión o el acceso a la hoja.');
+      document.getElementById("table-loader").style.display = "none";
+      document.querySelector("table").style.visibility = "visible";
+    }
+  }, 5000);
 
   Papa.parse(url, {
     download: true,
     header: true,
     complete: function(results) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(fallbackTimeout);
       lastData = results.data;
       const elapsed = Date.now() - startTime;
       const minTime = 1400; // 1.4 segundos
       const wait = elapsed < minTime ? minTime - elapsed : 0;
       setTimeout(() => {
-        showInfo(lastData);
+        if (!lastData || !Array.isArray(lastData) || lastData.length === 0 || !lastData.some(row => row.Player || row.Ranking || row.Points)) {
+          showInfo([], 'No hay datos disponibles o la hoja está vacía.');
+        } else {
+          showInfo(lastData);
+        }
         document.getElementById("table-loader").style.display = "none";
         document.querySelector("table").style.visibility = "visible";
       }, wait);
+    },
+    error: function(err) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(fallbackTimeout);
+      console.error('[Ranking] Error PapaParse:', err);
+      setTimeout(() => {
+        showInfo([], 'Error al cargar los datos. Consulta la consola para más detalles.');
+        document.getElementById("table-loader").style.display = "none";
+        document.querySelector("table").style.visibility = "visible";
+      }, 1000);
     }
   });
 }
 
-function showInfo(data) {
+function showInfo(data, errorMsg) {
   const tbody = document.querySelector("tbody");
   tbody.innerHTML = "";
   if (!data.length) {
     const tr = document.createElement("tr");
     const td = document.createElement("td");
-    td.colSpan = 3;
+    td.colSpan = 4;
     td.style.textAlign = "center";
     td.style.padding = "2rem 0";
-    td.style.color = "#ffd600";
+    td.style.color = errorMsg ? "#ff5252" : "#ffd600";
     td.style.fontWeight = "bold";
-    td.textContent = "Próximamente disponible";
+    td.textContent = errorMsg || "Próximamente disponible";
     tr.appendChild(td);
     tbody.appendChild(tr);
     return;
   }
+  // --- NUEVO: Calcular winrate global y mostrarlo ---
+  const gameKey = document.getElementById("game-dropdown").value;
+  let juego = "";
+  if (gameKey === "tekken") juego = "tekken";
+  else if (gameKey === "sf6") juego = "sf6";
+  else if (gameKey === "ggst") juego = "strive";
+  else juego = gameKey;
+  // Mostrar la tabla vacía primero para feedback inmediato
   data.forEach(row => {
     if (!(row.Player || row.Ranking || row.Points)) return;
     const tr = document.createElement("tr");
@@ -175,8 +217,18 @@ function showInfo(data) {
       <td>${row.Ranking || ''}</td>
       <td>${row.Player || ''}</td>
       <td>${row.Points || ''}</td>
+      <td><span class="winrate-loader" style="color:#ffd600;">...</span></td>
     `;
     tbody.appendChild(tr);
+  });
+  // Luego, cuando lleguen los winrates, actualiza solo la columna
+  obtenerStatsGlobal(juego).then(statsGlobal => {
+    Array.from(tbody.rows).forEach(tr => {
+      const player = tr.cells[1].textContent.trim();
+      const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
+      const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
+      tr.cells[3].textContent = winrate;
+    });
   });
 }
 
