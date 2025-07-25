@@ -13,6 +13,97 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
   <link href="/css/index.css" rel="stylesheet" /> 
   <link href="/css/main.css" rel="stylesheet" />
+  <style>
+    .event-access-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-height: 650px;
+      overflow-y: auto;
+      padding: 2rem 2vw;
+      justify-items: center;
+      align-items: start;
+      width: 100%;
+    }
+    @media (max-width: 700px) {
+      .event-access-cards {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        padding: 1rem 0.5rem;
+      }
+      .event-filter-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.2rem;
+      }
+      .event-filter-row label,
+      .event-filter-row select {
+        width: 100%;
+        text-align: center;
+        margin: 0.2rem 0;
+      }
+    }
+    .event-access-card {
+      margin: 0 auto;
+      background: rgba(34,34,34,0.82);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      padding: 1.2rem 1rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 180px;
+      transition: box-shadow 0.2s, background 0.2s;
+      backdrop-filter: blur(2px);
+    }
+    .event-access-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .event-access-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      text-align: center;
+      color: #fff;
+    }
+    .event-access-status {
+      font-size: 0.98rem;
+      margin-bottom: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 8px;
+      background: #333;
+      color: #fff;
+      display: inline-block;
+    }
+    .event-access-status.disponible {
+      background: #1b7e2a;
+      color: #fff;
+    }
+    .event-access-status.cerrado {
+      background: #a12c2c;
+      color: #fff;
+    }
+    .event-access-status.cargando {
+      background: #444;
+      color: #fff;
+    }
+    .event-access-btn {
+      background: #1b7e2a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .event-access-btn:hover {
+      background: #145a1e;
+    }
+  </style>
 </head>
 <body>
   <div id="header-include"></div>
@@ -21,23 +112,15 @@
       <h1>Eventos destacados Cuba FGC</h1>
       <p class="slogan">¡Donde la comunidad cubana de fighting games compite y crece!</p>
     </div>
+    <div class="event-filter-row" style="text-align:center;margin-bottom:1.2rem;">
+      <label for="event-filter" style="font-weight:600;color:#222;font-size:1.08rem;margin-right:0.7rem;">Ver:</label>
+      <select id="event-filter" class="event-filter-select">
+        <option value="activos" selected>Activos</option>
+        <option value="cerrados">Cerrados</option>
+      </select>
+    </div>
     <div class="event-access-cards">
-      <div class="event-access-card" id="mixup-card">
-        <div class="event-access-bg"></div>
-        <div class="event-access-title">Mixup Clash Fest</div>
-        <span id="mixup-status" class="event-access-status cargando">Cargando...</span>
-        <button id="mixup-historial-btn" class="event-access-btn" style="display:none;" onclick="window.location.href='/view/mcf/mcf.html'">
-          Ver historial
-        </button>
-      </div>
-      <div class="event-access-card" id="mixup-card-vol2">
-        <div class="event-access-bg"></div>
-        <div class="event-access-title">Mixup Clash Fest Vol.2</div>
-        <span id="mixup-status-vol2" class="event-access-status cargando" style="display:none;">Cargando...</span>
-        <button class="event-access-btn" style="display:none;" onclick="window.location.href='/view/mcf/mcf-v2.html'">	
-          Ver historial
-        </button>
-      </div>
+      <!-- Tarjetas de eventos generadas dinámicamente -->
     </div>
     <div style="text-align:center;margin:1.5rem 0;">
       <a href="https://discord.gg/fgC7GGv8DK" target="_blank" class="discord-btn">
@@ -74,7 +157,6 @@
     }
 
     // Status dinámico para las cards
-    const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
     function actualizarStatusMixup() {
       const query = `
         query {
@@ -191,5 +273,133 @@
       };
     });
 </script>
+<script>
+const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
+const TOURNAMENT_SLUGS = [
+  "mixup-clash-fest",
+  "mixup-clash-fest-vol-2",
+  "mixup-clash-fest-vol-3",
+  "tekken-open-match",
+  "tekken-open-match-vol-2",
+  "sf6-open-match",
+  "strive-open-match",
+  "smash-off-1st-edition"
+];
+const HISTORIAL_MAP = {
+  "mixup-clash-fest": "/view/mcf/mcf.html",
+  "mixup-clash-fest-vol-2": "/view/mcf/mcf-v2.html",
+  "mixup-clash-fest-vol-3": "/view/mcf/mcf-v2.html",
+  "tekken-open-match": "/view/historial/tekken8_v2.html",
+  "tekken-open-match-vol-2": "/view/historial/tekken8_v2.html",
+  "sf6-open-match": "/view/historial/sf6_v1.html",
+  "strive-open-match": "/view/historial/strive_v2.html",
+  "smash-off-1st-edition": ""
+};
+function estadoTexto(state) {
+  switch(state) {
+    case 1: // Active
+    case 5: // In Progress
+      return {txt: "Abierto", cls: "disponible"};
+    case 2: // Completed
+    case 4: // Cancelled
+    case 3: // Pending
+      return {txt: "Cerrado", cls: "cerrado"};
+    case -1:
+      return {txt: "No encontrado", cls: "cerrado"};
+    default:
+      return {txt: "Desconocido", cls: "cargando"};
+  }
+}
+function renderEventos(events) {
+  const container = document.querySelector('.event-access-cards');
+  container.innerHTML = "";
+  const filter = (document.getElementById('event-filter')?.value || 'activos').toLowerCase();
+  let filtered = [];
+  if (filter === 'activos') {
+    filtered = events.filter(ev => {
+      const estado = estadoTexto(ev.state);
+      return estado.cls === 'disponible';
+    });
+  } else if (filter === 'cerrados') {
+    filtered = events.filter(ev => {
+      const estado = estadoTexto(ev.state);
+      return estado.cls === 'cerrado';
+    });
+  }
+  if (!filtered.length) {
+    container.innerHTML = '<div style="text-align:center;"><span class="event-access-status cerrado">No hay eventos disponibles</span></div>';
+    return;
+  }
+  filtered.forEach(ev => {
+    const estado = estadoTexto(ev.state);
+    const historialUrl = HISTORIAL_MAP[ev.slug] || null;
+    const card = document.createElement('div');
+    card.className = 'event-access-card';
+    let btnInscripcion = '';
+    let btnHistorial = '';
+    if (estado.cls === 'disponible') {
+      btnInscripcion = `<button class="event-access-btn" style="background:#2ecc40;margin-bottom:0.5rem;" onclick="window.open('https://www.start.gg/${ev.slug}','_blank')">Inscribirse</button>`;
+      if (historialUrl) {
+        btnHistorial = `<button class="event-access-btn" style="background:#FFD600;color:#222;margin-bottom:0.5rem;" onclick="window.location.href='${historialUrl}'">Ver historial</button>`;
+      }
+    } else if (estado.cls === 'cerrado') {
+      btnHistorial = `<button class="event-access-btn" style="background:#FFD600;color:#222;margin-bottom:0.5rem;" onclick="window.open('https://www.start.gg/${ev.slug}','_blank')">Ver historial</button>`;
+    }
+    card.innerHTML = `
+      <div class="event-access-bg"></div>
+      <div class="event-access-title">${ev.name}</div>
+      <span class="event-access-status ${estado.cls}">${estado.txt}</span>
+      ${btnInscripcion}
+      ${btnHistorial}
+    `;
+    container.appendChild(card);
+  });
+}
+function obtenerEventosCubaFGC() {
+  // Consulta los torneos por slug y muestra el estado aunque no existan
+  const promises = TOURNAMENT_SLUGS.map(slug => {
+    const query = `
+      query {
+        tournament(slug: "${slug}") {
+          name
+          slug
+          state
+        }
+      }
+    `;
+    return fetch('https://api.start.gg/gql/alpha', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + STARTGG_TOKEN
+      },
+      body: JSON.stringify({ query })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.data && data.data.tournament) {
+        return data.data.tournament;
+      }
+      // Si no existe, devolver objeto con slug y estado especial
+      return { name: slug.replace(/-/g, ' ').toUpperCase(), slug, state: -1 };
+    })
+    .catch(() => ({ name: slug.replace(/-/g, ' ').toUpperCase(), slug, state: -1 }));
+  });
+  Promise.all(promises).then(results => {
+    window._eventosCubaFGC = results;
+    const filter = document.getElementById('event-filter');
+    if (filter) {
+      filter.value = 'activos';
+      filter.onchange = function() {
+        renderEventos(window._eventosCubaFGC);
+      };
+    }
+    renderEventos(window._eventosCubaFGC);
+  });
+}
+document.addEventListener('DOMContentLoaded', obtenerEventosCubaFGC);
+</script>
+<script>
+  </script>
 </body>
 </html>
