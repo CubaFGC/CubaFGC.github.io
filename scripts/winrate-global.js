@@ -5,7 +5,8 @@
 const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
 const TOURNAMENTS = [
   { slug: "mixup-clash-fest", nombre: "Vol.1" },
-  { slug: "mixup-clash-fest-vol-2", nombre: "Vol.2" }
+  { slug: "mixup-clash-fest-vol-2", nombre: "Vol.2" },
+  { slug: "tekken-open-match", nombre: "Tekken Open Match" }
 ];
 
 // Devuelve un diccionario: { jugador: { victorias, derrotas, sets } }
