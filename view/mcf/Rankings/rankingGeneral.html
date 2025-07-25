@@ -1,131 +1,3 @@
-<script>
-// Consulta la API de start.gg y devuelve los IDs de eventos de todos los torneos del juego seleccionado
-async function obtenerEventosStartGG(juego) {
-  // --- FLUJO REAL ACTIVADO ---
-  const token = 'a7fafdd3139b23f9eef417bbe26fd91b'; // <-- Tu token de start.gg
-  const orgSlug = 'mixup-clash-fest'; // <-- Slug de tu organización en start.gg
-  let eventos = [];
-  let page = 1;
-  let hasMore = true;
-  while (hasMore) {
-    // Consulta torneos de la organización y juego
-    const query = `
-      query MyTournaments($page: Int!) {
-        currentUser {
-          tournaments(query: {perPage: 50, page: $page}) {
-            nodes {
-              slug
-            }
-            pageInfo {
-              page
-              totalPages
-            }
-          }
-        }
-      }
-    `;
-    const res = await fetch('https://api.start.gg/gql/alpha', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ query, variables: { page } })
-    });
-    const data = await res.json();
-    const nodes = data?.data?.currentUser?.tournaments?.nodes || [];
-    if (!nodes.length) break;
-    for (const torneo of nodes) {
-      // Consulta eventos de cada torneo
-      const queryEv = `
-        query Events($slug: String!) {
-          tournament(slug: $slug) {
-            events {
-              id
-              name
-              videogame {
-                name
-              }
-            }
-          }
-        }
-      `;
-      const resEv = await fetch('https://api.start.gg/gql/alpha', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ query: queryEv, variables: { slug: torneo.slug } })
-      });
-      const dataEv = await resEv.json();
-      const events = dataEv?.data?.tournament?.events || [];
-      events.forEach(ev => {
-        if (ev.id) eventos.push(ev.id);
-      });
-    }
-    const pageInfo = data?.data?.currentUser?.tournaments?.pageInfo;
-    hasMore = pageInfo && page < pageInfo.totalPages;
-    page++;
-  }
-  return eventos;
-}
-
-// Consulta la API de start.gg y devuelve las estadísticas de winrate de un evento
-async function obtenerStatsGlobal(juego, eventId) {
-  // --- INTEGRACIÓN REAL ---
-  const token = 'a7fafdd3139b23f9eef417bbe26fd91b'; // <-- Pon aquí tu token de start.gg
-  // Consulta los sets del evento usando GraphQL
-  const query = `
-    query EventSets($eventId: ID!) {
-      event(id: $eventId) {
-        sets(page: 1, perPage: 100) {
-          nodes {
-            winner {
-              entrant {
-                name
-              }
-            }
-            loser {
-              entrant {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-  const res = await fetch('https://api.start.gg/gql/alpha', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify({ query, variables: { eventId } })
-  });
-  const data = await res.json();
-  // Mapeo: suma sets ganados/perdidos por jugador
-  const stats = {};
-  if (data && data.data && data.data.event && data.data.event.sets && data.data.event.sets.nodes) {
-    data.data.event.sets.nodes.forEach(set => {
-      const winner = set.winner?.entrant?.name;
-      const loser = set.loser?.entrant?.name;
-      if (winner) {
-        if (!stats[winner]) stats[winner] = { victorias: 0, derrotas: 0, sets: 0 };
-        stats[winner].victorias++;
-        stats[winner].sets++;
-      }
-      if (loser) {
-        if (!stats[loser]) stats[loser] = { victorias: 0, derrotas: 0, sets: 0 };
-        stats[loser].derrotas++;
-        stats[loser].sets++;
-      }
-    });
-  }
-  return stats;
-}
-</script>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -252,8 +124,8 @@ function setGameBackground(gameKey) {
 }
 
 function loadGame(gameKey) {
-  const eventDropdown = document.getElementById("event-dropdown");
-  const eventKey = eventDropdown && eventDropdown.value ? eventDropdown.value : null;
+  const eventKey = document.getElementById("event-dropdown").value;
+  const evento = eventos[eventKey];
   const hoja = hojas[gameKey];
   document.getElementById("search-input").value = "";
 
@@ -264,74 +136,66 @@ function loadGame(gameKey) {
   document.getElementById("table-loader").style.display = "flex";
   document.querySelector("table").style.visibility = "hidden";
 
-  // Si no hay evento seleccionado, muestra mensaje y no carga datos
-  if (!eventKey) {
+  // Si el evento no tiene baseUrl, muestra mensaje y no carga datos
+  if (!evento.baseUrl) {
     setTimeout(() => {
       document.getElementById("table-loader").style.display = "none";
       document.querySelector("table").style.visibility = "visible";
-      showInfo([]);
+      showInfo([]); // Limpia la tabla
     }, 1000);
     return;
   }
 
-  // Si el evento es de Google Sheets, usa la lógica actual
-  const evento = eventos[eventKey];
-  if (evento && evento.baseUrl) {
-    const url = evento.baseUrl + hoja.gid;
-    const startTime = Date.now();
-    let finished = false;
-    // Log para depuración
-    console.log('[Ranking] Intentando descargar:', url);
-    // Timeout de seguridad: si en 5s no termina, muestra mensaje
-    const fallbackTimeout = setTimeout(() => {
-      if (!finished) {
-        finished = true;
-        showInfo([], 'No se pudo cargar la información. Verifica la conexión o el acceso a la hoja.');
+  const url = evento.baseUrl + hoja.gid;
+  const startTime = Date.now();
+  let finished = false;
+
+  // Log para depuración
+  console.log('[Ranking] Intentando descargar:', url);
+
+  // Timeout de seguridad: si en 5s no termina, muestra mensaje
+  const fallbackTimeout = setTimeout(() => {
+    if (!finished) {
+      finished = true;
+      showInfo([], 'No se pudo cargar la información. Verifica la conexión o el acceso a la hoja.');
+      document.getElementById("table-loader").style.display = "none";
+      document.querySelector("table").style.visibility = "visible";
+    }
+  }, 5000);
+
+  Papa.parse(url, {
+    download: true,
+    header: true,
+    complete: function(results) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(fallbackTimeout);
+      lastData = results.data;
+      const elapsed = Date.now() - startTime;
+      const minTime = 1400; // 1.4 segundos
+      const wait = elapsed < minTime ? minTime - elapsed : 0;
+      setTimeout(() => {
+        if (!lastData || !Array.isArray(lastData) || lastData.length === 0 || !lastData.some(row => row.Player || row.Ranking || row.Points)) {
+          showInfo([], 'No hay datos disponibles o la hoja está vacía.');
+        } else {
+          showInfo(lastData);
+        }
         document.getElementById("table-loader").style.display = "none";
         document.querySelector("table").style.visibility = "visible";
-      }
-    }, 5000);
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      complete: function(results) {
-        if (finished) return;
-        finished = true;
-        clearTimeout(fallbackTimeout);
-        lastData = results.data;
-        const elapsed = Date.now() - startTime;
-        const minTime = 1400; // 1.4 segundos
-        const wait = elapsed < minTime ? minTime - elapsed : 0;
-        setTimeout(() => {
-          if (!lastData || !Array.isArray(lastData) || lastData.length === 0 || !lastData.some(row => row.Player || row.Ranking || row.Points)) {
-            showInfo([], 'No hay datos disponibles o la hoja está vacía.');
-          } else {
-            showInfo(lastData);
-          }
-          document.getElementById("table-loader").style.display = "none";
-          document.querySelector("table").style.visibility = "visible";
-        }, wait);
-      },
-      error: function(err) {
-        if (finished) return;
-        finished = true;
-        clearTimeout(fallbackTimeout);
-        console.error('[Ranking] Error PapaParse:', err);
-        setTimeout(() => {
-          showInfo([], 'Error al cargar los datos. Consulta la consola para más detalles.');
-          document.getElementById("table-loader").style.display = "none";
-          document.querySelector("table").style.visibility = "visible";
-        }, 1000);
-      }
-    });
-    return;
-  }
-  // Si el evento no existe en el objeto, muestra mensaje
-  setTimeout(() => {
-    document.getElementById("table-loader").style.display = "none";
-    document.querySelector("table").style.visibility = "visible";
-    showInfo([]);
-  }, 1000);
+      }, wait);
+    },
+    error: function(err) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(fallbackTimeout);
+      console.error('[Ranking] Error PapaParse:', err);
+      setTimeout(() => {
+        showInfo([], 'Error al cargar los datos. Consulta la consola para más detalles.');
+        document.getElementById("table-loader").style.display = "none";
+        document.querySelector("table").style.visibility = "visible";
+      }, 1000);
+    }
+  });
 }
 
 function normalizeName(str) {
@@ -392,55 +256,45 @@ function showInfo(data, errorMsg) {
   winrateTimeout = setTimeout(setWinrateError, 8000); // 8 segundos
 
   // --- CACHE DE WINRATE GLOBAL ---
-  // Consultar la API de start.gg para obtener todos los torneos/eventos del juego
-  obtenerEventosStartGG(juego).then(eventosWinrate => {
-    const cacheKey = juego + "_" + eventosWinrate.join("_");
-    if (winrateCache[cacheKey]) {
-      clearTimeout(winrateTimeout);
-      const statsGlobalRaw = winrateCache[cacheKey];
-      // ...
-      const statsGlobal = {};
-      Object.keys(statsGlobalRaw).forEach(name => {
-        statsGlobal[normalizeName(name)] = statsGlobalRaw[name];
-      });
-      Array.from(tbody.rows).forEach(tr => {
-        const player = normalizeName(tr.cells[1].textContent.trim());
-        const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
-        const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
-        tr.cells[3].textContent = winrate;
-        tr.cells[3].classList.add('col-winrate');
-      });
-      winrateResolved = true;
-      return;
-    }
-    Promise.all(eventosWinrate.map(evKey => obtenerStatsGlobal(juego, evKey))).then(statsArr => {
-      const statsGlobalRaw = {};
-      statsArr.forEach(stats => {
-        Object.keys(stats).forEach(name => {
-          const normName = normalizeName(name);
-          if (!statsGlobalRaw[normName]) statsGlobalRaw[normName] = { victorias: 0, derrotas: 0, sets: 0 };
-          statsGlobalRaw[normName].victorias += stats[name].victorias;
-          statsGlobalRaw[normName].derrotas += stats[name].derrotas;
-          statsGlobalRaw[normName].sets += stats[name].sets;
-        });
-      });
-      // ...
-      winrateCache[cacheKey] = statsGlobalRaw;
-      const statsGlobal = {};
-      Object.keys(statsGlobalRaw).forEach(name => {
-        statsGlobal[name] = statsGlobalRaw[name];
-      });
-      Array.from(tbody.rows).forEach(tr => {
-        const player = normalizeName(tr.cells[1].textContent.trim());
-        const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
-        const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
-        tr.cells[3].textContent = winrate;
-        tr.cells[3].classList.add('col-winrate');
-      });
-      winrateResolved = true;
-    }).catch(() => {
-      setWinrateError();
+  if (winrateCache[juego]) {
+    // Usar cache
+    clearTimeout(winrateTimeout);
+    const statsGlobalRaw = winrateCache[juego];
+    // Normaliza las keys de statsGlobal
+    const statsGlobal = {};
+    Object.keys(statsGlobalRaw).forEach(name => {
+      statsGlobal[normalizeName(name)] = statsGlobalRaw[name];
     });
+    Array.from(tbody.rows).forEach(tr => {
+      const player = normalizeName(tr.cells[1].textContent.trim());
+      const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
+      const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
+      tr.cells[3].textContent = winrate;
+      tr.cells[3].classList.add('col-winrate');
+    });
+    winrateResolved = true;
+    return;
+  }
+  // Si no hay cache, consulta la API
+  obtenerStatsGlobal(juego).then(statsGlobalRaw => {
+    if (winrateResolved) return;
+    winrateResolved = true;
+    clearTimeout(winrateTimeout);
+    winrateCache[juego] = statsGlobalRaw; // Guarda en cache
+    // Normaliza las keys de statsGlobal
+    const statsGlobal = {};
+    Object.keys(statsGlobalRaw).forEach(name => {
+      statsGlobal[normalizeName(name)] = statsGlobalRaw[name];
+    });
+    Array.from(tbody.rows).forEach(tr => {
+      const player = normalizeName(tr.cells[1].textContent.trim());
+      const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
+      const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
+      tr.cells[3].textContent = winrate;
+      tr.cells[3].classList.add('col-winrate');
+    });
+  }).catch(() => {
+    setWinrateError();
   });
 }
 
@@ -471,30 +325,15 @@ document.getElementById("game-dropdown").addEventListener("change", function() {
 window.addEventListener('DOMContentLoaded', () => {
   const lastGame = localStorage.getItem('cubafgc-last-game');
   const gameDropdown = document.getElementById('game-dropdown');
-  const eventDropdown = document.getElementById('event-dropdown');
-
-  function updateEventDropdown(gameKey) {
-    // Por defecto, mostrar los eventos de ranking general
-    eventDropdown.innerHTML = '';
-    eventDropdown.appendChild(new Option('Ranking General 2025/2026', 'vol1'));
-    eventDropdown.appendChild(new Option('Próximamente 2026', 'vol2'));
-    // Si en el futuro se quiere usar la API de start.gg para otros juegos, aquí se puede agregar la lógica
-  }
-
-  gameDropdown.addEventListener('change', async function() {
-    const gameKey = this.value;
-    await updateEventDropdown(gameKey);
-    localStorage.setItem('cubafgc-last-game', gameKey);
+  if (lastGame && gameDropdown.querySelector(`option[value="${lastGame}"]`)) {
+    gameDropdown.value = lastGame;
+    setGameBackground(lastGame);
+    loadGame(lastGame);
+  } else {
+    const gameKey = gameDropdown.value;
     setGameBackground(gameKey);
     loadGame(gameKey);
-  });
-
-  // Inicializa el select de eventos y ranking
-  const gameKey = lastGame && gameDropdown.querySelector(`option[value="${lastGame}"]`) ? lastGame : gameDropdown.value;
-  gameDropdown.value = gameKey;
-  setGameBackground(gameKey);
-  updateEventDropdown(gameKey);
-  loadGame(gameKey);
+  }
 });
 
 document.getElementById("event-dropdown").addEventListener("change", function() {
