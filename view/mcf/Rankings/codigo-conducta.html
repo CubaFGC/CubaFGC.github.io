@@ -4,17 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Código de Conducta | Cuba FGC</title>
-  <link href="/css/main.css" rel="stylesheet" />
+  <link href="/css/header.css" rel="stylesheet" />
   <link href="/css/footer.css" rel="stylesheet" />
   <link href="/css/conducta.css" rel="stylesheet" />
-  <link href="/css/header.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="header-include"></div>
-  <div class="conduct-container">
+  <div id="header-include" style="position:fixed;top:0;left:0;width:100%;z-index:100;"></div>
+  <div class="conduct-container" style="margin-top:4.5rem;margin-bottom:4.5rem;">
     <h1>Código de Conducta</h1>
-    <p style="text-align:center;font-size:1.08rem;color:#FFD600;font-weight:600;">Agrupación Cubana de Juegos de Lucha</p>
+    <p class="conducta-subtitle">Agrupación Cubana de Juegos de Lucha</p>
     <div class="conduct-section">
       <h2>1. Principios Generales</h2>
       <ul>
@@ -84,12 +84,9 @@
     <div class="conduct-section">
       <h2>7. Aceptación</h2>
       <p>Al ingresar a la comunidad o participar en cualquier evento, todos los miembros aceptan este Código de Conducta y se comprometen a cumplirlo.</p>
-    </div>
-    <div style="text-align:center;margin-top:2.5rem;">
-      <a href="/index.html" style="background:#FFD600;color:#222;font-weight:600;border-radius:8px;padding:0.7rem 2.2rem;font-size:1.08rem;text-decoration:none;transition:background 0.18s;display:inline-block;">⟵ Atrás</a>
-    </div>
+    </div>    
   </div>
-  <footer id="footer-include"></footer>
+  <footer id="footer-include" style="position:fixed;bottom:0;left:0;width:100%;z-index:100;"></footer>
   <script>
     fetch('/view/partials/header.html')
       .then(res => res.text())

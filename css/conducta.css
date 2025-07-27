@@ -1,83 +1,116 @@
-/* Estilos específicos para el Código de Conducta */
+
+body {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  background: #181818;
+  color: #f5f5f5;
+  margin: 0;
+  min-height: 100vh;
+}
+
 .conduct-container {
   max-width: 700px;
-  margin: 2.5rem auto;
-  background: rgba(34,34,34,0.92);
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-  padding: 2.2rem 1.5rem;
+  margin: 3.5rem auto 3.5rem auto;
+  padding-bottom: 5.5rem;
+  background: #32323a;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px #000b;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
 }
-h1, h2 {
+
+.conducta-subtitle {
+  text-align: center;
+  font-size: 1.15rem;
+  color: #FFD600;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+h1 {
   color: #FFD600;
   text-align: center;
+  font-size: 2.1rem;
+  font-weight: 700;
   margin-bottom: 1.2rem;
+  letter-spacing: 1px;
 }
 h2 {
-  font-size: 1.18rem;
-  margin-top: 2.2rem;
+  color: #FFD600;
+  text-align: left;
+  font-size: 1.22rem;
+  font-weight: 600;
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.5px;
 }
 ul, ol {
   margin-left: 1.2rem;
   margin-bottom: 1.2rem;
+  font-size: 1.08rem;
+  line-height: 1.7;
 }
 li {
   margin-bottom: 0.5rem;
 }
 .conduct-section {
-  margin-bottom: 2rem;
+  width: 100%;
+  background: #23232a;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0007;
+  padding: 1.2rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.conduct-section:last-child {
+  margin-bottom: 0;
+}
+.conduct-container strong {
+  color: #fff;
+  font-weight: 700;
 }
 .conduct-container p {
   margin-bottom: 1.1rem;
+  color: #f5f5f5;
+  font-size: 1.08rem;
 }
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .conduct-container {
-    width: 97vw;
-    max-width: 97vw;
-    min-width: 0;
-    margin: 0;
-    padding: 1.2rem 4vw;
-    box-sizing: border-box;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 98vw;
+    padding: 1.5rem 1vw 5.5rem 1vw;
   }
   h1 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    padding: 0.2rem 0.1rem;
+    font-size: 1.5rem;
   }
   h2 {
     font-size: 1.08rem;
-    margin-top: 1.2rem;
-    margin-bottom: 0.7rem;
-    padding: 0.1rem 0.1rem;
   }
-  ul, ol {
-    margin-left: 0.5rem;
-    font-size: 0.98rem;
-  }
-  li {
-    margin-bottom: 0.35rem;
-    line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+  .conduct-container {
+    max-width: 99vw;
+    padding: 1.1rem 2vw 6.5rem 2vw;
+    border-radius: 8px;
+    gap: 1.2rem;
   }
   .conduct-section {
-    margin-bottom: 1.2rem;
+    padding: 0.7rem 0.3rem;
+    border-radius: 6px;
   }
-  .conduct-container p {
-    font-size: 1rem;
+  h1 {
+    font-size: 1.08rem;
     margin-bottom: 0.7rem;
   }
-  .conduct-container strong {
-    font-size: 1rem;
+  h2 {
+    font-size: 0.98rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
   }
-  .conduct-container a {
-    font-size: 1rem !important;
-    padding: 0.7rem 1.2rem !important;
-    width: 100%;
-    box-sizing: border-box;
-    display: block;
-    margin: 0.7em auto 0.2em auto;
-    text-align: center;
+  ul, ol {
+    margin-left: 0.3rem;
+    font-size: 0.98rem;
   }
 }
