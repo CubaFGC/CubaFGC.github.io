@@ -18,18 +18,6 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('header-include').innerHTML = html;
-      })
-      .then(() => {
-        // Primero carga Supabase
-        const supa = document.createElement('script');
-        supa.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js';
-        document.body.appendChild(supa);
-        supa.onload = () => {
-          // Luego carga tu JS de auth
-          const script = document.createElement('script');
-          script.src = '/scripts/auth.js';
-          document.body.appendChild(script);
-        };
       });
   </script>
   <main>

@@ -163,11 +163,6 @@ tr:last-child td {
     backdrop-filter: blur(2px);
 }
 
-body > *:not(#bg-wallpaper) {
-  position: relative;
-  z-index: 1;
-}
-
 .menu-trigger {
   position: absolute;
   top: 2rem;
