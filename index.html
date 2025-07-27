@@ -129,7 +129,7 @@
       </a>
     </div>
     <div style="text-align:center;margin-bottom:2rem;">
-      <a href="/view/mcf/Rankings/rankingGeneral.html" class="ranking-btn solo-logueado" style="display:none;">
+      <a href="/view/mcf/Rankings/rankingGeneral.html" class="ranking-btn">
         Ranking
       </a>
     </div>
@@ -177,6 +177,10 @@
       .then(data => {
         const status = document.getElementById('mixup-status');
         const btn = document.getElementById('mixup-historial-btn');
+        if (!status) {
+          console.error('Elemento mixup-status no encontrado');
+          return;
+        }
         if (!data.data || !data.data.tournament) {
           status.textContent = "No encontrado";
           status.className = "event-access-status cerrado";
@@ -214,6 +218,10 @@
       .then(data => {
         const status = document.getElementById('mixup-status-vol2');
         const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
+        if (!status) {
+          console.error('Elemento mixup-status-vol2 no encontrado');
+          return;
+        }
         if (data.errors) {
           status.textContent = "Error API";
           status.className = "event-access-status cerrado";
@@ -242,9 +250,11 @@
       })
       .catch(error => {
         const status = document.getElementById('mixup-status-vol2');
-        status.textContent = "Error de red/API";
-        status.className = "event-access-status cerrado";
-        status.style.display = "";
+        if (status) {
+          status.textContent = "Error de red/API";
+          status.className = "event-access-status cerrado";
+          status.style.display = "";
+        }
         const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
         if (btn) btn.style.display = "none";
       });
@@ -260,18 +270,7 @@
     .then(html => {
       document.getElementById('header-include').innerHTML = html;
     })
-    .then(() => {
-      // Primero carga Supabase UMD
-      const supa = document.createElement('script');
-      supa.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js';
-      document.body.appendChild(supa);
-      supa.onload = () => {
-        // Luego carga tu JS
-        const script = document.createElement('script');
-        script.src = '/scripts/auth.js';
-        document.body.appendChild(script);
-      };
-    });
+    // Eliminado Supabase y auth.js
 </script>
 <script>
 const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";

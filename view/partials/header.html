@@ -1,302 +1,158 @@
 <!-- filepath: /partials/header.html -->
 <header class="main-header-bar">
   <div class="header-content">
+    <button class="header-hamburger" aria-label="Abrir menú" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="7" width="32" height="4" rx="2" fill="#FFD600"/>
+        <rect y="15" width="32" height="4" rx="2" fill="#FFD600"/>
+        <rect y="23" width="32" height="4" rx="2" fill="#FFD600"/>
+      </svg>
+    </button>
     <a href="/index.html" class="header-logo-link">
       <img src="/img/logo-cubafgc.png" alt="Cuba FGC Logo" class="main-logo-header">
     </a>
-    <a href="/view/mcf/Rankings/codigo-conducta.html" class="conduct-btn" style="background:#FFD600;color:#222;font-weight:600;border-radius:8px;padding:0.5rem 1.2rem;margin-left:1.2rem;text-decoration:none;transition:background 0.18s;">Código de Conducta</a>
-    <div class="header-btns-row">
-      <button id="login-toggle-btn" class="login-toggle-btn" type="button">Iniciar sesión</button>
-    </div>
-    <div id="auth-header" class="auth-header">
-      <div id="login-dropdown" class="login-dropdown" style="display:none;">
-        <!-- Ejemplo para el login -->
-        <form id="login-form" autocomplete="on">
-          <label for="login-email" style="display:none;">Correo</label>
-          <input type="email" id="login-email" placeholder="Correo" required>
-          <label for="login-password" style="display:none;">Contraseña</label>
-          <input type="password" id="login-password" placeholder="Contraseña" required>
-          <button type="submit" class="login-btn">Entrar</button>
-          <div id="login-error" class="login-error" style="display:none;"></div>
-        </form>
-
-        <!-- Ejemplo para el registro -->
-        <form id="register-form" style="display:none;">
-          <label for="register-email" style="display:none;">Correo</label>
-          <input type="email" id="register-email" placeholder="Correo" required>
-          <label for="register-password" style="display:none;">Contraseña</label>
-          <input type="password" id="register-password" placeholder="Contraseña" required>
-          <label for="register-password2" style="display:none;">Repetir contraseña</label>
-          <input type="password" id="register-password2" placeholder="Repetir contraseña" required>
-          <button type="submit" class="login-btn">Crear cuenta</button>
-          <div id="register-error" class="login-error" style="display:none;"></div>
-        </form>
-        <div style="text-align:center;margin-top:0.5rem;">
-          <a href="#" id="toggle-auth-form" class="register-link">Crear cuenta</a>
-        </div>
-        <a href="#" id="forgot-password-link" class="register-link" style="display:block;margin-top:0.5rem;">¿Olvidaste tu contraseña?</a>
+    <div class="header-btns-row"></div>
+    <!-- Menú hamburguesa móvil rediseñado -->
+    <nav id="mobile-menu" class="mobile-menu">
+      <div class="mobile-menu-header">
+        <a href="/index.html" class="mobile-menu-logo-link">
+          <img src="/img/logo-cubafgc.png" alt="Cuba FGC Logo" class="mobile-menu-logo" style="max-width:90px;display:block;margin:0 auto 1rem auto;">
+        </a>
       </div>
-      <div id="user-menu-container" style="display:none; position:relative;">
-        <button id="user-menu-btn" class="user-menu-btn" aria-haspopup="true" aria-expanded="false">
-          <span id="user-header-info"></span>
-          <span id="email-verified-icon" style="vertical-align:middle;margin-left:0.5rem;"></span>
-          <svg width="16" height="16" style="vertical-align:middle;margin-left:0.3rem;" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="#181218" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        </button>
-        <div id="user-dropdown-menu" class="user-dropdown-menu" style="display:none; position:absolute; right:0; top:110%; background:#241c2a; border:1px solid #ffd600; border-radius:8px; min-width:160px; z-index:200;">
-          <button id="logout-header-btn" style="width:100%;background:none;border:none;padding:0.7rem 1rem;text-align:left;color:#ffd600;font-weight:600;cursor:pointer;">Cerrar sesión</button>
-        </div>
-      </div>
-    </div>
+      <a href="/index.html" class="mobile-menu-link">Inicio</a>
+      <a href="/view/mcf/Rankings/rankingGeneral.html" class="mobile-menu-link">Ranking</a>
+      <a href="/view/mcf/Rankings/codigo-conducta.html" class="mobile-menu-link">Código de Conducta</a>
+    </nav>
+    <!-- Limpio: sin usuario/login -->
   </div>
-  <!-- Mensaje de email no verificado -->
-  <div id="email-warning" class="email-warning" style="display:none;">
-    ⚠️ Debes verificar tu correo electrónico para acceder a todas las funciones.
-    <button id="resend-verification-btn" type="button">Reenviar correo de verificación</button>
-  </div>
+  <!-- Limpio: sin mensaje de email -->
 </header>
 
-<!-- Modal de login/registro -->
-<div id="auth-modal" class="auth-modal" style="display:none;">
-  <div class="auth-modal-content">
-    <span id="close-auth-modal" class="close-auth-modal">&times;</span>
-    <h2>Iniciar sesión</h2>
-    <form id="login-form">
-      <input type="email" id="login-email" placeholder="Correo" required>
-      <input type="password" id="login-password" placeholder="Contraseña" required>
-      <button type="submit">Entrar</button>
-    </form>
-    <hr>
-    <h2>Registrarse</h2>
-    <form id="register-form">
-      <input type="email" id="register-email" placeholder="Correo" required>
-      <input type="password" id="register-password" placeholder="Contraseña" required>
-      <input type="password" id="register-password2" placeholder="Repetir contraseña" required>
-      <button type="submit">Crear cuenta</button>
-    </form>
-    <div id="user-info"></div>
-  </div>
-</div>
+<!-- Limpio: sin modal de login/registro -->
 
 <style>
-/* Modern Auth Modal */
-.auth-modal {
+/* Header y menú hamburguesa responsive */
+.main-header-bar {
+  /* ...estilos existentes... */
+}
+/* Logo principal solo visible en escritorio */
+.main-logo-header {
+  display: block;
+}
+@media (max-width: 600px) {
+  .main-logo-header {
+    display: none !important;
+  }
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-btns-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  margin-left: auto;
+}
+/* Menú hamburguesa solo visible en móvil */
+/* Menú hamburguesa animado y no cubre toda la pantalla */
+.mobile-menu {
   position: fixed;
-  z-index: 1000;
-  left: 0; top: 0; width: 100vw; height: 100vh;
-  background: rgba(24,18,24,0.7);
+  top: 0;
+  right: 0;
+  width: 85vw;
+  max-width: 340px;
+  height: 100vh;
+  background: #241c2a;
+  z-index: 999;
   display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0;
+  box-shadow: -2px 0 16px #0007;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(.7,.2,.3,1), opacity 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+@media (min-width: 601px) {
+  .mobile-menu {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .header-hamburger {
+    display: none !important;
+  }
+}
+@media (max-width: 600px) {
+/* Botón menú hamburguesa visual mejorado */
+.header-hamburger {
+  display: flex !important;
   align-items: center;
   justify-content: center;
-}
-.auth-modal-content {
+  width: 48px;
+  height: 48px;
   background: #241c2a;
-  padding: 2rem 1.5rem;
-  border-radius: 18px;
-  box-shadow: 0 6px 28px #000b;
-  min-width: 320px;
-  max-width: 90vw;
-  width: 100%;
-  color: #fffbe6;
-  position: relative;
-}
-.auth-modal-content h2 {
-  margin-top: 0;
-  color: #ffd600;
-  text-align: center;
-}
-.auth-modal-content input,
-.auth-modal-content button {
-  display: block;
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.7rem;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-}
-.auth-modal-content button {
-  background: #ffd600;
-  color: #181218;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.18s;
-}
-.auth-modal-content button:hover {
-  background: #fffbe6;
-}
-.close-auth-modal {
-  position: absolute;
-  top: 1rem;
-  right: 1.2rem;
-  font-size: 2rem;
-  color: #ffd600;
-  cursor: pointer;
-}
-.google-login-btn {
-  background: #fff;
-  color: #444;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background 0.2s;
-}
-.google-login-btn:hover {
-  background: #f5f5f5;
-}
-#user-header-info {
-  margin-left: 1rem;
-  font-weight: 600;
-  color: #ffd600;
-}
-#logout-header-btn {
-  margin-left: 1rem;
-  background: #ffd600;
-  color: #181218;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-#logout-header-btn:hover {
-  background: #fffbe6;
-}
-.login-toggle-btn {
-  background: #ffd600;
-  color: #181218;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.login-toggle-btn:hover {
-  background: #fffbe6;
-}
-.login-dropdown {
-  background: #241c2a;
-  border: 1px solid #ffd600;
+  border: 2px solid #ffd600;
   border-radius: 12px;
-  box-shadow: 0 4px 16px #0004;
-  padding: 1.2rem 1rem 1rem 1rem;
-  margin-top: 3.3rem;
-  position: absolute;
-  min-width: 260px;
-  max-width: 320px;
-  right: 0;
-  z-index: 100;
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: left 0.2s, right 0.2s, width 0.2s, min-width 0.2s, max-width 0.2s, padding 0.2s, top 0.2s;
+  padding: 0;
+  margin-right: 0.5rem;
+  box-shadow: 0 2px 8px #0003;
+  cursor: pointer;
+  transition: background 0.18s, border 0.18s;
 }
-.login-dropdown form {
+.header-hamburger:hover {
+  background: #ffd600;
+  border-color: #fffbe6;
+}
+}
+.mobile-menu-header {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.login-dropdown input {
-  width: 90%;
-  margin-bottom: 0.7rem;
-  padding: 0.7rem;
-  border-radius: 8px;
-  border: 1px solid #ffd600;
   background: #181218;
+  padding: 1.2rem 0 0.7rem 0;
+  text-align: center;
+  border-bottom: 1px solid #ffd600;
+  margin-bottom: 1.2rem;
+}
+.mobile-menu-logo {
+  max-width: 90px;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+.mobile-menu-link {
+  width: 90vw;
+  max-width: 320px;
+  display: block;
+  font-size: 1.18rem;
+  padding: 1rem 0.5rem;
+  border-radius: 10px;
+  margin: 0.5rem auto;
+  min-height: 48px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background: #241c2a;
   color: #ffd600;
-  font-size: 1rem;
-  outline: none;
-  transition: border 0.2s;
+  text-decoration: none;
+  border: 1px solid #ffd600;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.18s, color 0.18s;
 }
-.login-dropdown input:focus {
-  border: 1.5px solid #fffbe6;
-}
-.login-btn {
-  width: 70%;
-  margin-top: 0.5rem;
-  padding: 0.6rem 0;
-  font-size: 1rem;
-  border-radius: 5px;
-}
-.login-btn {
-  width: 100%;
+.mobile-menu-link:hover {
   background: #ffd600;
   color: #181218;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem;
-  font-weight: bold;
-  font-size: 1.08rem;
-  cursor: pointer;
-  margin-bottom: 0.5rem;
-  transition: background 0.18s, color 0.18s;
-  box-shadow: 0 2px 8px #0002;
-}
-.login-btn:hover {
-  background: #fffbe6;
-  color: #181218;
-}
-.register-link {
-  color: #ffd600;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 1.05em;
-  font-weight: 500;
-  transition: color 0.18s;
-}
-.register-link:hover {
-  color: #fffbe6;
-}
-.login-error {
-  color: #ff4d4f;
-  background: #fffbe6;
-  border-radius: 6px;
-  padding: 0.4rem 0.7rem;
-  margin-top: 0.3rem;
-  font-size: 0.97em;
-  text-align: center;
-  border: 1px solid #ffd600;
-  display: none;
-}
-.login-error {
-  font-size: 0.97em;
-  margin-top: 0.4rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: 6px;
-  background: #1a1622;
-  color: #ff4d4f;
-  border: 1px solid #ffd600;
-  text-align: center;
-  display: none;
 }
 
-/* Spinner para botones */
-.btn-spinner {
-  display: inline-block;
-  width: 1.2em;
-  height: 1.2em;
-  border: 2.5px solid #ffd600;
-  border-top: 2.5px solid #fffbe6;
-  border-radius: 50%;
-  animation: spinBtn 0.7s linear infinite;
-  vertical-align: middle;
-  margin-right: 0.5em;
-}
-@keyframes spinBtn {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-}
-
-/* Responsive header y dropdown */
 @media (max-width: 600px) {
   .main-header-bar {
     padding: 0.2rem 0.1rem;
@@ -306,308 +162,15 @@
     margin: 0 auto 0.5rem auto;
     display: block;
   }
-  .login-dropdown {
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%);
-    min-width: 98vw;
-    max-width: 99vw;
-    width: 99vw;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-    box-sizing: border-box;
-    border-radius: 0 0 16px 16px;
-    top: 55px !important;
-    margin-top: 0;
-    /* Asegura que no se salga por arriba ni por los lados */
-  }
-  .login-dropdown form {
-    width: 100%;
-    max-width: 100vw;
-    padding: 0;
-  }
-  .login-dropdown input,
-  .login-btn {
-    font-size: 1.08rem;
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .login-btn {
-    margin-bottom: 0.7rem;
-    font-size: 1.15rem;
-    padding: 1.1rem 0.5rem;
-    border-radius: 10px;
-    min-height: 48px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-  }
-  .ranking-btn {
-    width: 100%;
-    display: block;
-    font-size: 1.13rem;
-    padding: 1rem 0.5rem;
-    border-radius: 10px;
-    margin: 0.5rem 0 0.7rem 0;
-    min-height: 48px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    text-align: center;
-  }
-  .ranking-btn {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-  .register-link {
-    font-size: 1.1em;
-    text-align: center;
-    display: block;
-    margin: 0.5rem auto;
-  }
-  #user-header-info {
-    margin-left: 0;
-    margin-top: 0.5rem;
-    display: block;
-    text-align: center;
-  }
-}
-
-@media (max-width: 600px) {
-  .user-menu-btn {
-    width: 100vw;
-    min-width: 0;
-    font-size: 1.15rem;
-    padding: 1.1rem 1.2rem;
-    border-radius: 12px;
-    justify-content: flex-start;
-    gap: 0.7em;
-    background: #241c2a;
-    color: #ffd600;
-    margin: 0;
-    box-sizing: border-box;
-    border: none;
-  }
-  .user-dropdown-menu {
-    left: 0 !important;
-    right: 0 !important;
-    min-width: 100vw;
-    border-radius: 0 0 16px 16px;
-    top: 100% !important;
-    box-shadow: 0 8px 32px #0005;
-    padding: 0.5em 0;
-  }
-  .user-dropdown-menu button {
-    font-size: 1.13rem;
-    padding: 1.1rem 1.2rem;
-    border-radius: 0;
-    width: 100%;
-    text-align: left;
-  }
-}
-
-@media (max-width: 600px) {
-  .user-dropdown-menu {
-    background: #241c2a;
-    box-shadow: 0 8px 32px #0005;
-  }
-}
-
-/* Ajuste para evitar doble scroll y asegurar centrado */
-body {
-  overflow-x: hidden;
-}
-
-.header-btns-row {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  margin-left: auto;
-}
-
-.header-btns-row .ranking-btn,
-.header-btns-row .login-toggle-btn {
-  flex: 1 1 0;
-  min-width: 0;
-  margin: 0;
-  box-sizing: border-box;
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 0.2s;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Cuando ocultes, usa solo visibility y opacity */
-.solo-logueado[style*="display:none"] {
-  display: block !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none;
-}
-
-/* En móvil, que ocupen el 48% cada uno y estén juntos */
-@media (max-width: 600px) {
   .header-btns-row {
     flex-direction: row;
     gap: 0.5rem;
     width: 40%;
     margin-bottom: 0.7rem;
   }
-  .header-btns-row .ranking-btn,
-  .header-btns-row .login-toggle-btn {
-    width: 48%;
-    min-width: 0;
-    font-size: 1.08rem;
-    padding: 1rem 0.2rem;
-    border-radius: 10px;
-    min-height: 48px;
-    margin: 0;
+  .header-ranking-btn, .conduct-btn {
+/* Reglas vacías eliminadas */
   }
-}
-
-.user-menu-btn {
-  background: none;
-  border: none;
-  color: #ffd600;
-  font-weight: 600;
-  font-size: 1.05em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.3em;
-  padding: 0.4em 0.8em;
-  border-radius: 6px;
-  transition: background 0.18s;
-}
-.user-menu-btn:hover, .user-menu-btn[aria-expanded="true"] {
-  background: #fffbe6;
-  color: #181218;
-}
-.user-dropdown-menu {
-  min-width: 160px;
-  background: #241c2a;
-  border: 1px solid #ffd600;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px #0003;
-  padding: 0.2em 0;
-}
-.user-dropdown-menu button {
-  width: 100%;
-  background: none;
-  border: none;
-  color: #ffd600;
-  font-weight: 600;
-  font-size: 1em;
-  padding: 0.7em 1em;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.18s;
-}
-.user-dropdown-menu button:hover {
-  background: #fffbe6;
-  color: #181218;
-}
-
-@media (max-width: 600px) {
-  .header-content {
-    gap: 0.8rem;
-    padding: 0.5rem 0.2rem;
-    display: flex;
-    align-items: center;
-  }
-  .login-dropdown {
-    border-radius: 0 0 18px 18px;
-    top: 60px !important;
-    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
-  }
-  #user-header-info {
-    font-size: 1.08em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 60vw;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  #email-verified-icon {
-    margin-left: 0.5em;
-    vertical-align: middle;
-  }
-}
-
-.login-social-btn {
-  width: 100%;
-  padding: 1em;
-  border-radius: 8px;
-  border: none;
-  background: #fff;
-  color: #181218;
-  font-weight: bold;
-  margin-bottom: 0.7em;
-  box-shadow: 0 2px 8px #0002;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
-  transition: background 0.18s;
-}
-.login-social-btn img {
-  width: 24px;
-  height: 24px;
-}	
-.login-social-btn:hover {
-  background: #f5f5f5;
-}
-.login-social-btn:active {
-  background: #e0e0e0;
-}   
-.email-warning {
-  background: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
-  padding: 1em;
-  margin: 1em 0;
-  border-radius: 6px;
-  text-align: center;
-  font-size: 1em;
-}
-.login-social-btn:hover {
-  background: #ffd600;
-}
-
-/* Agrega esto a tu CSS principal o en el <style> del header */
-.resend-verification-btn,
-#resend-login-verification-btn {
-  background: #ffd600;
-  color: #181218;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6em 1.2em;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 0.7em;
-  transition: background 0.18s, color 0.18s;
-  box-shadow: 0 2px 8px #0002;
-  font-size: 1em;
-  display: inline-block;
-}
-.resend-verification-btn:hover,
-#resend-login-verification-btn:hover {
-  background: #ffe066;
-  color: #181218;
-}
-.resend-verification-btn:disabled,
-#resend-login-verification-btn:disabled {
-  background: #e0e0e0;
-  color: #aaa;
-  cursor: not-allowed;
 }
 </style>
-
 
