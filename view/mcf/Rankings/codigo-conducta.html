@@ -15,10 +15,62 @@
     li { margin-bottom: 0.5rem; }
     .conduct-section { margin-bottom: 2rem; }
     .conduct-container p { margin-bottom: 1.1rem; }
-    @media (max-width: 700px) { .conduct-container { padding: 1.2rem 0.5rem; } }
+    @media (max-width: 700px) {
+      .conduct-container {
+        width: 97vw;
+        max-width: 97vw;
+        min-width: 0;
+        margin: 0;
+        padding: 1.2rem 4vw;
+        box-sizing: border-box;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        padding: 0.2rem 0.1rem;
+      }
+      h2 {
+        font-size: 1.08rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.7rem;
+        padding: 0.1rem 0.1rem;
+      }
+      ul, ol {
+        margin-left: 0.5rem;
+        font-size: 0.98rem;
+      }
+      li {
+        margin-bottom: 0.35rem;
+        line-height: 1.45;
+      }
+      .conduct-section {
+        margin-bottom: 1.2rem;
+      }
+      .conduct-container p {
+        font-size: 1rem;
+        margin-bottom: 0.7rem;
+      }
+      .conduct-container strong {
+        font-size: 1rem;
+      }
+      .conduct-container a {
+        font-size: 1rem !important;
+        padding: 0.7rem 1.2rem !important;
+        width: 100%;
+        box-sizing: border-box;
+        display: block;
+        margin: 0.7em auto 0.2em auto;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
+  <div id="header-include"></div>
   <div class="conduct-container">
     <h1>Código de Conducta</h1>
     <p style="text-align:center;font-size:1.08rem;color:#FFD600;font-weight:600;">Agrupación Cubana de Juegos de Lucha</p>
@@ -96,5 +148,18 @@
       <a href="/index.html" style="background:#FFD600;color:#222;font-weight:600;border-radius:8px;padding:0.7rem 2.2rem;font-size:1.08rem;text-decoration:none;transition:background 0.18s;display:inline-block;">⟵ Atrás</a>
     </div>
   </div>
+  <footer id="footer-include"></footer>
+  <script>
+    fetch('/view/partials/header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header-include').innerHTML = html;
+      });
+    fetch('/view/partials/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-include').innerHTML = html;
+      });
+  </script>
 </body>
 </html>
