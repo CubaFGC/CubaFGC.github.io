@@ -11,7 +11,10 @@
     <a href="/index.html" class="header-logo-link">
       <img src="/img/logo-cubafgc.png" alt="Cuba FGC Logo" class="main-logo-header">
     </a>
-    <div class="header-btns-row"></div>
+    <div class="header-btns-row">
+      <a href="/view/mcf/Rankings/rankingGeneral.html" class="header-ranking-btn desktop-header-btn">Ranking</a>
+      <a href="/view/mcf/Rankings/codigo-conducta.html" class="conduct-btn desktop-header-btn">Código de Conducta</a>
+    </div>
     <!-- Menú hamburguesa móvil rediseñado -->
     <nav id="mobile-menu" class="mobile-menu">
       <div class="mobile-menu-header">
@@ -53,8 +56,15 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin-top: 0.7rem;
   margin-bottom: 0.5rem;
-  margin-left: auto;
+  margin-left: 0;
+  justify-content: flex-start;
+}
+@media (max-width: 600px) {
+  .header-btns-row {
+    display: none !important;
+  }
 }
 /* Menú hamburguesa solo visible en móvil */
 /* Menú hamburguesa animado y no cubre toda la pantalla */
