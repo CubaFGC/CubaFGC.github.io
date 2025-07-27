@@ -1,0 +1,142 @@
+/* Estilos específicos para el header y menú hamburguesa CubaFGC */
+.main-header-bar {
+  width: 100%;
+  background: #1a1622;
+  border-bottom: 1.5px solid #ffd60022;
+  box-shadow: 0 2px 12px #0005;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-btns-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.7rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+  justify-content: flex-start;
+}
+@media (max-width: 600px) {
+  .header-btns-row {
+    display: none !important;
+  }
+}
+.main-logo-header {
+  display: block;
+}
+@media (max-width: 600px) {
+  .main-logo-header {
+    display: none !important;
+    max-width: 90px;
+    margin: 0 auto 0.5rem auto;
+  }
+  .main-header-bar {
+    padding: 0.2rem 0.1rem;
+  }
+  .header-btns-row {
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 40%;
+    margin-bottom: 0.7rem;
+  }
+}
+/* Menú hamburguesa */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 85vw;
+  max-width: 340px;
+  height: 100vh;
+  background: #241c2a;
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0;
+  box-shadow: -2px 0 16px #0007;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(.7,.2,.3,1), opacity 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+@media (min-width: 601px) {
+  .mobile-menu {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .header-hamburger {
+    display: none !important;
+  }
+}
+@media (max-width: 600px) {
+  .header-hamburger {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: #241c2a;
+    border: 2px solid #ffd600;
+    border-radius: 12px;
+    padding: 0;
+    margin-right: 0.5rem;
+    box-shadow: 0 2px 8px #0003;
+    cursor: pointer;
+    transition: background 0.18s, border 0.18s;
+  }
+  .header-hamburger:hover {
+    background: #ffd600;
+    border-color: #fffbe6;
+  }
+}
+.mobile-menu-header {
+  width: 100%;
+  background: #181218;
+  padding: 1.2rem 0 0.7rem 0;
+  text-align: center;
+  border-bottom: 1px solid #ffd600;
+  margin-bottom: 1.2rem;
+}
+.mobile-menu-logo {
+  max-width: 90px;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+.mobile-menu-link {
+  width: 90vw;
+  max-width: 320px;
+  display: block;
+  font-size: 1.18rem;
+  padding: 1rem 0.5rem;
+  border-radius: 10px;
+  margin: 0.5rem auto;
+  min-height: 48px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background: #241c2a;
+  color: #ffd600;
+  text-decoration: none;
+  border: 1px solid #ffd600;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.18s, color 0.18s;
+}
+.mobile-menu-link:hover {
+  background: #ffd600;
+  color: #181218;
+}

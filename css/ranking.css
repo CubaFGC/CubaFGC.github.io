@@ -1,0 +1,32 @@
+/* Estilos específicos para rankingGeneral.html */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+@media (max-width: 600px) {
+  .col-winrate {
+    max-width: 70px;
+    min-width: 50px;
+    width: 18vw;
+    font-size: 0.95em;
+    padding-left: 2px;
+    padding-right: 2px;
+    word-break: break-all;
+  }
+  table th.col-winrate {
+    white-space: normal;
+    font-size: 0.95em;
+  }
+  .col-player {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  table td.col-player {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

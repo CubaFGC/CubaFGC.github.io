@@ -1,0 +1,83 @@
+/* Estilos específicos para el Código de Conducta */
+.conduct-container {
+  max-width: 700px;
+  margin: 2.5rem auto;
+  background: rgba(34,34,34,0.92);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  padding: 2.2rem 1.5rem;
+}
+h1, h2 {
+  color: #FFD600;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+h2 {
+  font-size: 1.18rem;
+  margin-top: 2.2rem;
+}
+ul, ol {
+  margin-left: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+li {
+  margin-bottom: 0.5rem;
+}
+.conduct-section {
+  margin-bottom: 2rem;
+}
+.conduct-container p {
+  margin-bottom: 1.1rem;
+}
+@media (max-width: 700px) {
+  .conduct-container {
+    width: 97vw;
+    max-width: 97vw;
+    min-width: 0;
+    margin: 0;
+    padding: 1.2rem 4vw;
+    box-sizing: border-box;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    padding: 0.2rem 0.1rem;
+  }
+  h2 {
+    font-size: 1.08rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.7rem;
+    padding: 0.1rem 0.1rem;
+  }
+  ul, ol {
+    margin-left: 0.5rem;
+    font-size: 0.98rem;
+  }
+  li {
+    margin-bottom: 0.35rem;
+    line-height: 1.45;
+  }
+  .conduct-section {
+    margin-bottom: 1.2rem;
+  }
+  .conduct-container p {
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+  }
+  .conduct-container strong {
+    font-size: 1rem;
+  }
+  .conduct-container a {
+    font-size: 1rem !important;
+    padding: 0.7rem 1.2rem !important;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    margin: 0.7em auto 0.2em auto;
+    text-align: center;
+  }
+}
