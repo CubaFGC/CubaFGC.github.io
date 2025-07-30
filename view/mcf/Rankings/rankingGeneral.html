@@ -219,7 +219,7 @@ function showInfo(data, errorMsg) {
   else if (gameKey === "sf6") juego = "sf6";
   else if (gameKey === "ggst") juego = "strive";
   else juego = gameKey;
-  // Mostrar la tabla vacía primero para feedback inmediato
+  // Mostrar la tabla vacía primero para feedback inmediato, con animación de carga en winrate
   data.forEach(row => {
     if (!(row.Player || row.Ranking || row.ToP || row.Points)) return;
     const ranking = row.Ranking || row.ToP || '';
@@ -228,7 +228,15 @@ function showInfo(data, errorMsg) {
       <td>${ranking}</td>
       <td>${row.Player || ''}</td>
       <td>${row.Points || ''}</td>
-      <td class="col-winrate"><span class="winrate-loader" style="color:#ffd600;">...</span></td>
+      <td class="col-winrate">
+        <span class="winrate-spinner" style="display:inline-block;width:18px;height:18px;vertical-align:middle;">
+          <svg viewBox="0 0 50 50" style="width:18px;height:18px;">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="#ffd600" stroke-width="5" stroke-linecap="round" stroke-dasharray="31.4 31.4" transform="rotate(-90 25 25)">
+              <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </span>
+      </td>
     `;
     tbody.appendChild(tr);
   });
@@ -260,7 +268,7 @@ function showInfo(data, errorMsg) {
       const player = normalizeName(tr.cells[1].textContent.trim());
       const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
       const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
-      tr.cells[3].textContent = winrate;
+      tr.cells[3].innerHTML = winrate;
       tr.cells[3].classList.add('col-winrate');
     });
     winrateResolved = true;
@@ -281,7 +289,7 @@ function showInfo(data, errorMsg) {
       const player = normalizeName(tr.cells[1].textContent.trim());
       const winStats = statsGlobal[player] || { victorias: 0, derrotas: 0, sets: 0 };
       const winrate = winStats.sets > 0 ? ((winStats.victorias / winStats.sets) * 100).toFixed(1) : "-";
-      tr.cells[3].textContent = winrate;
+      tr.cells[3].innerHTML = winrate;
       tr.cells[3].classList.add('col-winrate');
     });
   }).catch(() => {
