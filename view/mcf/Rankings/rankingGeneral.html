@@ -144,7 +144,7 @@ function loadGame(gameKey) {
   // Log para depuración
   console.log('[Ranking] Intentando descargar:', url);
 
-  // Timeout de seguridad: si en 5s no termina, muestra mensaje
+  // Timeout de seguridad: si en 20s no termina, muestra mensaje
   const fallbackTimeout = setTimeout(() => {
     if (!finished) {
       finished = true;
@@ -152,7 +152,7 @@ function loadGame(gameKey) {
       document.getElementById("table-loader").style.display = "none";
       document.querySelector("table").style.visibility = "visible";
     }
-  }, 5000);
+  }, 20000);
 
   Papa.parse(url, {
     download: true,
