@@ -92,6 +92,10 @@ const eventos = {
   vol2: {
     nombre: "Mixup Cash Fest VoL.2",
     baseUrl: "" // No hay datos aún
+  },
+  vol4: {
+    nombre: "Mixup Clash Fest Vol.4",
+    baseUrl: "" // Pendiente: configurar hoja de Google Sheets
   }
 };
 
@@ -252,7 +256,7 @@ function showInfo(data, errorMsg) {
       tr.cells[3].title = 'No se pudo calcular el winrate global por un error de red o de la API. Intenta recargar la página.';
     });
   };
-  winrateTimeout = setTimeout(setWinrateError, 15000); // 8 segundos
+  winrateTimeout = setTimeout(setWinrateError, 15000); // 15 segundos
 
   // --- CACHE DE WINRATE GLOBAL ---
   if (winrateCache[juego]) {

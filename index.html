@@ -266,9 +266,71 @@
         if (btn) btn.style.display = "none";
       });
     }
+    function actualizarStatusMixupVol4() {
+      const query = `
+        query {
+          tournament(slug: "mixup-clash-fest-vol-4") {
+            state
+          }
+        }
+      `;
+      fetch('https://api.start.gg/gql/alpha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + STARTGG_TOKEN
+        },
+        body: JSON.stringify({ query })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const status = document.getElementById('mixup-status-vol4');
+        const btn = document.querySelector('#mixup-card-vol4 .event-access-btn');
+        if (!status) {
+          console.error('Elemento mixup-status-vol4 no encontrado');
+          return;
+        }
+        if (data.errors) {
+          status.textContent = "Error API";
+          status.className = "event-access-status cerrado";
+          status.style.display = "";
+          if (btn) btn.style.display = "none";
+          return;
+        }
+        if (!data.data || !data.data.tournament) {
+          status.textContent = "No encontrado";
+          status.className = "event-access-status cerrado";
+          status.style.display = "";
+          if (btn) btn.style.display = "none";
+          return;
+        }
+        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
+          status.textContent = "Activo";
+          status.className = "event-access-status disponible";
+          status.style.display = "";
+          if (btn) btn.style.display = "none";
+        } else {
+          status.textContent = "Finalizado";
+          status.className = "event-access-status cerrado";
+          status.style.display = "";
+          if (btn) btn.style.display = "";
+        }
+      })
+      .catch(error => {
+        const status = document.getElementById('mixup-status-vol4');
+        if (status) {
+          status.textContent = "Error de red/API";
+          status.className = "event-access-status cerrado";
+          status.style.display = "";
+        }
+        const btn = document.querySelector('#mixup-card-vol4 .event-access-btn');
+        if (btn) btn.style.display = "none";
+      });
+    }
     document.addEventListener('DOMContentLoaded', function() {
       actualizarStatusMixup();
       actualizarStatusMixupVol2();
+      actualizarStatusMixupVol4();
     });
   </script>
   <script>
@@ -285,6 +347,7 @@ const TOURNAMENT_SLUGS = [
   "mixup-clash-fest",
   "mixup-clash-fest-vol-2",
   "mixup-clash-fest-vol-3",
+  "mixup-clash-fest-vol-4",
   "tekken-open-match",
   "tekken-open-match-vol-2",
   "sf6-open-match",
@@ -292,9 +355,10 @@ const TOURNAMENT_SLUGS = [
   "smash-off-1st-edition"
 ];
 const HISTORIAL_MAP = {
-  "mixup-clash-fest": "/view/mcf/mcf.html",
-  "mixup-clash-fest-vol-2": "/view/mcf/mcf-v2.html",
-  "mixup-clash-fest-vol-3": "/view/mcf/mcf-v2.html",
+  "mixup-clash-fest": "/view/mcf/Rankings/rankingGeneral.html",
+  "mixup-clash-fest-vol-2": "/view/mcf/Rankings/rankingGeneral.html",
+  "mixup-clash-fest-vol-3": "/view/mcf/Rankings/rankingGeneral.html",
+  "mixup-clash-fest-vol-4": "/view/mcf/Rankings/rankingGeneral.html",
   "tekken-open-match": "/view/historial/tekken8_v2.html",
   "tekken-open-match-vol-2": "/view/historial/tekken8_v2.html",
   "sf6-open-match": "/view/historial/sf6_v1.html",
@@ -346,6 +410,7 @@ function renderEventos(events) {
     let statusId = '';
     if (ev.slug === 'mixup-clash-fest') statusId = 'mixup-status';
     if (ev.slug === 'mixup-clash-fest-vol-2') statusId = 'mixup-status-vol2';
+    if (ev.slug === 'mixup-clash-fest-vol-4') statusId = 'mixup-status-vol4';
     if (estado.cls === 'disponible') {
       btnInscripcion = `<button class="event-access-btn" style="background:#2ecc40;margin-bottom:0.5rem;" onclick="window.open('https://www.start.gg/${ev.slug}','_blank')">Inscribirse</button>`;
       if (historialUrl) {
