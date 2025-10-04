@@ -162,176 +162,6 @@
         menuTrigger.classList.remove('open');
       });
     }
-
-    // Status dinámico para las cards
-    function actualizarStatusMixup() {
-      const query = `
-        query {
-          tournament(slug: "mixup-clash-fest") {
-            state
-          }
-        }
-      `;
-      fetch('https://api.start.gg/gql/alpha', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + STARTGG_TOKEN
-        },
-        body: JSON.stringify({ query })
-      })
-      .then(res => res.json())
-      .then(data => {
-        const status = document.getElementById('mixup-status');
-        const btn = document.getElementById('mixup-historial-btn');
-        if (!status) {
-          console.error('Elemento mixup-status no encontrado');
-          return;
-        }
-        if (!data.data || !data.data.tournament) {
-          status.textContent = "No encontrado";
-          status.className = "event-access-status cerrado";
-          if (btn) btn.style.display = "none";
-          return;
-        }
-        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
-          status.textContent = "Activo";
-          status.className = "event-access-status disponible";
-          if (btn) btn.style.display = "none";
-        } else {
-          status.textContent = "Finalizado";
-          status.className = "event-access-status cerrado";
-          if (btn) btn.style.display = "";
-        }
-      });
-    }
-    function actualizarStatusMixupVol2() {
-      const query = `
-        query {
-          tournament(slug: "mixup-clash-fest-vol-2") {
-            state
-          }
-        }
-      `;
-      fetch('https://api.start.gg/gql/alpha', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + STARTGG_TOKEN
-        },
-        body: JSON.stringify({ query })
-      })
-      .then(res => res.json())
-      .then(data => {
-        const status = document.getElementById('mixup-status-vol2');
-        const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
-        if (!status) {
-          console.error('Elemento mixup-status-vol2 no encontrado');
-          return;
-        }
-        if (data.errors) {
-          status.textContent = "Error API";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-          if (btn) btn.style.display = "none";
-          return;
-        }
-        if (!data.data || !data.data.tournament) {
-          status.textContent = "No encontrado";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-          if (btn) btn.style.display = "none";
-          return;
-        }
-        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
-          status.textContent = "Activo";
-          status.className = "event-access-status disponible";
-          status.style.display = "";
-          if (btn) btn.style.display = "none";
-        } else {
-          status.textContent = "Finalizado";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-          if (btn) btn.style.display = "";
-        }
-      })
-      .catch(error => {
-        const status = document.getElementById('mixup-status-vol2');
-        if (status) {
-          status.textContent = "Error de red/API";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-        }
-        const btn = document.querySelector('#mixup-card-vol2 .event-access-btn');
-        if (btn) btn.style.display = "none";
-      });
-    }
-    function actualizarStatusMixupVol4() {
-      const query = `
-        query {
-          tournament(slug: "mixup-clash-fest-vol-4") {
-            state
-          }
-        }
-      `;
-      fetch('https://api.start.gg/gql/alpha', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + STARTGG_TOKEN
-        },
-        body: JSON.stringify({ query })
-      })
-      .then(res => res.json())
-      .then(data => {
-        const status = document.getElementById('mixup-status-vol4');
-        const btn = document.querySelector('#mixup-card-vol4 .event-access-btn');
-        if (!status) {
-          console.error('Elemento mixup-status-vol4 no encontrado');
-          return;
-        }
-        if (data.errors) {
-          status.textContent = "Error API";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-          if (btn) btn.style.display = "none";
-          return;
-        }
-        if (!data.data || !data.data.tournament) {
-          status.textContent = "No encontrado";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-          if (btn) btn.style.display = "none";
-          return;
-        }
-        if (data.data.tournament.state === 1 || data.data.tournament.state === 5) {
-          status.textContent = "Activo";
-          status.className = "event-access-status disponible";
-          status.style.display = "";
-          if (btn) btn.style.display = "none";
-        } else {
-          status.textContent = "Finalizado";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-          if (btn) btn.style.display = "";
-        }
-      })
-      .catch(error => {
-        const status = document.getElementById('mixup-status-vol4');
-        if (status) {
-          status.textContent = "Error de red/API";
-          status.className = "event-access-status cerrado";
-          status.style.display = "";
-        }
-        const btn = document.querySelector('#mixup-card-vol4 .event-access-btn');
-        if (btn) btn.style.display = "none";
-      });
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      actualizarStatusMixup();
-      actualizarStatusMixupVol2();
-      actualizarStatusMixupVol4();
-    });
   </script>
   <script>
   fetch('/view/partials/header.html')
@@ -343,17 +173,13 @@
 </script>
 <script>
 const STARTGG_TOKEN = "a7fafdd3139b23f9eef417bbe26fd91b";
-const TOURNAMENT_SLUGS = [
-  "mixup-clash-fest",
-  "mixup-clash-fest-vol-2",
-  "mixup-clash-fest-vol-3",
-  "mixup-clash-fest-vol-4",
-  "tekken-open-match",
-  "tekken-open-match-vol-2",
-  "sf6-open-match",
-  "strive-open-match",
-  "smash-off-1st-edition"
-];
+
+// Cache para torneos
+let torneosCache = null;
+let torneosCacheTime = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+
+// Mapa de historial por defecto (se puede agregar manualmente para casos especiales)
 const HISTORIAL_MAP = {
   "mixup-clash-fest": "/view/mcf/Rankings/rankingGeneral.html",
   "mixup-clash-fest-vol-2": "/view/mcf/Rankings/rankingGeneral.html",
@@ -363,8 +189,61 @@ const HISTORIAL_MAP = {
   "tekken-open-match-vol-2": "/view/historial/tekken8_v2.html",
   "sf6-open-match": "/view/historial/sf6_v1.html",
   "strive-open-match": "/view/historial/strive_v2.html",
-  "smash-off-1st-edition": ""
+  // Por defecto, todos los demás apuntan al ranking general
+  "default": "/view/mcf/Rankings/rankingGeneral.html"
 };
+
+// Obtiene todos los torneos del usuario automáticamente
+async function obtenerTorneosAutomatico() {
+  const now = Date.now();
+  if (torneosCache && (now - torneosCacheTime) < CACHE_DURATION) {
+    return torneosCache;
+  }
+
+  try {
+    console.log('[Index] Obteniendo torneos automáticamente...');
+    const query = `
+      query {
+        currentUser {
+          tournaments(query: {
+            perPage: 50
+            page: 1
+          }) {
+            nodes {
+              name
+              slug
+              state
+            }
+          }
+        }
+      }
+    `;
+    
+    const res = await fetch('https://api.start.gg/gql/alpha', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + STARTGG_TOKEN
+      },
+      body: JSON.stringify({ query })
+    });
+    
+    const data = await res.json();
+    const torneos = data.data?.currentUser?.tournaments?.nodes || [];
+    
+    console.log(`[Index] ${torneos.length} torneos encontrados:`);
+    torneos.forEach(t => console.log(`  - ${t.name} (${t.slug}) - Estado: ${t.state}`));
+    
+    torneosCache = torneos;
+    torneosCacheTime = now;
+    
+    return torneos;
+  } catch (error) {
+    console.error('[Index] Error al obtener torneos:', error);
+    return [];
+  }
+}
+
 function estadoTexto(state) {
   switch(state) {
     case 1: // Active
@@ -397,79 +276,61 @@ function renderEventos(events) {
     });
   }
   if (!filtered.length) {
-    container.innerHTML = '<div style="text-align:center;"><span class="event-access-status cerrado">No hay eventos disponibles</span></div>';
+    container.innerHTML = '<div style="text-align:center;padding:2rem;"><span class="event-access-status cerrado">No hay eventos ' + filter + '</span></div>';
     return;
   }
   filtered.forEach(ev => {
     const estado = estadoTexto(ev.state);
-    const historialUrl = HISTORIAL_MAP[ev.slug] || null;
+    const historialUrl = HISTORIAL_MAP[ev.slug] || HISTORIAL_MAP["default"];
     const card = document.createElement('div');
     card.className = 'event-access-card';
     let btnInscripcion = '';
     let btnHistorial = '';
-    let statusId = '';
-    if (ev.slug === 'mixup-clash-fest') statusId = 'mixup-status';
-    if (ev.slug === 'mixup-clash-fest-vol-2') statusId = 'mixup-status-vol2';
-    if (ev.slug === 'mixup-clash-fest-vol-4') statusId = 'mixup-status-vol4';
+    
     if (estado.cls === 'disponible') {
       btnInscripcion = `<button class="event-access-btn" style="background:#2ecc40;margin-bottom:0.5rem;" onclick="window.open('https://www.start.gg/${ev.slug}','_blank')">Inscribirse</button>`;
       if (historialUrl) {
         btnHistorial = `<button class="event-access-btn" style="background:#FFD600;color:#222;margin-bottom:0.5rem;" onclick="window.location.href='${historialUrl}'">Ver historial</button>`;
       }
     } else if (estado.cls === 'cerrado') {
-      btnHistorial = `<button class="event-access-btn" style="background:#FFD600;color:#222;margin-bottom:0.5rem;" onclick="window.open('https://www.start.gg/${ev.slug}','_blank')">Ver historial</button>`;
+      if (historialUrl) {
+        btnHistorial = `<button class="event-access-btn" style="background:#FFD600;color:#222;margin-bottom:0.5rem;" onclick="window.location.href='${historialUrl}'">Ver historial</button>`;
+      } else {
+        btnHistorial = `<button class="event-access-btn" style="background:#FFD600;color:#222;margin-bottom:0.5rem;" onclick="window.open('https://www.start.gg/${ev.slug}','_blank')">Ver en start.gg</button>`;
+      }
     }
     card.innerHTML = `
       <div class="event-access-bg"></div>
       <div class="event-access-title">${ev.name}</div>
-      <span class="event-access-status ${estado.cls}"${statusId ? ` id="${statusId}"` : ''}>${estado.txt}</span>
+      <span class="event-access-status ${estado.cls}">${estado.txt}</span>
       ${btnInscripcion}
       ${btnHistorial}
     `;
     container.appendChild(card);
   });
 }
-function obtenerEventosCubaFGC() {
-  // Consulta los torneos por slug y muestra el estado aunque no existan
-  const promises = TOURNAMENT_SLUGS.map(slug => {
-    const query = `
-      query {
-        tournament(slug: "${slug}") {
-          name
-          slug
-          state
-        }
-      }
-    `;
-    return fetch('https://api.start.gg/gql/alpha', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + STARTGG_TOKEN
-      },
-      body: JSON.stringify({ query })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.data && data.data.tournament) {
-        return data.data.tournament;
-      }
-      // Si no existe, devolver objeto con slug y estado especial
-      return { name: slug.replace(/-/g, ' ').toUpperCase(), slug, state: -1 };
-    })
-    .catch(() => ({ name: slug.replace(/-/g, ' ').toUpperCase(), slug, state: -1 }));
-  });
-  Promise.all(promises).then(results => {
-    window._eventosCubaFGC = results;
-    const filter = document.getElementById('event-filter');
-    if (filter) {
-      filter.value = 'activos';
-      filter.onchange = function() {
-        renderEventos(window._eventosCubaFGC);
-      };
-    }
-    renderEventos(window._eventosCubaFGC);
-  });
+
+async function obtenerEventosCubaFGC() {
+  const container = document.querySelector('.event-access-cards');
+  container.innerHTML = '<div style="text-align:center;padding:2rem;"><span class="event-access-status cargando">Cargando torneos...</span></div>';
+  
+  // Obtener todos los torneos automáticamente
+  const torneos = await obtenerTorneosAutomatico();
+  
+  if (torneos.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:2rem;"><span class="event-access-status cerrado">No se encontraron torneos</span></div>';
+    return;
+  }
+  
+  window._eventosCubaFGC = torneos;
+  const filter = document.getElementById('event-filter');
+  if (filter) {
+    filter.value = 'activos';
+    filter.onchange = function() {
+      renderEventos(window._eventosCubaFGC);
+    };
+  }
+  renderEventos(window._eventosCubaFGC);
 }
 document.addEventListener('DOMContentLoaded', obtenerEventosCubaFGC);
 </script>
